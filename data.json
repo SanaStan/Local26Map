@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-10T04:26:23.078Z",
+  "generatedAt": "2026-08-11T10:48:54.539Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -386,12 +386,12 @@
           "firstSeen": "2026-08-06"
         },
         {
-          "title": "Senior Rooms Operations Manager (Houskeeping)",
+          "title": "Senior Rooms Operations Manager (Housekeeping)",
           "payMin": 87000,
           "payMax": 109000,
-          "category": "Housekeeping & Laundry",
-          "url": "https://careers.marriott.com/senior-rooms-operations-manager-houskeeping/job/E15F680314FD74DEBBC8D3C2F60C2C28",
-          "firstSeen": "2026-07-24",
+          "category": null,
+          "url": "https://careers.marriott.com/senior-rooms-operations-manager-housekeeping/job/E15F680314FD74DEBBC8D3C2F60C2C28",
+          "firstSeen": "2026-08-10",
           "payUnit": "annual"
         },
         {
@@ -455,6 +455,14 @@
           "url": "https://careers.marriott.com/senior-sous-chef/job/E9EB643618F36E298C2E0F5B817E9607",
           "firstSeen": "2026-06-29",
           "payUnit": "annual"
+        },
+        {
+          "title": "Housekeeping Attendant",
+          "payMin": 31.95,
+          "payMax": 31.95,
+          "category": null,
+          "url": "https://careers.marriott.com/housekeeping-attendant/job/A4FDE30E43EE4EF80CB861BCBADF7D30",
+          "firstSeen": "2026-08-10"
         }
       ]
     },
@@ -553,20 +561,21 @@
           "payUnit": "annual"
         },
         {
-          "title": "Host or Hostess",
-          "payMin": 32.28,
-          "payMax": 33.03,
-          "category": null,
-          "url": "https://careers.marriott.com/host-or-hostess/job/3A9050078E64D37D20A78467784EB899",
-          "firstSeen": "2026-07-23"
-        },
-        {
           "title": "Sous Chef, Westin Boston Copley",
           "payMin": 73000,
           "payMax": 93000,
           "category": null,
           "url": "https://careers.marriott.com/sous-chef-westin-boston-copley/job/8903EF0C93871D9F6D73F5399052DDE7",
           "firstSeen": "2026-07-15",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Food and Beverage Operations Manager",
+          "payMin": 75000,
+          "payMax": 92000,
+          "category": null,
+          "url": "https://careers.marriott.com/food-and-beverage-operations-manager/job/43CCB08AFB805F5CD531CE4675FAB175",
+          "firstSeen": "2026-08-11",
           "payUnit": "annual"
         },
         {
