@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T17:11:46.845Z",
+  "generatedAt": "2026-08-11T18:37:21.396Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -226,6 +226,15 @@
       },
       "jobs": [
         {
+          "title": "Catering and Events Manager - Hampton Inn Boston Seaport District",
+          "payMin": 65000,
+          "payMax": 65000,
+          "category": "Catering and Event Services",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/218357",
+          "firstSeen": "2026-08-11",
+          "payUnit": "annual"
+        },
+        {
           "title": "Executive Meeting Manager - Hampton Inn Boston Seaport District",
           "payMin": 65000,
           "payMax": 65000,
@@ -400,7 +409,8 @@
       "lng": -71.057184,
       "brand": "hyatt",
       "scrape": null,
-      "jobs": []
+      "jobs": [],
+      "scrapeNote": "Magna Hospitality-managed; does not post to careers.hyatt.com (confirmed via careers.hyatt.com search — property absent from both the live org-search index and the site's full ~3000-property checkbox list). Its only listings found were on hospitalityonline.com/hcareers, both explicitly excluded aggregators. Don't re-add automated scraping without re-checking."
     },
     {
       "name": "Hyatt Place Boston Seaport District",
@@ -408,8 +418,20 @@
       "lat": 42.3475646,
       "lng": -71.0368804,
       "brand": "hyatt",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "hyatt",
+        "propertyMatch": "Hyatt Place Boston MA Seaport"
+      },
+      "jobs": [
+        {
+          "title": "Guest Service Agent (Full Time, $33.20 hourly)",
+          "payMin": 33.2,
+          "payMax": 33.2,
+          "category": "Guest Services",
+          "url": "https://careers.hyatt.com/en-us/careers/jobdetails/10780/BOS002796",
+          "firstSeen": "2026-07-23"
+        }
+      ]
     },
     {
       "name": "Hyatt Regency Boston",
@@ -417,8 +439,20 @@
       "lat": 42.3534777,
       "lng": -71.0608477,
       "brand": "hyatt",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "hyatt",
+        "propertyMatch": "Hyatt Regency Boston"
+      },
+      "jobs": [
+        {
+          "title": "Assistant Director of Event Planning",
+          "payMin": null,
+          "payMax": null,
+          "category": "Catering/Event Planning",
+          "url": "https://careers.hyatt.com/en-us/careers/jobdetails/10780/BOS002795",
+          "firstSeen": "2026-07-20"
+        }
+      ]
     },
     {
       "name": "InterContinental Boston",

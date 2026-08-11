@@ -26,6 +26,7 @@ import {
   parsePay as parseHiltonPay,
   propertyMatches as hiltonPropertyMatches,
 } from './scrapers/hilton.js';
+import { scrapeHyattProperty, verifyJobLive, parsePay as parseHyattPay } from './scrapers/hyatt.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DATA_PATH = path.join(ROOT, 'data.json');
@@ -127,6 +128,53 @@ async function scrapeHiltonBrand(hotels) {
   return byHotel;
 }
 
+/**
+ * Hyatt's search API 500s unless driven by real UI interaction (see
+ * scripts/scrapers/hyatt.js), so this searches once per property directly
+ * — a property's exact name doubles as the search term and the org-facet
+ * filter it resolves to, rather than a separate city/radius search like
+ * Marriott and Hilton.
+ */
+async function scrapeHyattBrand(page, hotels) {
+  // First pass: collect every property's raw search hits. Each property's
+  // organization filter is encoded into the page's URL (`?searchable=[...]`)
+  // when its suggestion is clicked, and a second search on the same page
+  // *adds* to that array rather than replacing it — so a fresh page.goto
+  // back to the bare search URL before every property is what actually
+  // gives each one an isolated, correct search rather than an accumulating
+  // OR of every property searched so far. Verifying job details below
+  // navigates the page away too, so it has to happen in a separate pass
+  // after all searches are done.
+  const rawByHotel = new Map();
+  for (const hotel of hotels) {
+    await page.goto('https://careers.hyatt.com/en-us/careers/search', { waitUntil: 'networkidle', timeout: 45000 });
+    const propertyName = Array.isArray(hotel.scrape.propertyMatch) ? hotel.scrape.propertyMatch[0] : hotel.scrape.propertyMatch;
+    rawByHotel.set(hotel.name, await scrapeHyattProperty(page, propertyName));
+  }
+
+  const byHotel = new Map();
+  for (const hotel of hotels) {
+    const enriched = [];
+    for (const r of rawByHotel.get(hotel.name) || []) {
+      const detail = await verifyJobLive(page, r.contestNo);
+      if (detail === null) continue; // closed/removed requisition — drop it (verify-before-including rule)
+      const pay = parseHyattPay(r.title);
+      enriched.push({
+        title: r.title,
+        url: detail.url,
+        jobId: r.contestNo,
+        payMin: pay ? pay.payMin : null,
+        payMax: pay ? pay.payMax : null,
+        payUnit: pay && pay.payUnit ? pay.payUnit : undefined,
+        datePosted: r.postedDate,
+        category: r.category,
+      });
+    }
+    byHotel.set(hotel.name, enriched);
+  }
+  return byHotel;
+}
+
 function diffHotelJobs(hotel, previousJobs, scrapedJobs, historyLines) {
   const prevByUrl = new Map(previousJobs.map((j) => [jobKey(j), j]));
   const newByUrl = new Map(scrapedJobs.map((j) => [jobKey(j), j]));
@@ -171,27 +219,39 @@ async function main() {
   const data = JSON.parse(await fs.readFile(DATA_PATH, 'utf8'));
   const marriottHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'marriott');
   const hiltonHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hilton');
+  const hyattHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hyatt');
 
   const prevMarriottTotal = marriottHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHiltonTotal = hiltonHotels.reduce((sum, h) => sum + h.jobs.length, 0);
+  const prevHyattTotal = hyattHotels.reduce((sum, h) => sum + h.jobs.length, 0);
 
   const browser = await chromium.launch();
-  const page = await browser.newPage();
+  // A realistic desktop UA is required for careers.hyatt.com, which 403s
+  // Playwright's default (HeadlessChrome-labeled) UA outright; harmless for
+  // Marriott, which doesn't check.
+  const page = await browser.newPage({
+    userAgent:
+      'Mozilla/5.0 (Macintosh; Intel Mac OS X 10_15_7) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/126.0.0.0 Safari/537.36',
+  });
 
   let scrapedByHotel;
+  let hyattByHotel;
   try {
     scrapedByHotel = await scrapeMarriottBrand(page, marriottHotels);
+    hyattByHotel = await scrapeHyattBrand(page, hyattHotels);
   } finally {
     await browser.close();
   }
+  for (const [hotelName, jobs] of hyattByHotel) scrapedByHotel.set(hotelName, jobs);
 
   const hiltonByHotel = await scrapeHiltonBrand(hiltonHotels);
   for (const [hotelName, jobs] of hiltonByHotel) scrapedByHotel.set(hotelName, jobs);
 
   const newMarriottTotal = marriottHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHiltonTotal = hiltonHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+  const newHyattTotal = hyattHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
 
-  // Guardrail: if either brand's scrape comes back completely empty while the
+  // Guardrail: if any brand's scrape comes back completely empty while the
   // previous run had jobs for that brand, treat the whole run as unreliable
   // (selector/API drift, site redesign, block) rather than real data, and
   // leave data.json/history.jsonl untouched — same all-or-nothing policy as
@@ -199,6 +259,7 @@ async function main() {
   const brokenBrands = [];
   if (newMarriottTotal === 0 && prevMarriottTotal > 0) brokenBrands.push(`Marriott (${marriottHotels.length} properties, had ${prevMarriottTotal})`);
   if (newHiltonTotal === 0 && prevHiltonTotal > 0) brokenBrands.push(`Hilton (${hiltonHotels.length} properties, had ${prevHiltonTotal})`);
+  if (newHyattTotal === 0 && prevHyattTotal > 0) brokenBrands.push(`Hyatt (${hyattHotels.length} properties, had ${prevHyattTotal})`);
 
   if (brokenBrands.length) {
     const report = {
@@ -212,11 +273,12 @@ async function main() {
     return;
   }
 
+  const automatedSources = new Set(['marriott', 'hilton', 'hyatt']);
   const historyLines = [];
   const perHotelCounts = [];
 
   for (const hotel of data.hotels) {
-    if (hotel.scrape && (hotel.scrape.source === 'marriott' || hotel.scrape.source === 'hilton')) {
+    if (hotel.scrape && automatedSources.has(hotel.scrape.source)) {
       const scraped = scrapedByHotel.get(hotel.name) || [];
       const before = hotel.jobs.length;
       hotel.jobs = diffHotelJobs(hotel, hotel.jobs, scraped, historyLines);
@@ -237,8 +299,9 @@ async function main() {
     aborted: false,
     marriottPropertiesScraped: marriottHotels.length,
     hiltonPropertiesScraped: hiltonHotels.length,
-    totalJobsBefore: prevMarriottTotal + prevHiltonTotal,
-    totalJobsAfter: newMarriottTotal + newHiltonTotal,
+    hyattPropertiesScraped: hyattHotels.length,
+    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal,
+    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal,
     historyEventsWritten: historyLines.length,
     perHotelCounts,
     bigDrops: perHotelCounts.filter((c) => c.before >= 3 && c.after === 0),

@@ -28,6 +28,7 @@ package.json, scripts/      the scraper (Node + Playwright)
   scripts/run-scrape.js        orchestrator: scrape → diff → write data.json/history.jsonl
   scripts/scrapers/marriott.js brand-specific scraper module (Playwright DOM scrape)
   scripts/scrapers/hilton.js   brand-specific scraper module (plain public REST API)
+  scripts/scrapers/hyatt.js    brand-specific scraper module (Playwright, drives real UI)
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -160,6 +161,75 @@ Marriott's.
   25mi of it. All 7 Boston-area Hilton properties are well inside that
   radius from a single "Boston" search.
 
+## Key discoveries about careers.hyatt.com
+- **It's Oracle Taleo** (an older, different Oracle ATS product than
+  Hilton's Oracle Recruiting Cloud). Its search API
+  (`careersection/rest/jobboard/searchjobs`) is real and returns clean
+  structured data, but **it 500s on anything that isn't driven by genuine
+  UI interaction** — verified that a byte-identical POST (same body, same
+  headers, same session cookies, fired via `context.request` or an
+  in-page `fetch()`) still fails, while an actual typed-and-clicked
+  search on the real page succeeds every time. So `hyatt.js`, like
+  `marriott.js`, drives the real page with Playwright rather than calling
+  the API directly — Hilton's plain-`fetch()` approach doesn't generalize
+  to every ATS.
+- **Default Playwright's UA gets 403'd outright** on careers.hyatt.com
+  (separately from the above) — it needs a realistic desktop Chrome UA
+  string, set once at `browser.newPage()` in `run-scrape.js` since
+  Marriott doesn't care either way.
+- **Search is organization-ID-based, not location-radius**: typing a
+  property's exact name into the search box and clicking the top
+  (properly-cased) autocomplete suggestion applies a server-side
+  `ORGANIZATION` facet filter — much more precise than a radius search,
+  but **a property only appears in that autocomplete at all if it
+  currently has at least one open requisition** (confirmed against the
+  site's own ~3000-entry "Property/Office List" checkbox facet too — same
+  currently-posting-only subset, not a full portfolio directory). A
+  property with zero live postings is thus indistinguishable, from this
+  API's perspective, from a property that doesn't use this ATS at all.
+- **One tracked hotel turned out to not use this ATS at all**: Hyatt
+  Centric Faneuil Hall Boston is Magna Hospitality-managed and never
+  appears in Hyatt's org search or property list; its only listings
+  found anywhere were on hospitalityonline.com/hcareers — both
+  explicitly excluded aggregators per this project's ground rules. Same
+  situation as Courtyard by Marriott Cambridge: `scrape: null` with a
+  `scrapeNote`, not scraped.
+- **Selected filters accumulate in the page URL** (`?searchable=[...]`)
+  rather than being replaced by a new search — searching a second
+  property on the same page ORs it in with the first rather than
+  replacing it, corrupting results. `scrapeHyattBrand` in `run-scrape.js`
+  works around this by doing a fresh `page.goto` back to the bare search
+  URL before every property, not just once at the start.
+- **The autocomplete dropdown shows a loading placeholder first**
+  (literally "Enter at least 2 characters..." plus a pile of embedded
+  animation-script text) before real suggestions replace it. A fixed
+  delay races that debounce and intermittently clicks the placeholder
+  instead of a real result, silently applying no filter — `hyatt.js`
+  waits for an actual short suggestion string to appear instead of
+  sleeping a fixed amount.
+- **`page.waitForLoadState('networkidle')` doesn't work for waiting on a
+  same-page search XHR** — it's tied to navigation lifecycle and resolves
+  instantly if the document already finished loading, silently skipping
+  the wait entirely. Waiting on `page.waitForResponse()` per expected
+  request (Hyatt fires one search request per portal — see below —
+  registered *before* the triggering click) is what actually works.
+- **Requests fan out across three parallel "portals"** (career sections)
+  — `21860210089`, `22260210089`, `68160210089` — every search queries
+  all three and a property's jobs can land in any one of them, so results
+  from all three have to be merged.
+- **No structured pay field** — the job detail page only ever says
+  "Hourly US Dollar (USD) pay basis" with no number. The *only* place
+  actual pay numbers show up is embedded in some job titles at each
+  poster's discretion (e.g. "Guest Service Agent (Full Time, $33.20
+  hourly)"), so most Hyatt jobs end up with no parseable pay — a real
+  data-quality gap versus Marriott/Hilton, not a scraper bug.
+- **The job detail endpoint doesn't 404 for closed postings** — it
+  returns HTTP 200 with "THE JOB IS NO LONGER AVAILABLE" rendered
+  client-side into the page (Angular SPA — reading the body before the
+  page finishes rendering misses it, another `networkidle`-vs-instant-
+  resolve trap). `verifyJobLive` in `hyatt.js` checks for that text as
+  the actual "verify before including" signal.
+
 ## Data model
 `data.json`:
 ```json
@@ -188,13 +258,14 @@ Marriott's.
 }
 ```
 - `brand`: `marriott` | `hilton` | `hyatt` | `omni` | `ihg` | `independent`
-  — used to route scraping. `marriott` and `hilton` have scrapers built
-  so far.
+  — used to route scraping. `marriott`, `hilton`, and `hyatt` have
+  scrapers built so far.
 - `scrape`: `null` means "not automated" — either no scraper exists yet
   for the brand, or (see `scrapeNote`) the hotel doesn't post to its
   brand's corporate site at all (e.g. Courtyard Cambridge is
-  Highgate-managed). `propertyMatch` is usually a single string but may
-  be an array of alias strings, for the rare case where one `data.json`
+  Highgate-managed, Hyatt Centric Faneuil Hall is Magna
+  Hospitality-managed). `propertyMatch` is usually a single string but
+  may be an array of alias strings, for the rare case where one `data.json`
   hotel entry corresponds to more than one listing on the brand's site
   (e.g. a combined Hampton Inn/Homewood Suites building with two
   separate Hilton ATS entries).
@@ -247,19 +318,24 @@ report but don't block the commit.
   Hilton's naming convention for the other four (confirmed exact via live
   postings), not yet confirmed against a real listing — worth
   double-checking the first time one of them actually has a job posted.
+- Hyatt brand (2 of 3 — see excluded list below): Hyatt Place Boston
+  Seaport District, Hyatt Regency Boston.
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
 for them since they update daily.
 
-**Marriott-branded but excluded from scraping:**
+**Branded but excluded from scraping (third-party managed, doesn't post
+to the brand's own corporate site):**
 - Courtyard by Marriott Cambridge (Highgate-managed, doesn't post to
   careers.marriott.com — confirmed by hand, don't re-add without
   re-checking)
+- Hyatt Centric Faneuil Hall Boston (Magna Hospitality-managed, doesn't
+  appear in careers.hyatt.com's org search or property list; only found
+  on excluded aggregators — see Key discoveries above, don't re-add
+  without re-checking)
 
 **Not yet automated (no scraper built yet):**
-- Hyatt family (3): Hyatt Centric Faneuil Hall, Hyatt Place Seaport,
-  Hyatt Regency Boston
 - Omni family (2): Omni Boston Seaport, Omni Parker House
 - IHG (1): InterContinental Boston
 - Independent/other (13): Battery Wharf, Bostonian, Colonnade, Copley
@@ -268,41 +344,40 @@ for them since they update daily.
   Boston, Raffles Boston
 
 ## Next steps (pick up in roughly this order)
-1. One-time housekeeping: commit the current working tree (scraper,
-   workflow, updated data.json/history.jsonl, README) and enable GitHub
-   Pages in repo settings (source: `main` branch, `/` root) so the map is
-   reachable at a URL instead of only local/`file://`.
-2. Remaining non-Marriott/Hilton brand scrapers, one brand-family at a
-   time — Hyatt next (3 hotels), then Omni, IHG, then the independents
+1. Remaining non-Marriott/Hilton/Hyatt brand scrapers, one brand-family
+   at a time — Omni next (2 hotels), then IHG, then the independents
    (which will likely need per-hotel research rather than one shared
-   brand scraper). Worth checking each one for a public ATS API first
-   (see the Hilton discoveries above) before assuming a Marriott-style
-   DOM scrape is needed.
-3. Spot-check the career field classifier (`classifyDepartment()` in
+   brand scraper). Worth checking each one for the ATS platform it runs
+   on first (Oracle Recruiting Cloud, Oracle Taleo, Workday, iCIMS,
+   etc. — see the Hilton and Hyatt discoveries above for what that can
+   look like) before assuming a Marriott-style DOM scrape is needed —
+   and don't assume a clean-looking API can be called directly without
+   real UI interaction just because Hilton's could; Hyatt's couldn't.
+2. Spot-check the career field classifier (`classifyDepartment()` in
    `hotel-jobs-map.html`) now that more brands' real job titles are
    flowing in — the keyword rules were tuned against the ~20 Marriott
    titles seen so far and will likely need new keywords (e.g.
    valet/laundry-specific titles) as coverage grows. Also worth deciding
-   whether Hilton's real scraped `category` values (see Data model)
-   should be preferred over the keyword guess wherever present, the way
-   the hand-curated Marriott `category` field already is. Consider
-   whether "Other" should become a fourth filterable chip once there's
-   enough volume in it to be useful.
-4. **Tune the career field filter to only display matching jobs.**
+   whether Hilton's and Hyatt's real scraped `category` values (see Data
+   model) should be preferred over the keyword guess wherever present,
+   the way the hand-curated Marriott `category` field already is.
+   Consider whether "Other" should become a fourth filterable chip once
+   there's enough volume in it to be useful.
+3. **Tune the career field filter to only display matching jobs.**
    Right now `state.department` only decides which *hotels* show up
    (`matches()` keeps a hotel if any one of its jobs matches) — once a
    hotel qualifies, its card and map popup still list every job at that
    hotel, not just the ones in the selected department. Filtering should
    narrow the job list itself, not just which hotels appear.
-5. **Update the UI for job postings.** Revisit how individual job
+4. **Update the UI for job postings.** Revisit how individual job
    listings are presented (hotel card badges, map popup formatting) now
    that department tags and multi-job hotels are more common — current
    layout was designed around 1-3 jobs per hotel and may not hold up as
    more brands get scraped and hotels regularly show 5+ openings.
-6. Later: once `history.jsonl` has enough days of data to be interesting,
+5. Later: once `history.jsonl` has enough days of data to be interesting,
    consider surfacing posting duration ("posted X days ago") in the UI —
    deliberately deferred for now.
-7. Consider: does the user want RIPTA/commuter rail added later for
+6. Consider: does the user want RIPTA/commuter rail added later for
    completeness, or is MBTA subway sufficient? (Unrelated to the scraper
    work — held over from before.)
 
@@ -315,11 +390,12 @@ for them since they update daily.
   above), so department is inferred client-side from each job's title via
   keyword matching (`classifyDepartment()` in `hotel-jobs-map.html`),
   falling back to the hand-curated `category` text where present. Hilton
-  jobs do carry a real scraped `category` (e.g. "Housekeeping and
-  Laundry"), but the classifier doesn't currently prefer it over the
-  keyword guess — see next-steps item 3. Anything that doesn't match a
-  rule (sales, events, security, management titles, etc.) is classified
-  `Other` and is only visible when no career-field filter is applied.
+  and Hyatt jobs do carry a real scraped `category` (e.g. "Housekeeping
+  and Laundry", "Catering/Event Planning"), but the classifier doesn't
+  currently prefer it over the keyword guess — see next-steps item 2.
+  Anything that doesn't match a rule (sales, events, security, management
+  titles, etc.) is classified `Other` and is only visible when no
+  career-field filter is applied.
 - **Public transit overlay**: MBTA Red/Orange/Blue/Green(B/C/D/E)/Mattapan
   lines, toggleable per line. This is **static data** (real station
   coordinates connected in sequence, not live), because the MBTA v3 API
