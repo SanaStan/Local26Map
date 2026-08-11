@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T10:48:54.539Z",
+  "generatedAt": "2026-08-11T17:11:46.845Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -128,8 +128,37 @@
       "lat": 42.3603277,
       "lng": -71.1181015,
       "brand": "hilton",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "hilton",
+        "propertyMatch": "DoubleTree Suites by Hilton Boston - Cambridge"
+      },
+      "jobs": [
+        {
+          "title": "Beverage Server",
+          "payMin": 18.25,
+          "payMax": 18.25,
+          "category": "Food and Beverage",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/218598",
+          "firstSeen": "2026-08-07"
+        },
+        {
+          "title": "Administrative Coordinator",
+          "payMin": 28.33,
+          "payMax": 28.33,
+          "category": "Administration",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/215563",
+          "firstSeen": "2026-07-31"
+        },
+        {
+          "title": "Director of Hotel Operations",
+          "payMin": 120000,
+          "payMax": 140000,
+          "category": "General Manager/Hotel Manager",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/215716",
+          "firstSeen": "2026-07-16",
+          "payUnit": "annual"
+        }
+      ]
     },
     {
       "name": "Element Seaport Boston",
@@ -176,7 +205,10 @@
       "lat": 42.3325348,
       "lng": -71.0730551,
       "brand": "hilton",
-      "scrape": null,
+      "scrape": {
+        "source": "hilton",
+        "propertyMatch": "Hampton Inn & Suites Boston Crosstown Center"
+      },
       "jobs": []
     },
     {
@@ -185,8 +217,24 @@
       "lat": 42.3440114,
       "lng": -71.0377504,
       "brand": "hilton",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "hilton",
+        "propertyMatch": [
+          "Hampton Inn by Hilton Boston Seaport District",
+          "Homewood Suites by Hilton Boston Seaport District"
+        ]
+      },
+      "jobs": [
+        {
+          "title": "Executive Meeting Manager - Hampton Inn Boston Seaport District",
+          "payMin": 65000,
+          "payMax": 65000,
+          "category": "Sales and Marketing",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/216923",
+          "firstSeen": "2026-07-30",
+          "payUnit": "annual"
+        }
+      ]
     },
     {
       "name": "Hilton Boston Back Bay",
@@ -194,7 +242,10 @@
       "lat": 42.3462978,
       "lng": -71.0849425,
       "brand": "hilton",
-      "scrape": null,
+      "scrape": {
+        "source": "hilton",
+        "propertyMatch": "Hilton Boston Back Bay"
+      },
       "jobs": []
     },
     {
@@ -203,8 +254,52 @@
       "lat": 42.3675085,
       "lng": -71.0229555,
       "brand": "hilton",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "hilton",
+        "propertyMatch": "Hilton Boston Logan Airport"
+      },
+      "jobs": [
+        {
+          "title": "Cook - Hilton Logan Airport",
+          "payMin": 22.31,
+          "payMax": 22.31,
+          "category": "Culinary",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/207262",
+          "firstSeen": "2026-07-31"
+        },
+        {
+          "title": "CDL Shuttle Van Driver - Hilton Logan Airport",
+          "payMin": 23.03,
+          "payMax": 23.03,
+          "category": "Transportation",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/207312",
+          "firstSeen": "2026-07-31"
+        },
+        {
+          "title": "Supervisor - Housekeeping",
+          "payMin": 30.78,
+          "payMax": 30.78,
+          "category": "Housekeeping and Laundry",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/216695",
+          "firstSeen": "2026-07-24"
+        },
+        {
+          "title": "FT Human Resources Coordinator",
+          "payMin": 29.8,
+          "payMax": 29.8,
+          "category": "Human Resources",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/216716",
+          "firstSeen": "2026-07-24"
+        },
+        {
+          "title": "Barista",
+          "payMin": 23.14,
+          "payMax": 23.14,
+          "category": "Food and Beverage",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/215555",
+          "firstSeen": "2026-07-21"
+        }
+      ]
     },
     {
       "name": "Hilton Boston Park Plaza",
@@ -212,8 +307,52 @@
       "lat": 42.3510338,
       "lng": -71.0697226,
       "brand": "hilton",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "hilton",
+        "propertyMatch": "Hilton Boston Park Plaza"
+      },
+      "jobs": [
+        {
+          "title": "Room Attendant - Hilton Boston Park Plaza",
+          "payMin": 32.95,
+          "payMax": 32.95,
+          "category": "Housekeeping and Laundry",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/218529",
+          "firstSeen": "2026-08-11"
+        },
+        {
+          "title": "Restaurant Bartender - Hilton Boston Park Plaza",
+          "payMin": 33.4,
+          "payMax": 33.4,
+          "category": "Food and Beverage",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/218518",
+          "firstSeen": "2026-08-07"
+        },
+        {
+          "title": "Utility Steward - Hilton Boston Park Plaza",
+          "payMin": 33.07,
+          "payMax": 33.07,
+          "category": "Stewarding",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/217972",
+          "firstSeen": "2026-08-06"
+        },
+        {
+          "title": "Guest Service Agent - Hilton Boston Park Plaza",
+          "payMin": 30,
+          "payMax": 30,
+          "category": "Guest Services, Operations, and Front Office",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/217491",
+          "firstSeen": "2026-08-04"
+        },
+        {
+          "title": "Banquet Barback - Hilton Boston Park Plaza",
+          "payMin": 31.12,
+          "payMax": 31.12,
+          "category": "Food and Beverage",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/217110",
+          "firstSeen": "2026-07-30"
+        }
+      ]
     },
     {
       "name": "Hilton Garden Inn Boston Logan Airport",
@@ -221,7 +360,10 @@
       "lat": 42.3897368,
       "lng": -71.0122025,
       "brand": "hilton",
-      "scrape": null,
+      "scrape": {
+        "source": "hilton",
+        "propertyMatch": "Hilton Garden Inn Boston Logan Airport"
+      },
       "jobs": []
     },
     {
