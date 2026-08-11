@@ -13,7 +13,19 @@ import { chromium } from 'playwright';
 import fs from 'node:fs/promises';
 import path from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { scrapeMarriottLocation, fetchJobDetail, parsePay, propertyMatches } from './scrapers/marriott.js';
+import {
+  scrapeMarriottLocation,
+  fetchJobDetail as fetchMarriottJobDetail,
+  parsePay as parseMarriottPay,
+  propertyMatches as marriottPropertyMatches,
+} from './scrapers/marriott.js';
+import {
+  geocodeLocationId,
+  scrapeHiltonLocation,
+  fetchJobDetail as fetchHiltonJobDetail,
+  parsePay as parseHiltonPay,
+  propertyMatches as hiltonPropertyMatches,
+} from './scrapers/hilton.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DATA_PATH = path.join(ROOT, 'data.json');
@@ -47,11 +59,11 @@ async function scrapeMarriottBrand(page, hotels) {
   // discarded here — we only enrich what we're actually going to keep.)
   const byHotel = new Map();
   for (const hotel of hotels) {
-    const matches = allRaw.filter((j) => propertyMatches(j.propertyName, hotel.scrape.propertyMatch));
+    const matches = allRaw.filter((j) => marriottPropertyMatches(j.propertyName, hotel.scrape.propertyMatch));
     const enriched = [];
     for (const m of matches) {
-      const pay = parsePay(m.payText);
-      const detail = await fetchJobDetail(page, m.url);
+      const pay = parseMarriottPay(m.payText);
+      const detail = await fetchMarriottJobDetail(page, m.url);
       if (detail === null) continue; // 404'd or errored on direct visit — drop it (verify-before-including rule)
       enriched.push({
         title: m.title,
@@ -68,6 +80,53 @@ async function scrapeMarriottBrand(page, hotels) {
   return byHotel;
 }
 
+/**
+ * Hilton's careers site is a plain public REST API (no browser/bot-check
+ * needed — see scripts/scrapers/hilton.js), so unlike Marriott this takes
+ * no Playwright `page`. Searches once per distinct city in the hotel list,
+ * radius-limited to 25mi, then verifies + enriches (pay, category) every
+ * job that matches one of our tracked properties.
+ */
+async function scrapeHiltonBrand(hotels) {
+  const cities = [...new Set(hotels.map((h) => h.city))];
+  const allRaw = [];
+  const seen = new Set();
+  for (const city of cities) {
+    const locationId = await geocodeLocationId(city, 'MA');
+    if (!locationId) continue;
+    const jobs = await scrapeHiltonLocation(locationId, { radius: 25 });
+    for (const j of jobs) {
+      if (j.id && !seen.has(j.id)) {
+        seen.add(j.id);
+        allRaw.push(j);
+      }
+    }
+  }
+
+  const byHotel = new Map();
+  for (const hotel of hotels) {
+    const matches = allRaw.filter((j) => hiltonPropertyMatches(j.propertyName, hotel.scrape.propertyMatch));
+    const enriched = [];
+    for (const m of matches) {
+      const detail = await fetchHiltonJobDetail(m.id);
+      if (detail === null) continue; // requisition no longer exists — drop it (verify-before-including rule)
+      const pay = parseHiltonPay(detail.salaryText);
+      enriched.push({
+        title: m.title,
+        url: detail.url,
+        jobId: m.id,
+        payMin: pay ? pay.payMin : null,
+        payMax: pay ? pay.payMax : null,
+        payUnit: pay && pay.payUnit ? pay.payUnit : undefined,
+        datePosted: detail.postedDate || m.postedDate || null,
+        category: detail.category || null,
+      });
+    }
+    byHotel.set(hotel.name, enriched);
+  }
+  return byHotel;
+}
+
 function diffHotelJobs(hotel, previousJobs, scrapedJobs, historyLines) {
   const prevByUrl = new Map(previousJobs.map((j) => [jobKey(j), j]));
   const newByUrl = new Map(scrapedJobs.map((j) => [jobKey(j), j]));
@@ -76,7 +135,7 @@ function diffHotelJobs(hotel, previousJobs, scrapedJobs, historyLines) {
   for (const [url, job] of newByUrl) {
     const prev = prevByUrl.get(url);
     const firstSeen = job.datePosted ? job.datePosted.slice(0, 10) : prev ? prev.firstSeen : today;
-    const category = prev && prev.category ? prev.category : null;
+    const category = job.category || (prev && prev.category) || null;
 
     if (prev && (prev.payMin !== job.payMin || prev.payMax !== job.payMax)) {
       historyLines.push({
@@ -111,8 +170,10 @@ function diffHotelJobs(hotel, previousJobs, scrapedJobs, historyLines) {
 async function main() {
   const data = JSON.parse(await fs.readFile(DATA_PATH, 'utf8'));
   const marriottHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'marriott');
+  const hiltonHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hilton');
 
   const prevMarriottTotal = marriottHotels.reduce((sum, h) => sum + h.jobs.length, 0);
+  const prevHiltonTotal = hiltonHotels.reduce((sum, h) => sum + h.jobs.length, 0);
 
   const browser = await chromium.launch();
   const page = await browser.newPage();
@@ -124,13 +185,26 @@ async function main() {
     await browser.close();
   }
 
-  const newMarriottTotal = [...scrapedByHotel.values()].reduce((sum, jobs) => sum + jobs.length, 0);
+  const hiltonByHotel = await scrapeHiltonBrand(hiltonHotels);
+  for (const [hotelName, jobs] of hiltonByHotel) scrapedByHotel.set(hotelName, jobs);
 
-  if (newMarriottTotal === 0 && prevMarriottTotal > 0) {
+  const newMarriottTotal = marriottHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+  const newHiltonTotal = hiltonHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+
+  // Guardrail: if either brand's scrape comes back completely empty while the
+  // previous run had jobs for that brand, treat the whole run as unreliable
+  // (selector/API drift, site redesign, block) rather than real data, and
+  // leave data.json/history.jsonl untouched — same all-or-nothing policy as
+  // the original Marriott-only guardrail, just checked per brand.
+  const brokenBrands = [];
+  if (newMarriottTotal === 0 && prevMarriottTotal > 0) brokenBrands.push(`Marriott (${marriottHotels.length} properties, had ${prevMarriottTotal})`);
+  if (newHiltonTotal === 0 && prevHiltonTotal > 0) brokenBrands.push(`Hilton (${hiltonHotels.length} properties, had ${prevHiltonTotal})`);
+
+  if (brokenBrands.length) {
     const report = {
       date: today,
       aborted: true,
-      reason: `Marriott scrape returned 0 jobs across ${marriottHotels.length} tracked properties, but the previous run had ${prevMarriottTotal}. Treating this as a broken scraper (selector drift / site change / bot-block) rather than real data, and leaving data.json/history.jsonl untouched.`,
+      reason: `Scrape returned 0 jobs for: ${brokenBrands.join('; ')}. Treating this as a broken scraper (selector/API drift, site change, block) rather than real data, and leaving data.json/history.jsonl untouched.`,
     };
     await fs.writeFile(REPORT_PATH, JSON.stringify(report, null, 2));
     console.error(report.reason);
@@ -142,7 +216,7 @@ async function main() {
   const perHotelCounts = [];
 
   for (const hotel of data.hotels) {
-    if (hotel.scrape && hotel.scrape.source === 'marriott') {
+    if (hotel.scrape && (hotel.scrape.source === 'marriott' || hotel.scrape.source === 'hilton')) {
       const scraped = scrapedByHotel.get(hotel.name) || [];
       const before = hotel.jobs.length;
       hotel.jobs = diffHotelJobs(hotel, hotel.jobs, scraped, historyLines);
@@ -162,8 +236,9 @@ async function main() {
     date: today,
     aborted: false,
     marriottPropertiesScraped: marriottHotels.length,
-    totalJobsBefore: prevMarriottTotal,
-    totalJobsAfter: newMarriottTotal,
+    hiltonPropertiesScraped: hiltonHotels.length,
+    totalJobsBefore: prevMarriottTotal + prevHiltonTotal,
+    totalJobsAfter: newMarriottTotal + newHiltonTotal,
     historyEventsWritten: historyLines.length,
     perHotelCounts,
     bigDrops: perHotelCounts.filter((c) => c.before >= 3 && c.after === 0),

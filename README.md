@@ -26,7 +26,8 @@ data.json                   current snapshot: hotels, jobs, pay, firstSeen
 history.jsonl                append-only log of daily job observations/events
 package.json, scripts/      the scraper (Node + Playwright)
   scripts/run-scrape.js        orchestrator: scrape → diff → write data.json/history.jsonl
-  scripts/scrapers/marriott.js brand-specific scraper module
+  scripts/scrapers/marriott.js brand-specific scraper module (Playwright DOM scrape)
+  scripts/scrapers/hilton.js   brand-specific scraper module (plain public REST API)
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -45,12 +46,17 @@ npm run scrape
 ```
 
 **Adding a new brand scraper**: each brand gets its own module in
-`scripts/scrapers/<brand>.js`, following the shape of `marriott.js` —
-export a function that returns raw job records for a given search
-location, plus whatever verification/enrichment the brand's site
-supports. Wire it into `run-scrape.js` alongside the Marriott call, keyed
-off each hotel's `scrape.source` field in `data.json`. Non-Marriott
-hotels currently have `scrape: null` (see Data model) until this happens.
+`scripts/scrapers/<brand>.js`, following the shape of `marriott.js` or
+`hilton.js` — export a function that returns raw job records for a given
+search location, plus whatever verification/enrichment the brand's site
+supports. Wire it into `run-scrape.js` alongside the existing brand
+calls, keyed off each hotel's `scrape.source` field in `data.json`.
+Hotels not yet wired up have `scrape: null` (see Data model) until this
+happens. Worth checking early whether the brand's site is, like Hilton,
+built on a common ATS platform (Oracle Recruiting Cloud, Workday,
+iCIMS, etc.) with a public JSON API — that's a much easier and more
+robust source than DOM-scraping a bot-protected search page like
+Marriott's.
 
 ## Ground rules (established with the user — don't relitigate these)
 - **Corporate career sites only.** No Indeed, Glassdoor, ZipRecruiter,
@@ -108,6 +114,52 @@ hotels currently have `scrape: null` (see Data model) until this happens.
   "opening" on the same day, even though a human would call it the same
   job continuing. Known limitation, not a bug.
 
+## Key discoveries about jobs.hilton.com
+- **It's a stock Oracle Recruiting Cloud ("Candidate Experience") site**,
+  not custom-built — `jobs.hilton.com`'s "Search jobs" link goes straight
+  to `efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009`.
+  Worth checking for on any corporate careers site before assuming a
+  Marriott-style DOM scrape is needed.
+- **The REST API behind it is completely public and unprotected** — no
+  Akamai/bot-fingerprinting, no session or cookies required, works from a
+  plain `fetch()`. This is a big step up from Marriott: no Playwright, no
+  pagination-by-click, no risk of the site quietly falling back to an
+  unfiltered result set. See `scripts/scrapers/hilton.js` for the three
+  endpoints used (`recruitingCESearchAutoSuggestions` to geocode a city
+  to a `LocationId`, `recruitingCEJobRequisitions` for the radius-based
+  job search, `recruitingCEJobRequisitionDetails` for per-job
+  verification + enrichment).
+- **Search results carry an exact property name** (`workLocation[0]
+  .LocationName`), so hotel matching doesn't need Marriott's fuzzy
+  word-stripping — just lowercase/punctuation normalization (see
+  `normalizePropertyName`/`propertyMatches` in `hilton.js`). One entry in
+  `data.json`, the combined Hampton Inn/Homewood Suites Seaport building,
+  is actually two separate ATS listings under one roof, so
+  `scrape.propertyMatch` supports either a single name or an array of
+  aliases.
+- **Pay is freeform text**, not a structured field — each property's HR
+  team types it into a "Salary" custom field however they like ("$31.77 -
+  $42.37/USD/Hourly", "120K - 140K", "$62,353 yearly", "20.75", etc.).
+  `parsePay()` in `hilton.js` handles this with number-extraction plus a
+  unit heuristic (explicit "hour"/"annual"/"salary" keywords when
+  present, falling back to magnitude — every observed hourly wage is
+  under $200, every observed salary is over it). Weekly-paid postings
+  (rare — one observed) are dropped since the schema doesn't model that
+  unit.
+- **The job detail endpoint is also the verification step** and, unlike
+  Marriott's detail-page JSON-LD, returns a real `Category` field
+  (e.g. "Housekeeping and Laundry", "Culinary") — so Hilton jobs get a
+  scraped `category` for free, rather than relying on the client-side
+  `classifyDepartment()` keyword guesser. A requisition that's been
+  pulled returns `items: []` (still HTTP 200) rather than 404ing, so
+  "verify before including" checks for an empty `items` array instead of
+  a failed request status.
+- **Location search is radius-based, not a location-name filter** — the
+  scraper geocodes each distinct city in the tracked hotel list to an
+  Oracle `LocationId` via the autosuggest endpoint, then searches within
+  25mi of it. All 7 Boston-area Hilton properties are well inside that
+  radius from a single "Boston" search.
+
 ## Data model
 `data.json`:
 ```json
@@ -136,14 +188,20 @@ hotels currently have `scrape: null` (see Data model) until this happens.
 }
 ```
 - `brand`: `marriott` | `hilton` | `hyatt` | `omni` | `ihg` | `independent`
-  — used to route scraping. Only `marriott` has a scraper built so far.
+  — used to route scraping. `marriott` and `hilton` have scrapers built
+  so far.
 - `scrape`: `null` means "not automated" — either no scraper exists yet
   for the brand, or (see `scrapeNote`) the hotel doesn't post to its
   brand's corporate site at all (e.g. Courtyard Cambridge is
-  Highgate-managed).
-- `jobs[].firstSeen`: from Marriott's `datePosted` when available, else
-  the date our scraper first saw the listing. Not currently shown in the
-  UI (by request — logged for later analysis, not surfaced yet).
+  Highgate-managed). `propertyMatch` is usually a single string but may
+  be an array of alias strings, for the rare case where one `data.json`
+  hotel entry corresponds to more than one listing on the brand's site
+  (e.g. a combined Hampton Inn/Homewood Suites building with two
+  separate Hilton ATS entries).
+- `jobs[].firstSeen`: from the brand's own posting-date field when
+  available (Marriott's `datePosted`, Hilton's `PostedDate`), else the
+  date our scraper first saw the listing. Not currently shown in the UI
+  (by request — logged for later analysis, not surfaced yet).
 - Empty `jobs: []` on a hotel with `scrape: null` means "checked by hand,
   nothing found" OR "not yet checked" — same ambiguity as before, still
   only resolved by the status list further down.
@@ -160,36 +218,46 @@ lets you reconstruct how long a listing stayed up, or whether pay moved,
 without needing git blame archaeology.
 
 ## Guardrail
-If a scrape run comes back with **zero** jobs across every Marriott
-property it tracks, while the previous run had some, `run-scrape.js`
-treats that as a broken scraper (selector drift, site redesign,
-bot-block) rather than "hiring stopped everywhere overnight" — it aborts
-without touching `data.json`/`history.jsonl`, writes `scrape-report.json`
-(gitignored, uploaded as a workflow artifact) explaining why, and exits
-non-zero so the GitHub Actions run shows as failed. Smaller swings (one
-hotel's count dropping) are logged in the report but don't block the
-commit.
+If a scrape run comes back with **zero** jobs for a brand's tracked
+properties, while the previous run had some, `run-scrape.js` treats that
+brand's scrape as broken (selector/API drift, site redesign, bot-block)
+rather than "hiring stopped everywhere overnight" — checked
+independently per brand, but a failure on either one aborts the *whole*
+run without touching `data.json`/`history.jsonl` (kept simple/all-or-
+nothing rather than trying to write only the healthy brand's data).
+Writes `scrape-report.json` (gitignored, uploaded as a workflow artifact)
+explaining why, and exits non-zero so the GitHub Actions run shows as
+failed. Smaller swings (one hotel's count dropping) are logged in the
+report but don't block the commit.
 
 ## Current status by hotel (41 total)
-**Automated (Marriott brand, scraped daily):** Aloft Boston Seaport,
-Courtyard by Marriott Downtown/North Station, Courtyard by Marriott East
-Boston (Logan), Courtyard by Marriott South Boston, Element Seaport
-Boston, Le Meridien Cambridge, Moxy Boston Downtown, Renaissance Boston
-Seaport, Ritz-Carlton Boston, Sheraton Boston, Sheraton Commander, W
-Boston, Westin Boston Seaport, Westin Copley Place — 14 hotels. Whatever
-`data.json` currently shows for these is live as of the last scrape run;
-this README won't try to track individual counts for them anymore since
-they update daily.
+**Automated (scraped daily):**
+- Marriott brand (14): Aloft Boston Seaport, Courtyard by Marriott
+  Downtown/North Station, Courtyard by Marriott East Boston (Logan),
+  Courtyard by Marriott South Boston, Element Seaport Boston, Le Meridien
+  Cambridge, Moxy Boston Downtown, Renaissance Boston Seaport,
+  Ritz-Carlton Boston, Sheraton Boston, Sheraton Commander, W Boston,
+  Westin Boston Seaport, Westin Copley Place
+- Hilton brand (7): DoubleTree Suites Boston-Cambridge, Hampton Inn
+  Crosstown, Hampton Inn & Homewood Suites Seaport, Hilton Boston Back
+  Bay, Hilton Boston Logan Airport, Hilton Boston Park Plaza, Hilton
+  Garden Inn Boston Logan Airport. Three of these (Crosstown, Back Bay,
+  Garden Inn Logan) had zero open postings as of the scraper's build date
+  (2026-08-11), so their `scrape.propertyMatch` is a best-guess based on
+  Hilton's naming convention for the other four (confirmed exact via live
+  postings), not yet confirmed against a real listing — worth
+  double-checking the first time one of them actually has a job posted.
+
+Whatever `data.json` currently shows for automated hotels is live as of
+the last scrape run; this README won't try to track individual counts
+for them since they update daily.
 
 **Marriott-branded but excluded from scraping:**
 - Courtyard by Marriott Cambridge (Highgate-managed, doesn't post to
   careers.marriott.com — confirmed by hand, don't re-add without
   re-checking)
 
-**Not yet automated (non-Marriott brands — no scraper built yet):**
-- Hilton family (7): DoubleTree Suites Boston-Cambridge, Hampton Inn
-  Crosstown, Hampton Inn & Homewood Suites Seaport, Hilton Back Bay,
-  Hilton Logan Airport, Hilton Park Plaza, Hilton Garden Inn Logan Airport
+**Not yet automated (no scraper built yet):**
 - Hyatt family (3): Hyatt Centric Faneuil Hall, Hyatt Place Seaport,
   Hyatt Regency Boston
 - Omni family (2): Omni Boston Seaport, Omni Parker House
@@ -204,40 +272,37 @@ they update daily.
    workflow, updated data.json/history.jsonl, README) and enable GitHub
    Pages in repo settings (source: `main` branch, `/` root) so the map is
    reachable at a URL instead of only local/`file://`.
-2. Non-Marriott brand scrapers, one brand-family at a time — start with
-   Hilton (7 hotels) since it's the largest group. Find the real
-   corporate careers domain (`jobs.hilton.com`?) and whether it supports
-   a similar location-filtered search; write `scripts/scrapers/hilton.js`
-   following the `marriott.js` pattern; add hotels' `scrape` config in
-   `data.json`.
-3. Repeat for Hyatt, Omni, IHG, then the independents (which will likely
-   need per-hotel research rather than one shared brand scraper).
-4. Spot-check the career field classifier (`classifyDepartment()` in
-   `hotel-jobs-map.html`) once more brands' real job titles start flowing
-   in — the keyword rules were tuned against the ~20 Marriott titles seen
-   so far and will likely need new keywords (e.g. valet/laundry-specific
-   titles) as coverage grows. Consider whether "Other" should become a
-   fourth filterable chip once there's enough volume in it to be useful.
-5. **Tune the career field filter to only display matching jobs.**
+2. Remaining non-Marriott/Hilton brand scrapers, one brand-family at a
+   time — Hyatt next (3 hotels), then Omni, IHG, then the independents
+   (which will likely need per-hotel research rather than one shared
+   brand scraper). Worth checking each one for a public ATS API first
+   (see the Hilton discoveries above) before assuming a Marriott-style
+   DOM scrape is needed.
+3. Spot-check the career field classifier (`classifyDepartment()` in
+   `hotel-jobs-map.html`) now that more brands' real job titles are
+   flowing in — the keyword rules were tuned against the ~20 Marriott
+   titles seen so far and will likely need new keywords (e.g.
+   valet/laundry-specific titles) as coverage grows. Also worth deciding
+   whether Hilton's real scraped `category` values (see Data model)
+   should be preferred over the keyword guess wherever present, the way
+   the hand-curated Marriott `category` field already is. Consider
+   whether "Other" should become a fourth filterable chip once there's
+   enough volume in it to be useful.
+4. **Tune the career field filter to only display matching jobs.**
    Right now `state.department` only decides which *hotels* show up
    (`matches()` keeps a hotel if any one of its jobs matches) — once a
    hotel qualifies, its card and map popup still list every job at that
    hotel, not just the ones in the selected department. Filtering should
    narrow the job list itself, not just which hotels appear.
-6. **Find real sources for the other hotel brands.** Non-Marriott
-   hotels (Hilton, Hyatt, Omni, IHG, independents — see status list
-   above) all have `scrape: null` and no corporate-careers-site research
-   done yet. This is the same work as next-steps item 2/3 above, called
-   out separately since it's the biggest remaining gap in data coverage.
-7. **Update the UI for job postings.** Revisit how individual job
+5. **Update the UI for job postings.** Revisit how individual job
    listings are presented (hotel card badges, map popup formatting) now
    that department tags and multi-job hotels are more common — current
    layout was designed around 1-3 jobs per hotel and may not hold up as
    more brands get scraped and hotels regularly show 5+ openings.
-8. Later: once `history.jsonl` has enough days of data to be interesting,
+6. Later: once `history.jsonl` has enough days of data to be interesting,
    consider surfacing posting duration ("posted X days ago") in the UI —
    deliberately deferred for now.
-9. Consider: does the user want RIPTA/commuter rail added later for
+7. Consider: does the user want RIPTA/commuter rail added later for
    completeness, or is MBTA subway sufficient? (Unrelated to the scraper
    work — held over from before.)
 
@@ -246,13 +311,15 @@ they update daily.
   toggle, min-pay slider** (hourly-only; annual-salary jobs are excluded
   from the slider comparison but still shown in the popup/card).
 - **Career field filter** (Housekeeping / Food & Beverage / Front Office):
-  since Marriott doesn't expose a scrapable category field (see Key
-  discoveries above), department is inferred client-side from each job's
-  title via keyword matching (`classifyDepartment()` in
-  `hotel-jobs-map.html`), falling back to the hand-curated `category`
-  text where present. Anything that doesn't match a rule (sales, events,
-  security, management titles, etc.) is classified `Other` and is only
-  visible when no career-field filter is applied.
+  Marriott doesn't expose a scrapable category field (see Key discoveries
+  above), so department is inferred client-side from each job's title via
+  keyword matching (`classifyDepartment()` in `hotel-jobs-map.html`),
+  falling back to the hand-curated `category` text where present. Hilton
+  jobs do carry a real scraped `category` (e.g. "Housekeeping and
+  Laundry"), but the classifier doesn't currently prefer it over the
+  keyword guess — see next-steps item 3. Anything that doesn't match a
+  rule (sales, events, security, management titles, etc.) is classified
+  `Other` and is only visible when no career-field filter is applied.
 - **Public transit overlay**: MBTA Red/Orange/Blue/Green(B/C/D/E)/Mattapan
   lines, toggleable per line. This is **static data** (real station
   coordinates connected in sequence, not live), because the MBTA v3 API
