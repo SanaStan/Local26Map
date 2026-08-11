@@ -438,6 +438,7 @@ function makeIcon(hasJobs, dimmed){
 let markers = [];
 
 function formatPay(j){
+  if(j.payMin==null || j.payMax==null) return 'Pay not listed';
   if(j.payUnit === 'annual'){
     return j.payMin===j.payMax ? `$${j.payMin.toLocaleString()}/yr` : `$${j.payMin.toLocaleString()}–$${j.payMax.toLocaleString()}/yr`;
   }
@@ -547,14 +548,17 @@ function render(){
     card.className = 'hotel-card' + (h.name===selectedName ? ' selected' : '');
     let badgeText = 'No openings posted';
     if(h.jobs.length){
-      const hourlyJobs = h.jobs.filter(j=>j.payUnit!=='annual');
+      const hourlyJobs = h.jobs.filter(j=>j.payUnit!=='annual' && j.payMin!=null && j.payMax!=null);
+      const hasAnnual = h.jobs.some(j=>j.payUnit==='annual');
       if(hourlyJobs.length){
         const lo = Math.min(...hourlyJobs.map(j=>j.payMin));
         const hi = Math.max(...hourlyJobs.map(j=>j.payMax));
         const payStr = lo===hi ? `$${lo.toFixed(2)}/hr` : `$${lo.toFixed(2)}–$${hi.toFixed(2)}/hr`;
         badgeText = `${h.jobs.length} opening${h.jobs.length>1?'s':''} · ${payStr}`;
-      } else {
+      } else if(hasAnnual){
         badgeText = `${h.jobs.length} opening${h.jobs.length>1?'s':''} · salaried`;
+      } else {
+        badgeText = `${h.jobs.length} opening${h.jobs.length>1?'s':''}`;
       }
     }
     card.innerHTML = `
