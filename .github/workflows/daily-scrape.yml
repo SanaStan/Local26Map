@@ -1,0 +1,53 @@
+name: Daily job scrape
+
+on:
+  schedule:
+    # 10:00 UTC ≈ 6am ET / 5am during EDT — run once daily.
+    - cron: "0 10 * * *"
+  workflow_dispatch: {}
+
+permissions:
+  contents: write
+
+concurrency:
+  group: daily-scrape
+  cancel-in-progress: false
+
+jobs:
+  scrape:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 20
+
+      - name: Install dependencies
+        run: npm install
+
+      - name: Install Playwright browser
+        run: npx playwright install --with-deps chromium
+
+      - name: Run scrape
+        run: npm run scrape
+
+      - name: Commit updated data if changed
+        run: |
+          if git diff --quiet -- data.json history.jsonl; then
+            echo "No changes to data.json/history.jsonl — nothing to commit."
+            exit 0
+          fi
+          git config user.name "github-actions[bot]"
+          git config user.email "github-actions[bot]@users.noreply.github.com"
+          git add data.json history.jsonl
+          git commit -m "Daily scrape: update job listings ($(date -u +%Y-%m-%d))"
+          git push
+
+      - name: Upload scrape report
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: scrape-report
+          path: scrape-report.json
+          if-no-files-found: ignore

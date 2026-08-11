@@ -1,0 +1,13 @@
+{
+  "name": "local26map-scraper",
+  "private": true,
+  "type": "module",
+  "version": "1.0.0",
+  "description": "Daily scraper that keeps data.json and history.jsonl in sync with hotel corporate careers sites for the Union Hotel Jobs Map.",
+  "scripts": {
+    "scrape": "node scripts/run-scrape.js"
+  },
+  "dependencies": {
+    "playwright": "^1.47.0"
+  }
+}

@@ -1,0 +1,584 @@
+{
+  "generatedAt": "2026-08-10T04:26:23.078Z",
+  "hotels": [
+    {
+      "name": "Aloft Boston Seaport",
+      "city": "Boston",
+      "lat": 42.3434606,
+      "lng": -71.0449174,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Aloft by Marriott Boston Seaport District"
+      },
+      "jobs": [
+        {
+          "title": "Part Time Bartender (Primarily Weekends/Open Availability)",
+          "payMin": 31.62,
+          "payMax": 33.4,
+          "category": null,
+          "url": "https://careers.marriott.com/part-time-bartender-primarily-weekends-open-availability/job/E71AA132433B249308F3EC511CF27570",
+          "firstSeen": "2026-08-07"
+        }
+      ]
+    },
+    {
+      "name": "Battery Wharf Hotel",
+      "city": "Boston",
+      "lat": 42.3674239,
+      "lng": -71.050285,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Bostonian Hotel",
+      "city": "Boston",
+      "lat": 42.3609819,
+      "lng": -71.0558644,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Colonnade Hotel",
+      "city": "Boston",
+      "lat": 42.3456719,
+      "lng": -71.0810382,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Copley Square Hotel",
+      "city": "Boston",
+      "lat": 42.3483153,
+      "lng": -71.0786214,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Courtyard by Marriott Cambridge",
+      "city": "Cambridge",
+      "lat": 42.3585973,
+      "lng": -71.114959,
+      "brand": "marriott",
+      "scrape": null,
+      "scrapeNote": "Highgate-managed; does not post to careers.marriott.com. Confirmed manually — don't re-add automated scraping without re-checking.",
+      "jobs": []
+    },
+    {
+      "name": "Courtyard by Marriott Downtown/North Station",
+      "city": "Boston",
+      "lat": 42.3658713,
+      "lng": -71.0596385,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Courtyard by Marriott Boston Downtown"
+      },
+      "jobs": [
+        {
+          "title": "Barista",
+          "payMin": 29.39,
+          "payMax": 29.39,
+          "category": "Food and Beverage & Culinary",
+          "url": "https://careers.marriott.com/barista/job/1B7CBE60D7E7DA73BA7CA88D3BB17983",
+          "firstSeen": "2026-07-23"
+        }
+      ]
+    },
+    {
+      "name": "Courtyard by Marriott East Boston (Logan)",
+      "city": "Boston",
+      "lat": 42.387417,
+      "lng": -71.016385,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Courtyard by Marriott Boston Logan Airport"
+      },
+      "jobs": []
+    },
+    {
+      "name": "Courtyard by Marriott South Boston",
+      "city": "Boston",
+      "lat": 42.326362,
+      "lng": -71.0605163,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Courtyard by Marriott Boston South Boston"
+      },
+      "jobs": []
+    },
+    {
+      "name": "Dagny Boston",
+      "city": "Boston",
+      "lat": 42.3574115,
+      "lng": -71.0530807,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "DoubleTree Suites by Hilton Boston-Cambridge",
+      "city": "Boston",
+      "lat": 42.3603277,
+      "lng": -71.1181015,
+      "brand": "hilton",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Element Seaport Boston",
+      "city": "Boston",
+      "lat": 42.342969,
+      "lng": -71.045365,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Element by Marriott Boston Seaport District"
+      },
+      "jobs": [
+        {
+          "title": "Self Inspector Housekeeper",
+          "payMin": 31.17,
+          "payMax": 32.95,
+          "category": "Housekeeping & Laundry",
+          "url": "https://careers.marriott.com/self-inspector-housekeeper/job/3F0F0698AA8F05EDCAFDF68CAA67B9C4",
+          "firstSeen": "2026-07-21"
+        }
+      ]
+    },
+    {
+      "name": "Encore Boston Harbor",
+      "city": "Everett",
+      "lat": 42.3952143,
+      "lng": -71.0695365,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Fairmont Copley Plaza",
+      "city": "Boston",
+      "lat": 42.3490335,
+      "lng": -71.076239,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hampton Inn Crosstown",
+      "city": "Boston",
+      "lat": 42.3325348,
+      "lng": -71.0730551,
+      "brand": "hilton",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hampton Inn & Homewood Suites, Hilton Boston Seaport",
+      "city": "Boston",
+      "lat": 42.3440114,
+      "lng": -71.0377504,
+      "brand": "hilton",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hilton Boston Back Bay",
+      "city": "Boston",
+      "lat": 42.3462978,
+      "lng": -71.0849425,
+      "brand": "hilton",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hilton Boston Logan Airport",
+      "city": "Boston",
+      "lat": 42.3675085,
+      "lng": -71.0229555,
+      "brand": "hilton",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hilton Boston Park Plaza",
+      "city": "Boston",
+      "lat": 42.3510338,
+      "lng": -71.0697226,
+      "brand": "hilton",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hilton Garden Inn Boston Logan Airport",
+      "city": "Boston",
+      "lat": 42.3897368,
+      "lng": -71.0122025,
+      "brand": "hilton",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hotel AKA Back Bay",
+      "city": "Boston",
+      "lat": 42.349114,
+      "lng": -71.0725213,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hotel AKA Boston Common",
+      "city": "Boston",
+      "lat": 42.357306,
+      "lng": -71.0606874,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hotel Commonwealth",
+      "city": "Boston",
+      "lat": 42.3484911,
+      "lng": -71.095243,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hyatt Centric Faneuil Hall Boston",
+      "city": "Boston",
+      "lat": 42.3582532,
+      "lng": -71.057184,
+      "brand": "hyatt",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hyatt Place Boston Seaport District",
+      "city": "Boston",
+      "lat": 42.3475646,
+      "lng": -71.0368804,
+      "brand": "hyatt",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Hyatt Regency Boston",
+      "city": "Boston",
+      "lat": 42.3534777,
+      "lng": -71.0608477,
+      "brand": "hyatt",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "InterContinental Boston",
+      "city": "Boston",
+      "lat": 42.3536908,
+      "lng": -71.0519125,
+      "brand": "ihg",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Le Meridien Cambridge",
+      "city": "Cambridge",
+      "lat": 42.3621253,
+      "lng": -71.1000153,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Le Meridien Cambridge-MIT"
+      },
+      "jobs": []
+    },
+    {
+      "name": "Lenox Hotel",
+      "city": "Boston",
+      "lat": 42.349229,
+      "lng": -71.079528,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Moxy Boston Downtown",
+      "city": "Boston",
+      "lat": 42.3508921,
+      "lng": -71.0646016,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Moxy Boston Downtown"
+      },
+      "scrapeNote": "Previously found only on third-party boards, not careers.marriott.com — re-checked automatically each run in case that changes.",
+      "jobs": []
+    },
+    {
+      "name": "Newbury Boston",
+      "city": "Boston",
+      "lat": 42.3527354,
+      "lng": -71.0715154,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Omni Boston Hotel at the Seaport",
+      "city": "Boston",
+      "lat": 42.3470497,
+      "lng": -71.0421624,
+      "brand": "omni",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Omni Parker House",
+      "city": "Boston",
+      "lat": 42.3577637,
+      "lng": -71.060106,
+      "brand": "omni",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Raffles Boston",
+      "city": "Boston",
+      "lat": 42.3485405,
+      "lng": -71.0748711,
+      "brand": "independent",
+      "scrape": null,
+      "jobs": []
+    },
+    {
+      "name": "Renaissance Boston Seaport",
+      "city": "Boston",
+      "lat": 42.348157,
+      "lng": -71.039472,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Renaissance Boston Seaport District"
+      },
+      "scrapeNote": "Known partial as of last manual check — 2/6 loaded, remaining openings need pages 2-4 of the location search.",
+      "jobs": [
+        {
+          "title": "Front Desk Clerk",
+          "payMin": 31.42,
+          "payMax": 31.42,
+          "category": "Rooms & Guest Services Operations",
+          "url": "https://careers.marriott.com/front-desk-clerk/job/0DA4EBE66A01C0B887C33210088F0A39",
+          "firstSeen": "2026-07-16"
+        },
+        {
+          "title": "Cook II",
+          "payMin": 32.09,
+          "payMax": 32.09,
+          "category": null,
+          "url": "https://careers.marriott.com/cook-ii/job/35DBD459F35C21BC605395E4C537B09B",
+          "firstSeen": "2026-08-06"
+        },
+        {
+          "title": "Senior Rooms Operations Manager (Houskeeping)",
+          "payMin": 87000,
+          "payMax": 109000,
+          "category": "Housekeeping & Laundry",
+          "url": "https://careers.marriott.com/senior-rooms-operations-manager-houskeeping/job/E15F680314FD74DEBBC8D3C2F60C2C28",
+          "firstSeen": "2026-07-24",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Assistant Rooms Ops Manager (Front Desk)",
+          "payMin": 34.13,
+          "payMax": 41.35,
+          "category": null,
+          "url": "https://careers.marriott.com/assistant-rooms-ops-manager-front-desk/job/3E97EFB3DAD962F66EC03DA98BA9916D",
+          "firstSeen": "2026-08-03"
+        },
+        {
+          "title": "Banquet Cook",
+          "payMin": 32.09,
+          "payMax": 32.09,
+          "category": null,
+          "url": "https://careers.marriott.com/banquet-cook/job/7BECC1EFF4FA597E09E6F9ED4C96E23A",
+          "firstSeen": "2026-07-20"
+        },
+        {
+          "title": "Dining Room Attendant",
+          "payMin": 28.47,
+          "payMax": 28.47,
+          "category": null,
+          "url": "https://careers.marriott.com/dining-room-attendant/job/68866D4F9018165EA0359017B6D77586",
+          "firstSeen": "2026-07-21"
+        },
+        {
+          "title": "Senior Sales Executive (Group)",
+          "payMin": 46,
+          "payMax": 61.54,
+          "category": null,
+          "url": "https://careers.marriott.com/senior-sales-executive-group/job/8F89750BE90DA39D4C09CD8BFE569602",
+          "firstSeen": "2026-08-04"
+        }
+      ]
+    },
+    {
+      "name": "Ritz-Carlton Boston",
+      "city": "Boston",
+      "lat": 42.3531231,
+      "lng": -71.0632517,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "The Ritz-Carlton, Boston"
+      },
+      "jobs": [
+        {
+          "title": "In Room Dining Server",
+          "payMin": 17.25,
+          "payMax": 17.25,
+          "category": "Food and Beverage & Culinary",
+          "url": "https://careers.marriott.com/in-room-dining-server/job/EF8ADB48A65AFBCE56018697E3683B8D",
+          "firstSeen": "2026-07-23"
+        },
+        {
+          "title": "Senior Sous Chef",
+          "payMin": 74000,
+          "payMax": 97000,
+          "category": "Food and Beverage & Culinary",
+          "url": "https://careers.marriott.com/senior-sous-chef/job/E9EB643618F36E298C2E0F5B817E9607",
+          "firstSeen": "2026-06-29",
+          "payUnit": "annual"
+        }
+      ]
+    },
+    {
+      "name": "Sheraton Boston",
+      "city": "Boston",
+      "lat": 42.3465151,
+      "lng": -71.0839224,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Sheraton Boston Hotel"
+      },
+      "jobs": [
+        {
+          "title": "Housekeeper",
+          "payMin": 31.17,
+          "payMax": 31.17,
+          "category": null,
+          "url": "https://careers.marriott.com/housekeeper/job/57261952C8C1F1880E975ECFFC1BF2C4",
+          "firstSeen": "2026-08-06"
+        },
+        {
+          "title": "Senior Events Manager",
+          "payMin": 85000,
+          "payMax": 109000,
+          "category": null,
+          "url": "https://careers.marriott.com/senior-events-manager/job/00E468C353939B52ED69C85686862733",
+          "firstSeen": "2026-07-27",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Server - Restaurant",
+          "payMin": 22.69,
+          "payMax": 24.47,
+          "category": null,
+          "url": "https://careers.marriott.com/server-restaurant/job/CA2F8DB27FB246D4EFFB0AAFE19EA400",
+          "firstSeen": "2026-07-27"
+        }
+      ]
+    },
+    {
+      "name": "Sheraton Commander",
+      "city": "Cambridge",
+      "lat": 42.3772651,
+      "lng": -71.1233101,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "Sheraton Commander Hotel"
+      },
+      "jobs": []
+    },
+    {
+      "name": "W Boston",
+      "city": "Boston",
+      "lat": 42.3508419,
+      "lng": -71.0656551,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "W Boston"
+      },
+      "jobs": []
+    },
+    {
+      "name": "Westin Boston Seaport",
+      "city": "Boston",
+      "lat": 42.3459926,
+      "lng": -71.0430104,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "The Westin Boston Seaport District"
+      },
+      "jobs": []
+    },
+    {
+      "name": "Westin Copley Place",
+      "city": "Boston",
+      "lat": 42.3483206,
+      "lng": -71.0774615,
+      "brand": "marriott",
+      "scrape": {
+        "source": "marriott",
+        "propertyMatch": "The Westin Copley Place, Boston"
+      },
+      "jobs": [
+        {
+          "title": "Security & Safety Manager",
+          "payMin": 65000,
+          "payMax": 86000,
+          "category": null,
+          "url": "https://careers.marriott.com/security-safety-manager/job/3AFD3CDEC6F6157810C659D80734AECD",
+          "firstSeen": "2026-08-05",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Host or Hostess",
+          "payMin": 32.28,
+          "payMax": 33.03,
+          "category": null,
+          "url": "https://careers.marriott.com/host-or-hostess/job/3A9050078E64D37D20A78467784EB899",
+          "firstSeen": "2026-07-23"
+        },
+        {
+          "title": "Sous Chef, Westin Boston Copley",
+          "payMin": 73000,
+          "payMax": 93000,
+          "category": null,
+          "url": "https://careers.marriott.com/sous-chef-westin-boston-copley/job/8903EF0C93871D9F6D73F5399052DDE7",
+          "firstSeen": "2026-07-15",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Banquets Manager",
+          "payMin": 71000,
+          "payMax": 95000,
+          "category": null,
+          "url": "https://careers.marriott.com/banquets-manager/job/D33FE9E5BE7ADAF2DD5DC759C924B0E0",
+          "firstSeen": "2026-07-15",
+          "payUnit": "annual"
+        }
+      ]
+    }
+  ]
+}
