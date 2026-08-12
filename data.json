@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T18:37:21.396Z",
+  "generatedAt": "2026-08-11T21:12:41.880Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -512,8 +512,241 @@
       "lat": 42.3470497,
       "lng": -71.0421624,
       "brand": "omni",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "omni",
+        "propertyMatch": "Omni Boston Hotel at the Seaport"
+      },
+      "jobs": [
+        {
+          "title": "Spa Attendant",
+          "payMin": 32.21,
+          "payMax": 32.21,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/14752",
+          "firstSeen": "2026-08-11"
+        },
+        {
+          "title": "Line Cook | Kestra",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/14538",
+          "firstSeen": "2026-08-11"
+        },
+        {
+          "title": "Hair Stylist | On Call",
+          "payMin": 14.47,
+          "payMax": 14.47,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/9597",
+          "firstSeen": "2026-08-11"
+        },
+        {
+          "title": "Hair Stylist | Part Time",
+          "payMin": 14.47,
+          "payMax": 14.47,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/1701",
+          "firstSeen": "2026-08-11"
+        },
+        {
+          "title": "Massage Therapist",
+          "payMin": 14.47,
+          "payMax": 14.47,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/1247",
+          "firstSeen": "2026-08-11"
+        },
+        {
+          "title": "Nail Technician | Part Time",
+          "payMin": 14.47,
+          "payMax": 14.47,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/1239",
+          "firstSeen": "2026-08-11"
+        },
+        {
+          "title": "Banquet Kitchen Supervisor",
+          "payMin": 35.18,
+          "payMax": 35.18,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/20510",
+          "firstSeen": "2026-08-03"
+        },
+        {
+          "title": "Utility Steward",
+          "payMin": 23.16,
+          "payMax": 33.08,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/23015",
+          "firstSeen": "2026-08-03"
+        },
+        {
+          "title": "Managing Director",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/22711",
+          "firstSeen": "2026-07-31"
+        },
+        {
+          "title": "Group Rooms Coordinator",
+          "payMin": 33.18,
+          "payMax": 33.18,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/17050",
+          "firstSeen": "2026-07-30"
+        },
+        {
+          "title": "Nail Tech | On Call",
+          "payMin": 14.47,
+          "payMax": 14.47,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/9601",
+          "firstSeen": "2026-07-30"
+        },
+        {
+          "title": "Accounting Generalist",
+          "payMin": 33.18,
+          "payMax": 33.18,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21831",
+          "firstSeen": "2026-07-24"
+        },
+        {
+          "title": "Utility Cleaner",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21827",
+          "firstSeen": "2026-07-24"
+        },
+        {
+          "title": "Banquet Line Cook",
+          "payMin": 23.72,
+          "payMax": 33.89,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21497",
+          "firstSeen": "2026-07-22"
+        },
+        {
+          "title": "Host Greeter | Kestra",
+          "payMin": 23.1,
+          "payMax": 33.01,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21472",
+          "firstSeen": "2026-07-22"
+        },
+        {
+          "title": "Food Runner | Kestra Restaurant",
+          "payMin": 21.18,
+          "payMax": 30.26,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21390",
+          "firstSeen": "2026-07-21"
+        },
+        {
+          "title": "Busser | Lifted",
+          "payMin": 21.18,
+          "payMax": 30.26,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/20575",
+          "firstSeen": "2026-07-14"
+        },
+        {
+          "title": "Pastry Line Cook",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/20531",
+          "firstSeen": "2026-07-14"
+        },
+        {
+          "title": "Banquet Manager",
+          "payMin": 75000,
+          "payMax": 85000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/913",
+          "firstSeen": "2026-07-13",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Kestra Dining Room Attendant",
+          "payMin": 21.18,
+          "payMax": 30.26,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/20003",
+          "firstSeen": "2026-07-08"
+        },
+        {
+          "title": "Director of Banquets",
+          "payMin": 105000,
+          "payMax": 115000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/19768",
+          "firstSeen": "2026-07-06",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Cafeteria Attendant",
+          "payMin": 23.16,
+          "payMax": 33.08,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/18861",
+          "firstSeen": "2026-06-25"
+        },
+        {
+          "title": "Engineering Supervisor",
+          "payMin": 42,
+          "payMax": 42,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/6272",
+          "firstSeen": "2026-06-23"
+        },
+        {
+          "title": "Assistant Manager | Food and Beverage",
+          "payMin": 70000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/17761",
+          "firstSeen": "2026-06-15",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Banquet Supervisor",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/5620",
+          "firstSeen": "2026-06-11"
+        },
+        {
+          "title": "Line Cook | Lifted",
+          "payMin": 23.72,
+          "payMax": 33.89,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/17106",
+          "firstSeen": "2026-06-10"
+        },
+        {
+          "title": "Assistant Manager | The Sporting Club",
+          "payMin": 70000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/15755",
+          "firstSeen": "2026-05-27",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Executive Sous Chef",
+          "payMin": 95000,
+          "payMax": 110000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/15064",
+          "firstSeen": "2026-05-20",
+          "payUnit": "annual"
+        }
+      ]
     },
     {
       "name": "Omni Parker House",
@@ -521,8 +754,121 @@
       "lat": 42.3577637,
       "lng": -71.060106,
       "brand": "omni",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "omni",
+        "propertyMatch": "Omni Parker House"
+      },
+      "jobs": [
+        {
+          "title": "Front Office Manager",
+          "payMin": 70000,
+          "payMax": 85000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/23626",
+          "firstSeen": "2026-08-06",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Director of Front Office",
+          "payMin": 70000,
+          "payMax": 96000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/23370",
+          "firstSeen": "2026-08-05",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Plumber",
+          "payMin": 35.58,
+          "payMax": 47.44,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/23268",
+          "firstSeen": "2026-08-05"
+        },
+        {
+          "title": "On Call Banquet Server",
+          "payMin": 18.25,
+          "payMax": 18.25,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/10723",
+          "firstSeen": "2026-07-29"
+        },
+        {
+          "title": "Director of Human Resources",
+          "payMin": 135000,
+          "payMax": 160000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/22039",
+          "firstSeen": "2026-07-27",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Rounds Cook",
+          "payMin": 33.96,
+          "payMax": 33.96,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21959",
+          "firstSeen": "2026-07-27"
+        },
+        {
+          "title": "Host Greeter",
+          "payMin": 32.42,
+          "payMax": 33.08,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21630",
+          "firstSeen": "2026-07-23"
+        },
+        {
+          "title": "Bellperson Overnight",
+          "payMin": 22.13,
+          "payMax": 29.51,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21264",
+          "firstSeen": "2026-07-21"
+        },
+        {
+          "title": "Associate Services - Human Resources Generalist",
+          "payMin": 35.04,
+          "payMax": 35.75,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/19695",
+          "firstSeen": "2026-07-06"
+        },
+        {
+          "title": "Executive Sous Chef",
+          "payMin": 76239,
+          "payMax": 105298,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/16265",
+          "firstSeen": "2026-06-02",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Utility Cleaner Overnight",
+          "payMin": 24.72,
+          "payMax": 32.76,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/15875",
+          "firstSeen": "2026-05-28"
+        },
+        {
+          "title": "Guest Room Attendant",
+          "payMin": 24.72,
+          "payMax": 32.96,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/15788",
+          "firstSeen": "2026-05-28"
+        },
+        {
+          "title": "Chef de Cuisine",
+          "payMin": 78648,
+          "payMax": 98310,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/11314",
+          "firstSeen": "2026-04-22",
+          "payUnit": "annual"
+        }
+      ]
     },
     {
       "name": "Raffles Boston",

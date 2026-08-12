@@ -29,6 +29,7 @@ package.json, scripts/      the scraper (Node + Playwright)
   scripts/scrapers/marriott.js brand-specific scraper module (Playwright DOM scrape)
   scripts/scrapers/hilton.js   brand-specific scraper module (plain public REST API)
   scripts/scrapers/hyatt.js    brand-specific scraper module (Playwright, drives real UI)
+  scripts/scrapers/omni.js     brand-specific scraper module (Playwright request client, no page render)
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -45,6 +46,19 @@ npm install
 npx playwright install chromium
 npm run scrape
 ```
+
+**Testing frontend changes locally before pushing**: since GitHub Pages
+serves whatever's on `main`, verify any change to `hotel-jobs-map.html`
+or `data.json` against a local server first rather than finding out from
+the live site:
+```
+python3 -m http.server 8765
+```
+then open `http://localhost:8765/hotel-jobs-map.html` and check the
+browser console for errors — a page-crashing JS error (e.g. the null-pay
+`.toFixed()` bug fixed after the Hyatt rollout, which silently emptied
+the entire sidebar) can be completely invisible unless you're actually
+looking at a rendered page and its console, not just the diff.
 
 **Adding a new brand scraper**: each brand gets its own module in
 `scripts/scrapers/<brand>.js`, following the shape of `marriott.js` or
@@ -230,6 +244,50 @@ Marriott's.
   resolve trap). `verifyJobLive` in `hyatt.js` checks for that text as
   the actual "verify before including" signal.
 
+## Key discoveries about jobs.dayforcehcm.com (Omni)
+- **It's Dayforce (Ceridian)** — a fourth distinct ATS platform, found via
+  a "Learn More" link on omnihotels.com/careers pointing at
+  `jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL` (Canada properties use
+  a separate iCIMS instance, out of scope here since both tracked Omni
+  hotels are US).
+- **The JSON API needs an `x-csrf-token` header** sourced from a separate
+  `api/auth/csrf` GET, but is otherwise clean and well-structured.
+  Notably, **the POST endpoints 403 under plain Node `fetch()`/`curl`
+  even with a valid token and realistic UA, but work fine cold under
+  Playwright's `context.request`** — same shape of problem as Hyatt, but
+  the fix is much cheaper here: no page render or UI interaction needed
+  at all, just swap the HTTP client. `omni.js` takes a Playwright
+  `request` context (`page.context().request`) rather than either bare
+  `fetch()` (Hilton) or a driven `page` (Marriott/Hyatt).
+- **Location search resolves directly to properties, not just cities**:
+  `api/geo/ohmc/location/search?filter=Boston` returns the two Boston
+  Omni hotels by name directly, each with its own `locationId` — no
+  separate geocode-a-city-then-radius-search step like Hilton needed.
+  Searching within 15mi of *either* Boston property's `locationId`
+  returns both properties' jobs combined (they're a short walk apart),
+  so one search covers every tracked property in a metro area, same
+  end result as Hilton's per-city radius search.
+- **No structured pay field** — same gap as Hyatt, but the pay sentence
+  is embedded in the middle of the full free-text job description
+  instead of the title (e.g. "The hourly rate for this position is
+  $32.21.", "Salary range for this position is $95,000 - $110,000 per
+  year."), and coverage is much better — the large majority of Omni
+  postings have it, unlike Hyatt where most don't. `parsePay()` in
+  `omni.js` just extracts every dollar figure found anywhere in the
+  description and takes the min/max span, rather than trying to parse
+  the surrounding sentence — every dollar figure observed across ~40
+  real postings was pay-related (no stray bonus/tip mentions), including
+  step-scale postings that mention a starting *and* later-raise rate
+  (e.g. "$24.72 and increasing to $32.76"), where the full min-max span
+  is a reasonable single range to show.
+- **No scrapable category field either** — `category` is left `null` for
+  every Omni job, same situation as Marriott (client-side
+  `classifyDepartment()` keyword guessing is what actually populates the
+  career-field filter for these).
+- **Closed postings 404 cleanly** — unlike Hyatt's always-200-with-a-
+  message pattern, so `verifyJobLive` here is a plain status check, no
+  page-text inspection needed.
+
 ## Data model
 `data.json`:
 ```json
@@ -320,6 +378,7 @@ report but don't block the commit.
   double-checking the first time one of them actually has a job posted.
 - Hyatt brand (2 of 3 — see excluded list below): Hyatt Place Boston
   Seaport District, Hyatt Regency Boston.
+- Omni brand (2): Omni Boston Hotel at the Seaport, Omni Parker House.
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
@@ -336,7 +395,6 @@ to the brand's own corporate site):**
   without re-checking)
 
 **Not yet automated (no scraper built yet):**
-- Omni family (2): Omni Boston Seaport, Omni Parker House
 - IHG (1): InterContinental Boston
 - Independent/other (13): Battery Wharf, Bostonian, Colonnade, Copley
   Square, Dagny, Encore Boston Harbor, Fairmont Copley Plaza, Hotel AKA
@@ -344,15 +402,15 @@ to the brand's own corporate site):**
   Boston, Raffles Boston
 
 ## Next steps (pick up in roughly this order)
-1. Remaining non-Marriott/Hilton/Hyatt brand scrapers, one brand-family
-   at a time — Omni next (2 hotels), then IHG, then the independents
+1. Remaining brand scrapers — IHG next (1 hotel), then the independents
    (which will likely need per-hotel research rather than one shared
    brand scraper). Worth checking each one for the ATS platform it runs
-   on first (Oracle Recruiting Cloud, Oracle Taleo, Workday, iCIMS,
-   etc. — see the Hilton and Hyatt discoveries above for what that can
-   look like) before assuming a Marriott-style DOM scrape is needed —
-   and don't assume a clean-looking API can be called directly without
-   real UI interaction just because Hilton's could; Hyatt's couldn't.
+   on first (Oracle Recruiting Cloud, Oracle Taleo, Dayforce, Workday,
+   iCIMS, etc. — see the Hilton/Hyatt/Omni discoveries above for what
+   that can look like) before assuming a Marriott-style DOM scrape is
+   needed — and don't assume a clean-looking API can be called directly
+   without real UI interaction just because Hilton's and Omni's could;
+   Hyatt's couldn't.
 2. Spot-check the career field classifier (`classifyDepartment()` in
    `hotel-jobs-map.html`) now that more brands' real job titles are
    flowing in — the keyword rules were tuned against the ~20 Marriott
