@@ -30,6 +30,7 @@ package.json, scripts/      the scraper (Node + Playwright)
   scripts/scrapers/hilton.js   brand-specific scraper module (plain public REST API)
   scripts/scrapers/hyatt.js    brand-specific scraper module (Playwright, drives real UI)
   scripts/scrapers/omni.js     brand-specific scraper module (Playwright request client, no page render)
+  scripts/scrapers/accor.js    brand-specific scraper module (Playwright DOM scrape)
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -288,6 +289,43 @@ Marriott's.
   message pattern, so `verifyJobLive` here is a plain status check, no
   page-text inspection needed.
 
+## Key discoveries about careers.accor.com (Fairmont, Raffles, etc.)
+- **Two hotels on the list were mislabeled**: Fairmont Copley Plaza and
+  Raffles Boston had `brand: "independent"` in `data.json`, but both are
+  Accor-group brands with real corporate postings on careers.accor.com —
+  fixed to `brand: "accor"`. Worth double-checking any other
+  "independent"-labeled hotel against its actual ownership before
+  assuming there's truly no corporate site to scrape.
+- **Runs on Attrax**, and unlike every other brand scraped so far, search
+  results only render via full client-side JS hydration — no isolated
+  XHR/JSON endpoint carries the job list (the query-string-bearing page
+  itself is what gets hydrated), so this is Marriott-style DOM scraping,
+  not an API client. Don't assume every ATS exposes a fetchable data
+  endpoint just because Hilton/Hyatt/Omni's all did in some form.
+- **A cookie-consent modal blocks all interaction** until dismissed
+  (`dismissCookieBanner()` clicks "Continue without Accepting" once per
+  page load) — easy to miss in headless testing since nothing errors,
+  Playwright's element-visibility auto-wait just times out silently
+  against elements sitting underneath the modal.
+- **Search is keyword-based** (`?q=<property name>`), which reliably
+  narrows to just that property's jobs. **Pagination has to go through
+  the page's own global `pagination(n)` JS function** — a plain URL
+  navigation to `&page=N` gets aborted; this "NoReload" widget only
+  accepts being driven through its own client-side router. That router
+  occasionally does a real navigation instead of an in-place DOM patch
+  when paginating (cause unclear), which can destroy the JS execution
+  context mid-read or make the `pagination(n)` call itself throw — both
+  handled with a short retry, falling back to whatever page(s) were
+  already collected rather than crashing the whole scrape.
+- **Each result tile's CSS classes carry structured data for free** — a
+  `sector-<slug>` class gives the job's category, no separate lookup
+  needed. The tile's location field is a full address string
+  ("Property Name, City, Country"), not just the property name — has to
+  be split on the first comma before matching against `propertyMatch`.
+- **No structured pay field** — same situation as Omni: pay only shows up
+  as freeform text in the job's own detail page description, extracted
+  the same way (every dollar figure found, min/max span).
+
 ## Data model
 `data.json`:
 ```json
@@ -379,6 +417,8 @@ report but don't block the commit.
 - Hyatt brand (2 of 3 — see excluded list below): Hyatt Place Boston
   Seaport District, Hyatt Regency Boston.
 - Omni brand (2): Omni Boston Hotel at the Seaport, Omni Parker House.
+- Accor brand (2): Fairmont Copley Plaza, Raffles Boston — both were
+  previously mislabeled `brand: "independent"`; see Key discoveries above.
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
@@ -396,21 +436,26 @@ to the brand's own corporate site):**
 
 **Not yet automated (no scraper built yet):**
 - IHG (1): InterContinental Boston
-- Independent/other (13): Battery Wharf, Bostonian, Colonnade, Copley
-  Square, Dagny, Encore Boston Harbor, Fairmont Copley Plaza, Hotel AKA
-  Back Bay, Hotel AKA Boston Common, Hotel Commonwealth, Lenox, Newbury
-  Boston, Raffles Boston
+- Independent/other (11): Battery Wharf, Bostonian, Colonnade, Copley
+  Square, Dagny, Encore Boston Harbor, Hotel AKA Back Bay, Hotel AKA
+  Boston Common, Hotel Commonwealth, Lenox, Newbury Boston — worth a
+  quick pass to check whether any of these are actually brand-affiliated
+  too (like Fairmont/Raffles turned out to be) before assuming they're
+  truly independent.
 
 ## Next steps (pick up in roughly this order)
-1. Remaining brand scrapers — IHG next (1 hotel), then the independents
-   (which will likely need per-hotel research rather than one shared
-   brand scraper). Worth checking each one for the ATS platform it runs
-   on first (Oracle Recruiting Cloud, Oracle Taleo, Dayforce, Workday,
-   iCIMS, etc. — see the Hilton/Hyatt/Omni discoveries above for what
-   that can look like) before assuming a Marriott-style DOM scrape is
-   needed — and don't assume a clean-looking API can be called directly
-   without real UI interaction just because Hilton's and Omni's could;
-   Hyatt's couldn't.
+1. Remaining brand scrapers — IHG next (1 hotel), then a re-check of the
+   remaining "independent" hotels for brand affiliations before doing
+   per-hotel research on whatever's genuinely independent (Fairmont and
+   Raffles both turned out to be mislabeled Accor properties — worth
+   ruling that out for the rest before treating them as one-off
+   research). Worth checking each one for the ATS platform it runs on
+   first (Oracle Recruiting Cloud, Oracle Taleo, Dayforce, Attrax,
+   Workday, iCIMS, etc. — see the Hilton/Hyatt/Omni/Accor discoveries
+   above for what that can look like) before assuming a Marriott-style
+   DOM scrape is needed — though don't assume it *isn't* needed either;
+   Accor's Attrax platform turned out to require full DOM scraping same
+   as Marriott, despite looking modern.
 2. Spot-check the career field classifier (`classifyDepartment()` in
    `hotel-jobs-map.html`) now that more brands' real job titles are
    flowing in — the keyword rules were tuned against the ~20 Marriott
@@ -447,10 +492,12 @@ to the brand's own corporate site):**
   Marriott doesn't expose a scrapable category field (see Key discoveries
   above), so department is inferred client-side from each job's title via
   keyword matching (`classifyDepartment()` in `hotel-jobs-map.html`),
-  falling back to the hand-curated `category` text where present. Hilton
-  and Hyatt jobs do carry a real scraped `category` (e.g. "Housekeeping
-  and Laundry", "Catering/Event Planning"), but the classifier doesn't
-  currently prefer it over the keyword guess — see next-steps item 2.
+  falling back to the hand-curated `category` text where present. Hilton,
+  Hyatt, and Accor jobs do carry a real scraped `category` (e.g.
+  "Housekeeping and Laundry", "Catering/Event Planning", "Food Beverage"
+  — Omni is the other exception with no category, same as Marriott), but
+  the classifier doesn't currently prefer it over the keyword guess — see
+  next-steps item 2.
   Anything that doesn't match a rule (sales, events, security, management
   titles, etc.) is classified `Other` and is only visible when no
   career-field filter is applied.

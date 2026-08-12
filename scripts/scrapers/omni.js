@@ -133,7 +133,10 @@ export async function scrapeOmniLocation(request, { locationId, locationString, 
  */
 export async function verifyJobLive(request, jobId) {
   const url = `${BASE}/en-US/${NAMESPACE}/${JOB_BOARD_CODE}/jobs/${jobId}`;
-  const res = await request.get(url, { headers: { Accept: 'text/html' } });
+  // Generous timeout: this specific request has been observed completing its
+  // headers quickly but taking a while to finish downloading the (gzipped,
+  // Cloudflare-fronted) body.
+  const res = await request.get(url, { headers: { Accept: 'text/html' }, timeout: 60000 });
   if (!res.ok()) return null;
   return { url };
 }

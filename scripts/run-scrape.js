@@ -34,6 +34,7 @@ import {
   parsePay as parseOmniPay,
   propertyMatches as omniPropertyMatches,
 } from './scrapers/omni.js';
+import { scrapeAccorProperty, verifyJobLive as verifyAccorJobLive } from './scrapers/accor.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DATA_PATH = path.join(ROOT, 'data.json');
@@ -152,9 +153,14 @@ async function scrapeHyattBrand(page, hotels) {
   // OR of every property searched so far. Verifying job details below
   // navigates the page away too, so it has to happen in a separate pass
   // after all searches are done.
+  // domcontentloaded, not networkidle: this page's continuous background
+  // analytics/tracking traffic can prevent networkidle from ever settling
+  // (observed 45s timeouts) — safe to drop since scrapeHyattProperty's own
+  // click/waitForFunction-based interactions already wait for the specific
+  // page state they need, not for the page's load event.
   const rawByHotel = new Map();
   for (const hotel of hotels) {
-    await page.goto('https://careers.hyatt.com/en-us/careers/search', { waitUntil: 'networkidle', timeout: 45000 });
+    await page.goto('https://careers.hyatt.com/en-us/careers/search', { waitUntil: 'domcontentloaded', timeout: 45000 });
     const propertyName = Array.isArray(hotel.scrape.propertyMatch) ? hotel.scrape.propertyMatch[0] : hotel.scrape.propertyMatch;
     rawByHotel.set(hotel.name, await scrapeHyattProperty(page, propertyName));
   }
@@ -210,7 +216,22 @@ async function scrapeOmniBrand(request, hotels) {
     const matches = allRaw.filter((j) => omniPropertyMatches(j.propertyName, hotel.scrape.propertyMatch));
     const enriched = [];
     for (const m of matches) {
-      const detail = await verifyOmniJobLive(request, m.id);
+      // The Dayforce job-detail endpoint has been observed to intermittently
+      // hang past even a generous timeout in this specific request pattern
+      // (fast headers, slow/stalled body) — one retry before giving up on
+      // this single job, rather than letting a transient network hiccup
+      // crash the entire multi-brand run.
+      let detail;
+      try {
+        detail = await verifyOmniJobLive(request, m.id);
+      } catch {
+        try {
+          detail = await verifyOmniJobLive(request, m.id);
+        } catch (err) {
+          console.error(`Omni: giving up verifying job ${m.id} after retry (${err.message})`);
+          continue;
+        }
+      }
       if (detail === null) continue; // closed/removed requisition — drop it (verify-before-including rule)
       const pay = parseOmniPay(m.description);
       enriched.push({
@@ -221,6 +242,38 @@ async function scrapeOmniBrand(request, hotels) {
         payMax: pay ? pay.payMax : null,
         payUnit: pay && pay.payUnit ? pay.payUnit : undefined,
         datePosted: m.postedDate,
+      });
+    }
+    byHotel.set(hotel.name, enriched);
+  }
+  return byHotel;
+}
+
+/**
+ * Accor's search results only render via full client-side JS hydration
+ * (see scripts/scrapers/accor.js), so this drives a real page like
+ * Marriott/Hyatt. Searches once per property directly by name (the
+ * keyword search doubles as the filter, like Hyatt) rather than a
+ * city/radius search.
+ */
+async function scrapeAccorBrand(page, hotels) {
+  const byHotel = new Map();
+  for (const hotel of hotels) {
+    const propertyName = Array.isArray(hotel.scrape.propertyMatch) ? hotel.scrape.propertyMatch[0] : hotel.scrape.propertyMatch;
+    const raw = await scrapeAccorProperty(page, propertyName);
+    const enriched = [];
+    for (const r of raw) {
+      const detail = await verifyAccorJobLive(page, r.url);
+      if (detail === null) continue; // closed/removed posting — drop it (verify-before-including rule)
+      const pay = detail.pay;
+      enriched.push({
+        title: r.title,
+        url: detail.url,
+        jobId: r.id,
+        payMin: pay ? pay.payMin : null,
+        payMax: pay ? pay.payMax : null,
+        payUnit: pay && pay.payUnit ? pay.payUnit : undefined,
+        category: r.category,
       });
     }
     byHotel.set(hotel.name, enriched);
@@ -274,11 +327,13 @@ async function main() {
   const hiltonHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hilton');
   const hyattHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hyatt');
   const omniHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'omni');
+  const accorHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'accor');
 
   const prevMarriottTotal = marriottHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHiltonTotal = hiltonHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHyattTotal = hyattHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevOmniTotal = omniHotels.reduce((sum, h) => sum + h.jobs.length, 0);
+  const prevAccorTotal = accorHotels.reduce((sum, h) => sum + h.jobs.length, 0);
 
   const browser = await chromium.launch();
   // A realistic desktop UA is required for careers.hyatt.com, which 403s
@@ -292,15 +347,18 @@ async function main() {
   let scrapedByHotel;
   let hyattByHotel;
   let omniByHotel;
+  let accorByHotel;
   try {
     scrapedByHotel = await scrapeMarriottBrand(page, marriottHotels);
     hyattByHotel = await scrapeHyattBrand(page, hyattHotels);
     omniByHotel = await scrapeOmniBrand(page.context().request, omniHotels);
+    accorByHotel = await scrapeAccorBrand(page, accorHotels);
   } finally {
     await browser.close();
   }
   for (const [hotelName, jobs] of hyattByHotel) scrapedByHotel.set(hotelName, jobs);
   for (const [hotelName, jobs] of omniByHotel) scrapedByHotel.set(hotelName, jobs);
+  for (const [hotelName, jobs] of accorByHotel) scrapedByHotel.set(hotelName, jobs);
 
   const hiltonByHotel = await scrapeHiltonBrand(hiltonHotels);
   for (const [hotelName, jobs] of hiltonByHotel) scrapedByHotel.set(hotelName, jobs);
@@ -309,6 +367,7 @@ async function main() {
   const newHiltonTotal = hiltonHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHyattTotal = hyattHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newOmniTotal = omniHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+  const newAccorTotal = accorHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
 
   // Guardrail: if any brand's scrape comes back completely empty while the
   // previous run had jobs for that brand, treat the whole run as unreliable
@@ -320,6 +379,7 @@ async function main() {
   if (newHiltonTotal === 0 && prevHiltonTotal > 0) brokenBrands.push(`Hilton (${hiltonHotels.length} properties, had ${prevHiltonTotal})`);
   if (newHyattTotal === 0 && prevHyattTotal > 0) brokenBrands.push(`Hyatt (${hyattHotels.length} properties, had ${prevHyattTotal})`);
   if (newOmniTotal === 0 && prevOmniTotal > 0) brokenBrands.push(`Omni (${omniHotels.length} properties, had ${prevOmniTotal})`);
+  if (newAccorTotal === 0 && prevAccorTotal > 0) brokenBrands.push(`Accor (${accorHotels.length} properties, had ${prevAccorTotal})`);
 
   if (brokenBrands.length) {
     const report = {
@@ -333,7 +393,7 @@ async function main() {
     return;
   }
 
-  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni']);
+  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor']);
   const historyLines = [];
   const perHotelCounts = [];
 
@@ -361,8 +421,9 @@ async function main() {
     hiltonPropertiesScraped: hiltonHotels.length,
     hyattPropertiesScraped: hyattHotels.length,
     omniPropertiesScraped: omniHotels.length,
-    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal,
-    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal,
+    accorPropertiesScraped: accorHotels.length,
+    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal,
+    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal,
     historyEventsWritten: historyLines.length,
     perHotelCounts,
     bigDrops: perHotelCounts.filter((c) => c.before >= 3 && c.after === 0),

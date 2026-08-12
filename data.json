@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-11T21:12:41.880Z",
+  "generatedAt": "2026-08-12T06:24:47.368Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -195,9 +195,211 @@
       "city": "Boston",
       "lat": 42.3490335,
       "lng": -71.076239,
-      "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "brand": "accor",
+      "scrape": {
+        "source": "accor",
+        "propertyMatch": "Fairmont Copley Plaza Boston"
+      },
+      "jobs": [
+        {
+          "title": "Fairmont Gold Attendant",
+          "payMin": 26.9,
+          "payMax": 26.9,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/fairmont-gold-attendant-in-fairmont-copley-plaza-boston-boston-united-states-jid-105313",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "OAK Long Bar + Kitchen General Manager",
+          "payMin": 100000,
+          "payMax": 104000,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-general-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-103788",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Executive Chef",
+          "payMin": 135000,
+          "payMax": 150000,
+          "category": "Culinary",
+          "url": "https://careers.accor.com/global/en/job/executive-chef-in-fairmont-copley-plaza-boston-boston-united-states-jid-103941",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Banquet House Attendant",
+          "payMin": 26.95,
+          "payMax": 26.95,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/banquet-house-attendant-in-fairmont-copley-plaza-boston-boston-united-states-jid-88119",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Sous Chef",
+          "payMin": 74000,
+          "payMax": 77000,
+          "category": "Culinary",
+          "url": "https://careers.accor.com/global/en/job/sous-chef-in-fairmont-copley-plaza-boston-boston-united-states-jid-87625",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Part-Time Executive Meeting Specialist",
+          "payMin": 30,
+          "payMax": 30,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/part-time-executive-meeting-specialist-in-fairmont-copley-plaza-boston-boston-united-states-jid-103940",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Front Desk Agent",
+          "payMin": 26.98,
+          "payMax": 26.98,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/front-desk-agent-in-fairmont-copley-plaza-boston-boston-united-states-jid-49598",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Banquet Manager",
+          "payMin": 75000,
+          "payMax": 77000,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/banquet-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-80570",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Room Attendant",
+          "payMin": 26.95,
+          "payMax": 26.95,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/room-attendant-in-fairmont-copley-plaza-boston-boston-united-states-jid-96556",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Room Attendant - PM",
+          "payMin": 26.95,
+          "payMax": 26.95,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/room-attendant-pm-in-fairmont-copley-plaza-boston-boston-united-states-jid-96555",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Banquet Cook",
+          "payMin": 27.63,
+          "payMax": 27.63,
+          "category": "Culinary",
+          "url": "https://careers.accor.com/global/en/job/banquet-cook-in-fairmont-copley-plaza-boston-boston-united-states-jid-96540",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Bell Attendant",
+          "payMin": 19.79,
+          "payMax": 19.79,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/bell-attendant-in-fairmont-copley-plaza-boston-boston-united-states-jid-105322",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Health Club Attendant - Part Time",
+          "payMin": 27.25,
+          "payMax": 27.25,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/health-club-attendant-part-time-in-fairmont-copley-plaza-boston-boston-united-states-jid-96541",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Marketing & Communications Coordinator",
+          "payMin": 30.5,
+          "payMax": 30.5,
+          "category": "Sales Marketing",
+          "url": "https://careers.accor.com/global/en/job/marketing-and-communications-coordinator-in-fairmont-copley-plaza-boston-boston-united-states-jid-105311",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "OAK Long Bar + Kitchen Barback",
+          "payMin": 26.87,
+          "payMax": 26.87,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-barback-in-fairmont-copley-plaza-boston-boston-united-states-jid-105308",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Front Office Assistant Manager",
+          "payMin": null,
+          "payMax": null,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/front-office-assistant-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-105893",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Overnight Cleaner",
+          "payMin": 26.95,
+          "payMax": 26.95,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/overnight-cleaner-in-fairmont-copley-plaza-boston-boston-united-states-jid-105889",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Assistant Banquet Manager",
+          "payMin": 72000,
+          "payMax": 74000,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/assistant-banquet-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-105309",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "OAK Long Bar + Kitchen Assistant Manager",
+          "payMin": 70000,
+          "payMax": 70000,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-assistant-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-97552",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "OAK Long Bar + Kitchen Server",
+          "payMin": 12.25,
+          "payMax": 12.25,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-server-in-fairmont-copley-plaza-boston-boston-united-states-jid-105310",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "OAK Long Bar + Kitchen Host/Hostess",
+          "payMin": 27.03,
+          "payMax": 27.03,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-host-hostess-in-fairmont-copley-plaza-boston-boston-united-states-jid-105323",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "OAK Long Bar + Kitchen Server Assistant",
+          "payMin": 24.25,
+          "payMax": 24.25,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-server-assistant-in-fairmont-copley-plaza-boston-boston-united-states-jid-97684",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "On-Call Banquet Bartender",
+          "payMin": 23.19,
+          "payMax": 23.19,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/on-call-banquet-bartender-in-fairmont-copley-plaza-boston-boston-united-states-jid-97573",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Steward",
+          "payMin": 27.07,
+          "payMax": 27.07,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/steward-in-fairmont-copley-plaza-boston-boston-united-states-jid-96593",
+          "firstSeen": "2026-08-12"
+        }
+      ]
     },
     {
       "name": "Hampton Inn Crosstown",
@@ -443,16 +645,7 @@
         "source": "hyatt",
         "propertyMatch": "Hyatt Regency Boston"
       },
-      "jobs": [
-        {
-          "title": "Assistant Director of Event Planning",
-          "payMin": null,
-          "payMax": null,
-          "category": "Catering/Event Planning",
-          "url": "https://careers.hyatt.com/en-us/careers/jobdetails/10780/BOS002795",
-          "firstSeen": "2026-07-20"
-        }
-      ]
+      "jobs": []
     },
     {
       "name": "InterContinental Boston",
@@ -875,9 +1068,120 @@
       "city": "Boston",
       "lat": 42.3485405,
       "lng": -71.0748711,
-      "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "brand": "accor",
+      "scrape": {
+        "source": "accor",
+        "propertyMatch": "Raffles Boston"
+      },
+      "jobs": [
+        {
+          "title": "Sales Manager-Generalist",
+          "payMin": 77500,
+          "payMax": 82500,
+          "category": "Sales",
+          "url": "https://careers.accor.com/global/en/job/sales-manager-generalist-in-raffles-boston-boston-united-states-jid-100554",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Part Time Residence Butler",
+          "payMin": 31.2,
+          "payMax": 34.66,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/part-time-residence-butler-in-raffles-boston-boston-united-states-jid-99764",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Overnight Front Desk Agent",
+          "payMin": 28.8,
+          "payMax": 32,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/overnight-front-desk-agent-in-raffles-boston-boston-united-states-jid-93612",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Overnight Guest Experience Specialist / Butler (Part Time)",
+          "payMin": 26.86,
+          "payMax": 29.84,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/overnight-guest-experience-specialist-butler-part-time-in-raffles-boston-boston-united-states-jid-102651",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Front Desk Agent",
+          "payMin": 27.81,
+          "payMax": 31,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/front-desk-agent-in-raffles-boston-boston-united-states-jid-93607",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Room Attendant",
+          "payMin": 23.07,
+          "payMax": 32.95,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/room-attendant-in-raffles-boston-boston-united-states-jid-80094",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "House Attendant",
+          "payMin": 23.07,
+          "payMax": 32.95,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/house-attendant-in-raffles-boston-boston-united-states-jid-92052",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Overnight Private Dining Server",
+          "payMin": 24.1,
+          "payMax": 26.78,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/overnight-private-dining-server-in-raffles-boston-boston-united-states-jid-104986",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Staff Accountant",
+          "payMin": 75000,
+          "payMax": 80000,
+          "category": "Finance",
+          "url": "https://careers.accor.com/global/en/job/staff-accountant-in-raffles-boston-boston-united-states-jid-104987",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Turndown Attendant",
+          "payMin": 23.07,
+          "payMax": 32.95,
+          "category": "Rooms",
+          "url": "https://careers.accor.com/global/en/job/turndown-attendant-in-raffles-boston-boston-united-states-jid-96840",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Director of Residences",
+          "payMin": 190000,
+          "payMax": 212000,
+          "category": "Executive Hotel Management",
+          "url": "https://careers.accor.com/global/en/job/director-of-residences-in-raffles-boston-boston-united-states-jid-100171",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Part Time Overnight Private Dining Server",
+          "payMin": 16.69,
+          "payMax": 18.54,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/part-time-overnight-private-dining-server-in-raffles-boston-boston-united-states-jid-101535",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Banquet House Attendant",
+          "payMin": 26.88,
+          "payMax": 29.87,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/banquet-house-attendant-in-raffles-boston-boston-united-states-jid-92413",
+          "firstSeen": "2026-08-12"
+        }
+      ]
     },
     {
       "name": "Renaissance Boston Seaport",
