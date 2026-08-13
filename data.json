@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T15:42:05.303Z",
+  "generatedAt": "2026-08-13T19:16:27.899Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -645,8 +645,86 @@
       "lat": 42.3536908,
       "lng": -71.0519125,
       "brand": "ihg",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "ihg",
+        "propertyMatch": "IC - Boston (BOSHA)"
+      },
+      "jobs": [
+        {
+          "title": "Reservations Agent",
+          "payMin": 30.13,
+          "payMax": 34.13,
+          "category": "Hotel-Operations",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/164844",
+          "firstSeen": "2026-08-07"
+        },
+        {
+          "title": "Front Desk Agent",
+          "payMin": 30,
+          "payMax": 32.2,
+          "category": "Hotel-Front Office",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/165871",
+          "firstSeen": "2026-07-16"
+        },
+        {
+          "title": "Part Time Bartender",
+          "payMin": 18.25,
+          "payMax": 18.25,
+          "category": "Hotel-Food and Beverage",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/165872",
+          "firstSeen": "2026-07-16"
+        },
+        {
+          "title": "Food & Beverage Manager",
+          "payMin": 75000,
+          "payMax": 81000,
+          "category": "Hotel-Food and Beverage",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/165893",
+          "firstSeen": "2026-07-16",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Catering and Conference Services Manager",
+          "payMin": 70000,
+          "payMax": 72000,
+          "category": "Hotel-Operations",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/165353",
+          "firstSeen": "2026-07-06",
+          "payUnit": "annual"
+        },
+        {
+          "title": "People & Culture Intern",
+          "payMin": null,
+          "payMax": null,
+          "category": "Hotel-Human Resources",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/164723",
+          "firstSeen": "2026-06-23"
+        },
+        {
+          "title": "Executive Steward",
+          "payMin": null,
+          "payMax": null,
+          "category": "Hotel-Operations",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/159434",
+          "firstSeen": "2026-02-24"
+        },
+        {
+          "title": "Lead Banquet Houseperson",
+          "payMin": null,
+          "payMax": null,
+          "category": "Hotel-Operations",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/157511",
+          "firstSeen": "2026-02-02"
+        },
+        {
+          "title": "Houseperson Banquet",
+          "payMin": null,
+          "payMax": null,
+          "category": "Hotel-Operations",
+          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/156154",
+          "firstSeen": "2025-12-16"
+        }
+      ]
     },
     {
       "name": "Le Meridien Cambridge",
@@ -749,14 +827,6 @@
           "category": null,
           "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/1239",
           "firstSeen": "2026-08-11"
-        },
-        {
-          "title": "Banquet Kitchen Supervisor",
-          "payMin": 35.18,
-          "payMax": 35.18,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/20510",
-          "firstSeen": "2026-08-03"
         },
         {
           "title": "Utility Steward",
@@ -977,15 +1047,6 @@
           "category": null,
           "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/10723",
           "firstSeen": "2026-07-29"
-        },
-        {
-          "title": "Director of Human Resources",
-          "payMin": 135000,
-          "payMax": 160000,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/22039",
-          "firstSeen": "2026-07-27",
-          "payUnit": "annual"
         },
         {
           "title": "Rounds Cook",

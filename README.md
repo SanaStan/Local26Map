@@ -32,6 +32,7 @@ package.json, scripts/      the scraper (Node + Playwright)
   scripts/scrapers/omni.js     brand-specific scraper module (Playwright request client, no page render)
   scripts/scrapers/accor.js    brand-specific scraper module (Playwright DOM scrape)
   scripts/scrapers/aimbridge.js management-company scraper module (plain public REST API)
+  scripts/scrapers/ihg.js      brand-specific scraper module (plain public REST API)
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -399,6 +400,35 @@ Marriott's.
   is a signal worth checking against Aimbridge (or another management
   company), not just assumed to mean "no one's hiring there right now."
 
+## Key discoveries about IHG (careers.ihg.com)
+- **Also Oracle Recruiting Cloud** — the same ATS product as Hilton, just
+  a different hostname
+  (`fa-evax-saasfaprod1.fa.ocs.oraclecloud.com`) and site number
+  (`CX_1001` vs Hilton's `CX_1009`). Same public unauthenticated REST
+  API, same endpoint shapes, same radius-search-then-verify-by-detail
+  pattern — `ihg.js` is structurally a near-copy of `hilton.js`. Worth
+  checking whether a new brand shares infrastructure with one already
+  built before assuming everything needs fresh reverse-engineering; two
+  of six brand/management-company scrapers so far have turned out to run
+  on Oracle Recruiting Cloud.
+- **Pay comes from a "Hiring Salary" flex field** (Hilton's equivalent is
+  just called "Salary") in a different format: no `$` sign and no unit
+  suffix at all, just "USD 30.00 - 32.20" or "USD 75,000.00 -
+  81,000.00" — magnitude alone decides `payUnit` here, there's no unit
+  word to even cross-check against, unlike everywhere else this comes
+  up. Several jobs have no salary field at all (empty
+  `requisitionFlexFields`), same as Hilton's zero-posting properties.
+- **Job titles carry a redundant "- {Hotel Name}" suffix** with
+  inconsistent hyphen spacing (e.g. "Front Desk Agent - InterContinental
+  Boston" vs "Executive Steward- InterContinental Boston") — same
+  cosmetic issue as Aimbridge's prefix, opposite end. Stripped in
+  `run-scrape.js`'s `scrapeIhgBrand`, not in `ihg.js` itself: the
+  suffix text is the hotel's public brand name ("InterContinental
+  Boston"), which doesn't match the internal work-location code
+  (`propertyMatch`, e.g. "IC - Boston (BOSHA)") the scraper module
+  actually has on hand — but `run-scrape.js` already has each hotel's
+  `data.json` display name available, which happens to match exactly.
+
 ## Data model
 `data.json`:
 ```json
@@ -496,6 +526,7 @@ report but don't block the commit.
   `brand: "marriott"` (it's a real Westin), but its `scrape.source` is
   `"aimbridge"`: careers.marriott.com currently shows zero jobs for it,
   its real postings are on Aimbridge's site — see Key discoveries above.
+- IHG brand (1): InterContinental Boston.
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
@@ -526,7 +557,6 @@ to the brand's own corporate site):**
   consistently returning zero jobs.
 
 **Not yet automated (no scraper built yet):**
-- IHG (1): InterContinental Boston
 - Independent/other, unconfirmed management (10): Battery Wharf,
   Bostonian, Colonnade, Copley Square, Encore Boston Harbor, Hotel AKA
   Back Bay, Hotel AKA Boston Common, Hotel Commonwealth, Lenox, Newbury
@@ -548,17 +578,19 @@ to the brand's own corporate site):**
    (brand-flagged, but its own brand's site has gone to zero jobs while
    the real postings moved to Aimbridge or another management company) —
    that was found by chance, not by a systematic check.
-2. Remaining brand scrapers — IHG next (1 hotel), then a re-check of the
-   remaining "independent" hotels for brand *and* management-company
-   affiliations before doing per-hotel research on whatever's genuinely
-   independent (Fairmont and Raffles turned out to be mislabeled Accor
-   properties; several others may be Aimbridge- or other-management-
-   company-managed like Dagny — worth ruling both out before treating a
-   hotel as one-off research). Worth checking each one for the ATS
-   platform it runs on first (Oracle Recruiting Cloud, Oracle Taleo,
-   Dayforce, Attrax, Fountain, Workday, iCIMS, etc. — see the
-   Hilton/Hyatt/Omni/Accor/Aimbridge discoveries above for what that can
-   look like) before assuming a Marriott-style DOM scrape is needed —
+2. Remaining hotels — a re-check of the remaining "independent" hotels
+   for brand *and* management-company affiliations before doing
+   per-hotel research on whatever's genuinely independent (Fairmont and
+   Raffles turned out to be mislabeled Accor properties; several others
+   may be Aimbridge- or other-management-company-managed like Dagny —
+   worth ruling both out before treating a hotel as one-off research).
+   Worth checking each one for the ATS platform it runs on first (Oracle
+   Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, Workday,
+   iCIMS, etc. — see the Hilton/Hyatt/Omni/Accor/Aimbridge/IHG
+   discoveries above for what that can look like — two of six so far
+   turned out to share the same Oracle Recruiting Cloud infrastructure,
+   worth checking for reuse before assuming a fresh build is needed)
+   before assuming a Marriott-style DOM scrape is needed —
    though don't assume it *isn't* needed either; Accor's Attrax platform
    turned out to require full DOM scraping same as Marriott, despite
    looking modern.
@@ -599,11 +631,11 @@ to the brand's own corporate site):**
   above), so department is inferred client-side from each job's title via
   keyword matching (`classifyDepartment()` in `hotel-jobs-map.html`),
   falling back to the hand-curated `category` text where present. Hilton,
-  Hyatt, and Accor jobs do carry a real scraped `category` (e.g.
-  "Housekeeping and Laundry", "Catering/Event Planning", "Food Beverage"
-  — Omni is the other exception with no category, same as Marriott), but
-  the classifier doesn't currently prefer it over the keyword guess — see
-  next-steps item 2.
+  Hyatt, Accor, and IHG jobs do carry a real scraped `category` (e.g.
+  "Housekeeping and Laundry", "Catering/Event Planning", "Food Beverage",
+  "Hotel-Front Office" — Omni and Aimbridge are the other exceptions with
+  no category, same as Marriott), but the classifier doesn't currently
+  prefer it over the keyword guess — see next-steps item 2.
   Anything that doesn't match a rule (sales, events, security, management
   titles, etc.) is classified `Other` and is only visible when no
   career-field filter is applied.
