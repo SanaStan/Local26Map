@@ -31,6 +31,7 @@ package.json, scripts/      the scraper (Node + Playwright)
   scripts/scrapers/hyatt.js    brand-specific scraper module (Playwright, drives real UI)
   scripts/scrapers/omni.js     brand-specific scraper module (Playwright request client, no page render)
   scripts/scrapers/accor.js    brand-specific scraper module (Playwright DOM scrape)
+  scripts/scrapers/aimbridge.js management-company scraper module (plain public REST API) — wired in, no hotels configured yet
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -326,6 +327,64 @@ Marriott's.
   as freeform text in the job's own detail page description, extracted
   the same way (every dollar figure found, min/max span).
 
+## Key discoveries about Aimbridge Hospitality (careers.aimbridge.fountain.com)
+- **Aimbridge is a third-party hotel management company, not a brand** —
+  it doesn't own or franchise hotels, it operates them for whoever does,
+  across 1,400+ properties and dozens of different brands (and unbranded
+  independents). A hotel nominally tagged `brand: "independent"` on this
+  project's list can still be Aimbridge-managed and post through
+  Aimbridge's own careers site rather than any brand's — this is a
+  distinct axis from brand affiliation (Fairmont/Raffles turning out to
+  be Accor-affiliated, found while doing Accor, is the brand-axis version
+  of the same lesson).
+- **Runs on Fountain**, a fourth-again distinct ATS. Its JSON API
+  (`aimbridge.fountain.com/internal_api/career_site/...`) is public and
+  unauthenticated for the main `openings` search and the job-verification
+  endpoint — plain `fetch()` works cold, closer to Hilton's setup than
+  Hyatt's or Accor's. The one exception is the location-*suggest*
+  endpoint (resolving a place name to a Google Place ID), which 500s
+  under plain Node `fetch()` but works under Playwright's
+  `context.request` — same fetch-vs-browser fingerprinting quirk seen
+  with Hyatt/Omni. Rather than pull in a Playwright dependency for that
+  one lookup, `aimbridge.js` just hardcodes Boston's Place ID as a
+  constant (`BOSTON_PLACE_ID`) — Google Place IDs are stable, and this
+  project only ever cares about the Boston metro anyway.
+- **`radius` only accepts the literal string `"any"`** — passing an
+  actual mile figure (tried 5–100) returns zero results every time. So a
+  search returns Aimbridge's *entire* ~1,450-job nationwide portfolio,
+  sorted by distance from the given Place ID; `scrapeAimbridgeLocation`
+  caps pagination at 20 pages (200 jobs), verified empirically to
+  comfortably cover all of Massachusetts from a Boston center point
+  before results drift into Connecticut and beyond.
+- **`pay_rate` is a clean structured field** (e.g. "$28.00 -
+  $32.00/hour", "$110,000.00/year") — no freeform-description parsing
+  needed, unlike Omni/Accor. Its `/hour` vs `/year` unit label is
+  occasionally a data-entry typo in Aimbridge's own system (observed
+  "$120,000.00 - $130,000.00/hour" and "$16.00/year" — both clearly
+  wrong by an order of magnitude), so `parsePay()` uses magnitude, not
+  the label, to decide `payUnit` — same heuristic used everywhere else
+  this comes up.
+- **No hotel on the list currently has a `scrape.source: "aimbridge"`
+  entry** — despite the user identifying several nominally-independent
+  hotels as Aimbridge-managed (Dagny Boston confirmed one, via a
+  DiamondRock/Aimbridge press release), an exhaustive check against
+  Aimbridge's *entire* nationwide job list (all ~1,450 postings, not
+  just ones near Boston) found zero matches for any of the 11
+  "independent" hotels on this project's list — including Dagny, which
+  the user had already flagged as having no current postings. Independent
+  web research also actively contradicted Aimbridge management for
+  several others (Colonnade: described as family-owned independent;
+  Newbury Boston: Teneo Hospitality Group; Hotel Commonwealth: associated
+  with Sage Hospitality Group) — so this isn't just "no current postings
+  yet," several of the 11 may not be Aimbridge-managed at all. The
+  scraper module and its orchestration in `run-scrape.js` are fully
+  wired in and tested against Aimbridge's real live data (confirmed
+  working end-to-end against an unrelated real posting, "Westin Boston
+  Seaport District - Concierge") — a hotel just needs a `scrape` config
+  added to `data.json` once (a) its Aimbridge management is confirmed
+  and (b) it has a live posting to confirm the exact property-name string
+  Aimbridge uses for it against.
+
 ## Data model
 `data.json`:
 ```json
@@ -434,29 +493,52 @@ to the brand's own corporate site):**
   on excluded aggregators — see Key discoveries above, don't re-add
   without re-checking)
 
+**Scraper built and wired in, but not yet applied to any hotel:**
+- Aimbridge Hospitality — a management company, not a brand (see Key
+  discoveries above). Dagny Boston is confirmed Aimbridge-managed but
+  currently has zero live postings to confirm its exact Aimbridge
+  property name against; the same exhaustive check found zero postings
+  for every other candidate hotel too, and independent research actively
+  contradicts Aimbridge management for a few of them (Colonnade,
+  Newbury Boston, Hotel Commonwealth). Add a `scrape: {source:
+  "aimbridge", propertyMatch: "..."}` entry for a hotel once (a) its
+  Aimbridge management is confirmed and (b) it has a live posting to
+  confirm the property name against.
+
 **Not yet automated (no scraper built yet):**
 - IHG (1): InterContinental Boston
-- Independent/other (11): Battery Wharf, Bostonian, Colonnade, Copley
-  Square, Dagny, Encore Boston Harbor, Hotel AKA Back Bay, Hotel AKA
-  Boston Common, Hotel Commonwealth, Lenox, Newbury Boston — worth a
-  quick pass to check whether any of these are actually brand-affiliated
-  too (like Fairmont/Raffles turned out to be) before assuming they're
-  truly independent.
+- Independent/other, unconfirmed management (10): Battery Wharf,
+  Bostonian, Colonnade, Copley Square, Encore Boston Harbor, Hotel AKA
+  Back Bay, Hotel AKA Boston Common, Hotel Commonwealth, Lenox, Newbury
+  Boston — worth a quick pass to check whether any of these are actually
+  brand-affiliated (like Fairmont/Raffles turned out to be) or managed by
+  Aimbridge or another management company before assuming they're truly
+  independent-independent.
 
 ## Next steps (pick up in roughly this order)
-1. Remaining brand scrapers — IHG next (1 hotel), then a re-check of the
-   remaining "independent" hotels for brand affiliations before doing
-   per-hotel research on whatever's genuinely independent (Fairmont and
-   Raffles both turned out to be mislabeled Accor properties — worth
-   ruling that out for the rest before treating them as one-off
-   research). Worth checking each one for the ATS platform it runs on
-   first (Oracle Recruiting Cloud, Oracle Taleo, Dayforce, Attrax,
-   Workday, iCIMS, etc. — see the Hilton/Hyatt/Omni/Accor discoveries
-   above for what that can look like) before assuming a Marriott-style
-   DOM scrape is needed — though don't assume it *isn't* needed either;
-   Accor's Attrax platform turned out to require full DOM scraping same
-   as Marriott, despite looking modern.
-2. Spot-check the career field classifier (`classifyDepartment()` in
+1. **Watch for the first live Aimbridge posting.** Dagny Boston (and
+   possibly other still-unconfirmed hotels on the independent list) is
+   Aimbridge-managed but has no current postings anywhere in Aimbridge's
+   system to confirm an exact property-name string against — the scraper
+   itself is done and tested (see Key discoveries above), it just needs
+   one confirmed hotel+posting to wire a `scrape` config in. Worth an
+   occasional manual check of `careers.aimbridge.fountain.com/aimbridge`
+   for "Dagny" or similar.
+2. Remaining brand scrapers — IHG next (1 hotel), then a re-check of the
+   remaining "independent" hotels for brand *and* management-company
+   affiliations before doing per-hotel research on whatever's genuinely
+   independent (Fairmont and Raffles turned out to be mislabeled Accor
+   properties; several others may be Aimbridge- or other-management-
+   company-managed like Dagny — worth ruling both out before treating a
+   hotel as one-off research). Worth checking each one for the ATS
+   platform it runs on first (Oracle Recruiting Cloud, Oracle Taleo,
+   Dayforce, Attrax, Fountain, Workday, iCIMS, etc. — see the
+   Hilton/Hyatt/Omni/Accor/Aimbridge discoveries above for what that can
+   look like) before assuming a Marriott-style DOM scrape is needed —
+   though don't assume it *isn't* needed either; Accor's Attrax platform
+   turned out to require full DOM scraping same as Marriott, despite
+   looking modern.
+3. Spot-check the career field classifier (`classifyDepartment()` in
    `hotel-jobs-map.html`) now that more brands' real job titles are
    flowing in — the keyword rules were tuned against the ~20 Marriott
    titles seen so far and will likely need new keywords (e.g.
@@ -466,21 +548,21 @@ to the brand's own corporate site):**
    the way the hand-curated Marriott `category` field already is.
    Consider whether "Other" should become a fourth filterable chip once
    there's enough volume in it to be useful.
-3. **Tune the career field filter to only display matching jobs.**
+4. **Tune the career field filter to only display matching jobs.**
    Right now `state.department` only decides which *hotels* show up
    (`matches()` keeps a hotel if any one of its jobs matches) — once a
    hotel qualifies, its card and map popup still list every job at that
    hotel, not just the ones in the selected department. Filtering should
    narrow the job list itself, not just which hotels appear.
-4. **Update the UI for job postings.** Revisit how individual job
+5. **Update the UI for job postings.** Revisit how individual job
    listings are presented (hotel card badges, map popup formatting) now
    that department tags and multi-job hotels are more common — current
    layout was designed around 1-3 jobs per hotel and may not hold up as
    more brands get scraped and hotels regularly show 5+ openings.
-5. Later: once `history.jsonl` has enough days of data to be interesting,
+6. Later: once `history.jsonl` has enough days of data to be interesting,
    consider surfacing posting duration ("posted X days ago") in the UI —
    deliberately deferred for now.
-6. Consider: does the user want RIPTA/commuter rail added later for
+7. Consider: does the user want RIPTA/commuter rail added later for
    completeness, or is MBTA subway sufficient? (Unrelated to the scraper
    work — held over from before.)
 

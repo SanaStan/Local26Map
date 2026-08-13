@@ -35,6 +35,13 @@ import {
   propertyMatches as omniPropertyMatches,
 } from './scrapers/omni.js';
 import { scrapeAccorProperty, verifyJobLive as verifyAccorJobLive } from './scrapers/accor.js';
+import {
+  BOSTON_PLACE_ID,
+  scrapeAimbridgeLocation,
+  verifyJobLive as verifyAimbridgeJobLive,
+  parsePay as parseAimbridgePay,
+  propertyMatches as aimbridgePropertyMatches,
+} from './scrapers/aimbridge.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DATA_PATH = path.join(ROOT, 'data.json');
@@ -281,6 +288,45 @@ async function scrapeAccorBrand(page, hotels) {
   return byHotel;
 }
 
+/**
+ * Aimbridge is a third-party hotel management company, not a brand — a
+ * handful of hotels on this project's list nominally tagged
+ * `brand: "independent"` are actually Aimbridge-managed and post jobs
+ * through Aimbridge's own careers site instead. Its API is plain
+ * unauthenticated fetch() (see scripts/scrapers/aimbridge.js), so — like
+ * Hilton — this takes no browser/request client at all. As of this
+ * writing no hotel on the list has a `scrape.source: "aimbridge"` entry
+ * yet (none of the suspected Aimbridge-managed hotels currently has a
+ * live posting to confirm its exact Aimbridge property name against —
+ * see README), so `hotels` here is normally empty and this is a no-op;
+ * it's wired in now so a hotel just needs a scrape config added once a
+ * posting appears to confirm against.
+ */
+async function scrapeAimbridgeBrand(hotels) {
+  const allRaw = await scrapeAimbridgeLocation(BOSTON_PLACE_ID);
+
+  const byHotel = new Map();
+  for (const hotel of hotels) {
+    const matches = allRaw.filter((j) => aimbridgePropertyMatches(j.propertyName, hotel.scrape.propertyMatch));
+    const enriched = [];
+    for (const m of matches) {
+      const detail = await verifyAimbridgeJobLive(m.applyUrl);
+      if (detail === null) continue; // closed/removed posting — drop it (verify-before-including rule)
+      const pay = parseAimbridgePay(m.payRate);
+      enriched.push({
+        title: m.title,
+        url: detail.url,
+        jobId: m.id,
+        payMin: pay ? pay.payMin : null,
+        payMax: pay ? pay.payMax : null,
+        payUnit: pay && pay.payUnit ? pay.payUnit : undefined,
+      });
+    }
+    byHotel.set(hotel.name, enriched);
+  }
+  return byHotel;
+}
+
 function diffHotelJobs(hotel, previousJobs, scrapedJobs, historyLines) {
   const prevByUrl = new Map(previousJobs.map((j) => [jobKey(j), j]));
   const newByUrl = new Map(scrapedJobs.map((j) => [jobKey(j), j]));
@@ -328,12 +374,14 @@ async function main() {
   const hyattHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hyatt');
   const omniHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'omni');
   const accorHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'accor');
+  const aimbridgeHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'aimbridge');
 
   const prevMarriottTotal = marriottHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHiltonTotal = hiltonHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHyattTotal = hyattHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevOmniTotal = omniHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevAccorTotal = accorHotels.reduce((sum, h) => sum + h.jobs.length, 0);
+  const prevAimbridgeTotal = aimbridgeHotels.reduce((sum, h) => sum + h.jobs.length, 0);
 
   const browser = await chromium.launch();
   // A realistic desktop UA is required for careers.hyatt.com, which 403s
@@ -363,11 +411,15 @@ async function main() {
   const hiltonByHotel = await scrapeHiltonBrand(hiltonHotels);
   for (const [hotelName, jobs] of hiltonByHotel) scrapedByHotel.set(hotelName, jobs);
 
+  const aimbridgeByHotel = await scrapeAimbridgeBrand(aimbridgeHotels);
+  for (const [hotelName, jobs] of aimbridgeByHotel) scrapedByHotel.set(hotelName, jobs);
+
   const newMarriottTotal = marriottHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHiltonTotal = hiltonHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHyattTotal = hyattHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newOmniTotal = omniHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newAccorTotal = accorHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+  const newAimbridgeTotal = aimbridgeHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
 
   // Guardrail: if any brand's scrape comes back completely empty while the
   // previous run had jobs for that brand, treat the whole run as unreliable
@@ -380,6 +432,7 @@ async function main() {
   if (newHyattTotal === 0 && prevHyattTotal > 0) brokenBrands.push(`Hyatt (${hyattHotels.length} properties, had ${prevHyattTotal})`);
   if (newOmniTotal === 0 && prevOmniTotal > 0) brokenBrands.push(`Omni (${omniHotels.length} properties, had ${prevOmniTotal})`);
   if (newAccorTotal === 0 && prevAccorTotal > 0) brokenBrands.push(`Accor (${accorHotels.length} properties, had ${prevAccorTotal})`);
+  if (newAimbridgeTotal === 0 && prevAimbridgeTotal > 0) brokenBrands.push(`Aimbridge (${aimbridgeHotels.length} properties, had ${prevAimbridgeTotal})`);
 
   if (brokenBrands.length) {
     const report = {
@@ -393,7 +446,7 @@ async function main() {
     return;
   }
 
-  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor']);
+  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge']);
   const historyLines = [];
   const perHotelCounts = [];
 
@@ -422,8 +475,9 @@ async function main() {
     hyattPropertiesScraped: hyattHotels.length,
     omniPropertiesScraped: omniHotels.length,
     accorPropertiesScraped: accorHotels.length,
-    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal,
-    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal,
+    aimbridgePropertiesScraped: aimbridgeHotels.length,
+    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal,
+    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal,
     historyEventsWritten: historyLines.length,
     perHotelCounts,
     bigDrops: perHotelCounts.filter((c) => c.before >= 3 && c.after === 0),

@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-12T06:24:47.368Z",
+  "generatedAt": "2026-08-13T03:25:32.137Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -140,14 +140,6 @@
           "category": "Food and Beverage",
           "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/218598",
           "firstSeen": "2026-08-07"
-        },
-        {
-          "title": "Administrative Coordinator",
-          "payMin": 28.33,
-          "payMax": 28.33,
-          "category": "Administration",
-          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/215563",
-          "firstSeen": "2026-07-31"
         },
         {
           "title": "Director of Hotel Operations",
@@ -524,6 +516,23 @@
       },
       "jobs": [
         {
+          "title": "Senior Banquet Manager - Hilton Boston Park Plaza",
+          "payMin": 85000,
+          "payMax": 85000,
+          "category": "Banquets",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/213377",
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Front Office Supervisor - Hilton Boston Park Plaza",
+          "payMin": 35,
+          "payMax": 35,
+          "category": "Guest Services, Operations, and Front Office",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/219038",
+          "firstSeen": "2026-08-12"
+        },
+        {
           "title": "Room Attendant - Hilton Boston Park Plaza",
           "payMin": 32.95,
           "payMax": 32.95,
@@ -624,16 +633,7 @@
         "source": "hyatt",
         "propertyMatch": "Hyatt Place Boston MA Seaport"
       },
-      "jobs": [
-        {
-          "title": "Guest Service Agent (Full Time, $33.20 hourly)",
-          "payMin": 33.2,
-          "payMax": 33.2,
-          "category": "Guest Services",
-          "url": "https://careers.hyatt.com/en-us/careers/jobdetails/10780/BOS002796",
-          "firstSeen": "2026-07-23"
-        }
-      ]
+      "jobs": []
     },
     {
       "name": "Hyatt Regency Boston",
@@ -1075,15 +1075,6 @@
       },
       "jobs": [
         {
-          "title": "Sales Manager-Generalist",
-          "payMin": 77500,
-          "payMax": 82500,
-          "category": "Sales",
-          "url": "https://careers.accor.com/global/en/job/sales-manager-generalist-in-raffles-boston-boston-united-states-jid-100554",
-          "firstSeen": "2026-08-12",
-          "payUnit": "annual"
-        },
-        {
           "title": "Part Time Residence Butler",
           "payMin": 31.2,
           "payMax": 34.66,
@@ -1138,15 +1129,6 @@
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/overnight-private-dining-server-in-raffles-boston-boston-united-states-jid-104986",
           "firstSeen": "2026-08-12"
-        },
-        {
-          "title": "Staff Accountant",
-          "payMin": 75000,
-          "payMax": 80000,
-          "category": "Finance",
-          "url": "https://careers.accor.com/global/en/job/staff-accountant-in-raffles-boston-boston-united-states-jid-104987",
-          "firstSeen": "2026-08-12",
-          "payUnit": "annual"
         },
         {
           "title": "Turndown Attendant",
@@ -1274,15 +1256,6 @@
           "firstSeen": "2026-07-23"
         },
         {
-          "title": "Senior Sous Chef",
-          "payMin": 74000,
-          "payMax": 97000,
-          "category": "Food and Beverage & Culinary",
-          "url": "https://careers.marriott.com/senior-sous-chef/job/E9EB643618F36E298C2E0F5B817E9607",
-          "firstSeen": "2026-06-29",
-          "payUnit": "annual"
-        },
-        {
           "title": "Housekeeping Attendant",
           "payMin": 31.95,
           "payMax": 31.95,
@@ -1378,6 +1351,14 @@
       },
       "jobs": [
         {
+          "title": "Pastry Cook",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://careers.marriott.com/pastry-cook/job/D48E267ACB64C0193536E19A248BBB33",
+          "firstSeen": "2026-08-12"
+        },
+        {
           "title": "Security & Safety Manager",
           "payMin": 65000,
           "payMax": 86000,
@@ -1401,7 +1382,7 @@
           "payMax": 92000,
           "category": null,
           "url": "https://careers.marriott.com/food-and-beverage-operations-manager/job/43CCB08AFB805F5CD531CE4675FAB175",
-          "firstSeen": "2026-08-11",
+          "firstSeen": "2026-08-12",
           "payUnit": "annual"
         },
         {
