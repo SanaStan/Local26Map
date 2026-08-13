@@ -649,6 +649,31 @@ to the brand's own corporate site):**
   Westin Boston Seaport discovery above) if its brand's own site is
   consistently returning zero jobs.
 
+**Highgate-managed, no scraper built yet — still need to confirm:**
+- Moxy Boston Downtown is Highgate-managed (confirmed via press coverage
+  of its 2019 opening, and by the user directly) rather than posting to
+  careers.marriott.com in its own right — `data.json` still has it tagged
+  `scrape.source: "marriott"` as a "re-check automatically in case that
+  changes" placeholder (see `scrapeNote`), which should be swapped for a
+  real Highgate scraper once there's a live posting to build/confirm
+  against. As of this pass, no live posting was found to confirm the
+  exact property-name string.
+- The Newbury Boston is also confirmed Highgate-managed (its own site
+  states Highgate purchased and rebranded the property in 2018) —
+  currently still tagged `brand: "independent"`/`scrape: null` on the
+  "not yet automated" list below; worth confirming alongside Moxy rather
+  than researching separately, since both would use the same scraper.
+- Highgate's careers platform is iCIMS (a candidate ATS already on the
+  radar — see next-steps below): a splash/intro page at
+  `externalhourly-highgate.icims.com/jobs/intro` links out to
+  `c-7242-20161032-highgate-com.i.icims.com`, but no working search
+  endpoint (query-string keyword params, e.g. `?searchKeyword=moxy`) was
+  found to return real results — likely because the actual job-search
+  widget on this particular career-site build only populates via live UI
+  interaction (autocomplete/click), the same problem hit early on with
+  Hyatt. Not pursued further since neither Moxy nor Newbury currently has
+  a live posting to test/confirm against anyway; revisit once one does.
+
 **Not yet automated (no scraper built yet):**
 - Independent/other, unconfirmed management (7): Battery Wharf,
   Colonnade, Copley Square, Encore Boston Harbor, Hotel Commonwealth,
@@ -660,18 +685,23 @@ to the brand's own corporate site):**
   independent-independent.
 
 ## Next steps (pick up in roughly this order)
-1. **Watch for the first live Aimbridge posting at Dagny specifically.**
+1. **Watch for the first live posting to confirm two known-but-unverified
+   management relationships: Dagny Boston (Aimbridge) and Moxy Boston
+   Downtown / The Newbury Boston (Highgate).** Both management companies
+   are confirmed correct — what's missing in both cases is a live posting
+   to confirm the exact property-name string (Aimbridge/Fountain) or a
+   working search path plus a live posting (Highgate/iCIMS — see Key
+   discoveries above for what's been tried and why it stalled) against.
    The Aimbridge scraper itself is confirmed working end-to-end against
-   real live data (it's already scraping Westin Boston Seaport daily —
-   see Key discoveries and status above); what's still missing is just a
-   posting at Dagny (or another confirmed-Aimbridge hotel) to confirm the
-   exact property-name string against. Worth an occasional manual check
-   of `careers.aimbridge.fountain.com/aimbridge` for "Dagny" or similar.
+   real live data elsewhere (it's already scraping Westin Boston Seaport
+   daily); Highgate has no scraper built yet at all. Worth an occasional
+   manual check of `careers.aimbridge.fountain.com/aimbridge` for "Dagny"
+   and of Highgate's iCIMS career site for "Moxy"/"Newbury" or similar.
    Also worth spot-checking whether any *other* currently-automated
    hotel is quietly in the same situation Westin Boston Seaport was in
    (brand-flagged, but its own brand's site has gone to zero jobs while
-   the real postings moved to Aimbridge or another management company) —
-   that was found by chance, not by a systematic check.
+   the real postings moved to Aimbridge, Highgate, or another management
+   company) — that was found by chance, not by a systematic check.
 2. Remaining hotels (7) — a re-check for brand *and* management-company
    affiliations before doing per-hotel research on whatever's genuinely
    independent (Fairmont and Raffles turned out to be mislabeled Accor
