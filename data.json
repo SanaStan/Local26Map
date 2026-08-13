@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T20:46:38.031Z",
+  "generatedAt": "2026-08-13T21:55:52.817Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -37,8 +37,28 @@
       "lat": 42.3609819,
       "lng": -71.0558644,
       "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "millennium",
+        "propertyMatch": "The Bostonian"
+      },
+      "jobs": [
+        {
+          "title": "Part Time | Hotel Front Desk Agent",
+          "payMin": 29.6,
+          "payMax": 29.6,
+          "category": null,
+          "url": "https://careers-usa.millenniumhotels.com/_/j/FFB2C02FC0/",
+          "firstSeen": "2026-08-05"
+        },
+        {
+          "title": "Part Time Night Auditor",
+          "payMin": 29.6,
+          "payMax": 29.6,
+          "category": null,
+          "url": "https://careers-usa.millenniumhotels.com/_/j/7DF513DBD3/",
+          "firstSeen": "2026-07-30"
+        }
+      ]
     },
     {
       "name": "Colonnade Hotel",
@@ -628,14 +648,6 @@
       },
       "jobs": [
         {
-          "title": "Server",
-          "payMin": 19.01,
-          "payMax": 19.01,
-          "category": null,
-          "url": "https://shkmngt.rec.pro.ukg.net/SHK1500SHKM/JobBoard/635285d1-2897-495a-b0bc-2b2c63e45d20/OpportunityDetail?opportunityId=564c05e7-4aa8-4a52-8ed6-a4f9f4580a56",
-          "firstSeen": "2026-08-07"
-        },
-        {
           "title": "Room Attendant",
           "payMin": 32.95,
           "payMax": 32.95,
@@ -1138,14 +1150,6 @@
           "category": null,
           "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21264",
           "firstSeen": "2026-07-21"
-        },
-        {
-          "title": "Associate Services - Human Resources Generalist",
-          "payMin": 35.04,
-          "payMax": 35.75,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/19695",
-          "firstSeen": "2026-07-06"
         },
         {
           "title": "Executive Sous Chef",

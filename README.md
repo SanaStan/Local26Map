@@ -473,6 +473,47 @@ Marriott's.
   `OpportunityIsClosed: true` (for a since-closed requisition) — both
   checked as the "verify before including" signal.
 
+## Key discoveries about Millennium Hotels & Resorts (Recruitee)
+- **A sixth distinct ATS**: Recruitee, used for The Bostonian, which is
+  managed by Millennium Hotels & Resorts rather than posting under its
+  own name — the same management-company pattern as Aimbridge/Westin
+  Boston Seaport, not a brand relationship. Found via a URL the user
+  supplied directly.
+- **Search filters by a numeric department ID, not a property name** —
+  passing a string is rejected outright
+  (`"department[0]" must be a number`). The ID has to be resolved first
+  via a separate `GET .../jobs/filters` endpoint, which lists every
+  department Millennium has ever posted under along with its name and
+  live-job count. `millennium.js`'s `findDepartmentId()` does this
+  lookup before every search.
+- **Pagination appears to exist (a `nextPage` cursor in the response)
+  but no working request parameter for it could be found** — every
+  plausible body/query-string name (`after`, `cursor`, `page`,
+  `pageToken`, `offset`, `skip`, etc.) was either rejected by strict
+  schema validation or silently ignored, and the site's own "Show more"
+  button didn't trigger a new network request even when clicked via
+  Playwright with `force: true`. Turned out not to matter: filtering by
+  department ID returns that single property's entire job list in one
+  page regardless of the chain-wide total, so no pagination is needed in
+  practice.
+  Search API is `v3`, but the per-job detail API is `v2`
+  (`/api/v2/accounts/.../jobs/{shortcode}`) — a version mismatch only
+  found by intercepting network traffic while navigating a job's real
+  public detail page, not by guessing from the search API's own version.
+- **No structured pay field in the job detail response** — only
+  free-text `description`/`requirements`/`benefits` fields, same
+  situation as Omni/Accor/Aimbridge. No consistent unit-word suffix
+  either (some postings say "/hr", most say nothing at all, including
+  annual figures), so `parsePay()` uses the same magnitude heuristic as
+  those brands: extract every dollar figure, take min/max, and treat
+  $200+ as `annual`. Verified against ~15 real postings spanning both
+  hourly and salaried roles with no stray/unrelated dollar-figure noise
+  to filter out.
+- **Closed/unpublished postings verified via a plain 404** on the detail
+  endpoint for a fully removed shortcode, or a `state` field other than
+  `"published"` for a real-but-unpublished requisition — both checked as
+  the "verify before including" signal.
+
 ## Data model
 `data.json`:
 ```json
@@ -574,6 +615,11 @@ report but don't block the commit.
 - Hotel AKA (2): Hotel AKA Back Bay, Hotel AKA Boston Common — small
   chain with its own careers site, not affiliated with any brand or
   management company scraped so far.
+- Millennium-managed (1): Bostonian Hotel — still tagged
+  `brand: "independent"` (no consumer-facing "Millennium" branding), but
+  its `scrape.source` is `"millennium"`: it posts through Millennium
+  Hotels & Resorts' own careers site rather than any aggregator or a
+  site of its own — see Key discoveries above.
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
@@ -604,14 +650,14 @@ to the brand's own corporate site):**
   consistently returning zero jobs.
 
 **Not yet automated (no scraper built yet):**
-- Independent/other, unconfirmed management (8): Battery Wharf,
-  Bostonian, Colonnade, Copley Square, Encore Boston Harbor, Hotel
-  Commonwealth, Lenox, Newbury Boston — worth a quick pass to check
-  whether any of these are actually brand-affiliated (like
-  Fairmont/Raffles turned out to be) or managed by Aimbridge or another
-  management company (like Westin Boston Seaport, or like Hotel AKA
-  turning out to run its own dedicated careers site) before assuming
-  they're truly independent-independent.
+- Independent/other, unconfirmed management (7): Battery Wharf,
+  Colonnade, Copley Square, Encore Boston Harbor, Hotel Commonwealth,
+  Lenox, Newbury Boston — worth a quick pass to check whether any of
+  these are actually brand-affiliated (like Fairmont/Raffles turned out
+  to be) or managed by Aimbridge, Millennium, or another management
+  company (like Westin Boston Seaport, or like Hotel AKA turning out to
+  run its own dedicated careers site) before assuming they're truly
+  independent-independent.
 
 ## Next steps (pick up in roughly this order)
 1. **Watch for the first live Aimbridge posting at Dagny specifically.**
@@ -626,20 +672,21 @@ to the brand's own corporate site):**
    (brand-flagged, but its own brand's site has gone to zero jobs while
    the real postings moved to Aimbridge or another management company) —
    that was found by chance, not by a systematic check.
-2. Remaining hotels (8) — a re-check for brand *and* management-company
+2. Remaining hotels (7) — a re-check for brand *and* management-company
    affiliations before doing per-hotel research on whatever's genuinely
    independent (Fairmont and Raffles turned out to be mislabeled Accor
    properties; several others may be Aimbridge- or other-management-
-   company-managed like Dagny; Hotel AKA turned out to have its own
-   dedicated careers site rather than being truly independent — worth
-   ruling all of these out before treating a hotel as one-off research).
+   company-managed like Dagny; Hotel AKA and Millennium/Bostonian turned
+   out to run their own/a third-party dedicated careers site rather than
+   being truly independent — worth ruling all of these out before
+   treating a hotel as one-off research).
    Worth checking each one for the ATS platform it runs on first (Oracle
    Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, UKG Pro
-   Recruiting, Workday, iCIMS, etc. — see the
-   Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA discoveries above for
-   what that can look like — two of seven so far turned out to share the
-   same Oracle Recruiting Cloud infrastructure, worth checking for reuse
-   before assuming a fresh build is needed) before assuming a
+   Recruiting, Recruitee, Workday, iCIMS, etc. — see the
+   Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA/Millennium discoveries
+   above for what that can look like — two of eight so far turned out to
+   share the same Oracle Recruiting Cloud infrastructure, worth checking
+   for reuse before assuming a fresh build is needed) before assuming a
    Marriott-style DOM scrape is needed —
    though don't assume it *isn't* needed either; Accor's Attrax platform
    turned out to require full DOM scraping same as Marriott, despite
@@ -683,8 +730,8 @@ to the brand's own corporate site):**
   falling back to the hand-curated `category` text where present. Hilton,
   Hyatt, Accor, and IHG jobs do carry a real scraped `category` (e.g.
   "Housekeeping and Laundry", "Catering/Event Planning", "Food Beverage",
-  "Hotel-Front Office" — Omni, Aimbridge, and Hotel AKA are the other
-  exceptions with no category, same as Marriott), but the classifier
+  "Hotel-Front Office" — Omni, Aimbridge, Hotel AKA, and Millennium are
+  the other exceptions with no category, same as Marriott), but the classifier
   doesn't currently prefer it over the keyword guess — see next-steps
   item 2.
   Anything that doesn't match a rule (sales, events, security, management
