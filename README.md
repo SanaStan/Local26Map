@@ -34,6 +34,8 @@ package.json, scripts/      the scraper (Node + Playwright)
   scripts/scrapers/aimbridge.js management-company scraper module (plain public REST API)
   scripts/scrapers/ihg.js      brand-specific scraper module (plain public REST API)
   scripts/scrapers/hotelaka.js small-chain scraper module (plain public REST API + embedded-JSON HTML parsing)
+  scripts/scrapers/millennium.js management-company scraper module (plain public REST API)
+  scripts/scrapers/highgate.js management-company scraper module (plain public HTML scrape + embedded ld+json parsing)
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -593,15 +595,18 @@ report but don't block the commit.
   Cambridge, Moxy Boston Downtown, Renaissance Boston Seaport,
   Ritz-Carlton Boston, Sheraton Boston, Sheraton Commander, W Boston,
   Westin Copley Place
-- Hilton brand (7): DoubleTree Suites Boston-Cambridge, Hampton Inn
-  Crosstown, Hampton Inn & Homewood Suites Seaport, Hilton Boston Back
-  Bay, Hilton Boston Logan Airport, Hilton Boston Park Plaza, Hilton
-  Garden Inn Boston Logan Airport. Three of these (Crosstown, Back Bay,
-  Garden Inn Logan) had zero open postings as of the scraper's build date
+- Hilton brand (7, but see note): DoubleTree Suites Boston-Cambridge,
+  Hampton Inn Crosstown, Hampton Inn & Homewood Suites Seaport, Hilton
+  Boston Back Bay, Hilton Boston Logan Airport, Hilton Boston Park Plaza,
+  Hilton Garden Inn Boston Logan Airport. Two of these (Crosstown, Garden
+  Inn Logan) had zero open postings as of the scraper's build date
   (2026-08-11), so their `scrape.propertyMatch` is a best-guess based on
-  Hilton's naming convention for the other four (confirmed exact via live
+  Hilton's naming convention for the other five (confirmed exact via live
   postings), not yet confirmed against a real listing — worth
   double-checking the first time one of them actually has a job posted.
+  Hilton Boston Back Bay is still `brand: "hilton"` but no longer scraped
+  from careers.hilton.com — see Highgate-managed below, its
+  `scrape.source` is now `"highgate"`.
 - Hyatt brand (2 of 3 — see excluded list below): Hyatt Place Boston
   Seaport District, Hyatt Regency Boston.
 - Omni brand (2): Omni Boston Hotel at the Seaport, Omni Parker House.
@@ -620,6 +625,12 @@ report but don't block the commit.
   its `scrape.source` is `"millennium"`: it posts through Millennium
   Hotels & Resorts' own careers site rather than any aggregator or a
   site of its own — see Key discoveries above.
+- Highgate-managed (2): The Newbury Boston (`brand: "independent"`,
+  confirmed via a live posting under the property name "The Newbury
+  Boston") and Hilton Boston Back Bay (`brand: "hilton"` — careers.hilton.com
+  was showing zero jobs for it while real postings are on Highgate's
+  site). `scrape.source: "highgate"` on both — see Key discoveries above
+  for the working search path (it took two earlier passes to find).
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
@@ -649,60 +660,74 @@ to the brand's own corporate site):**
   Westin Boston Seaport discovery above) if its brand's own site is
   consistently returning zero jobs.
 
-**Highgate-managed, no scraper built yet — still need to confirm:**
-- Moxy Boston Downtown is Highgate-managed (confirmed via press coverage
-  of its 2019 opening, and by the user directly) rather than posting to
-  careers.marriott.com in its own right — `data.json` still has it tagged
-  `scrape.source: "marriott"` as a "re-check automatically in case that
-  changes" placeholder (see `scrapeNote`), which should be swapped for a
-  real Highgate scraper once there's a live posting to build/confirm
-  against. As of this pass, no live posting was found to confirm the
-  exact property-name string.
-- The Newbury Boston is also confirmed Highgate-managed (its own site
-  states Highgate purchased and rebranded the property in 2018) —
-  currently still tagged `brand: "independent"`/`scrape: null` on the
-  "not yet automated" list below; worth confirming alongside Moxy rather
-  than researching separately, since both would use the same scraper.
-- Highgate's careers platform is iCIMS (a candidate ATS already on the
-  radar — see next-steps below): a splash/intro page at
-  `externalhourly-highgate.icims.com/jobs/intro` links out to
-  `c-7242-20161032-highgate-com.i.icims.com`, but no working search
-  endpoint (query-string keyword params, e.g. `?searchKeyword=moxy`) was
-  found to return real results — likely because the actual job-search
-  widget on this particular career-site build only populates via live UI
-  interaction (autocomplete/click), the same problem hit early on with
-  Hyatt. Not pursued further since neither Moxy nor Newbury currently has
-  a live posting to test/confirm against anyway; revisit once one does.
+**Highgate scraper live (`scripts/scrapers/highgate.js`) — the working
+search path:**
+- The splash/intro page at `externalhourly-highgate.icims.com/jobs/intro`
+  and keyword-param searches against it (e.g. `?searchKeyword=moxy`)
+  never worked — see history below. What did work: the site's actual
+  search-results page, `careershub-highgate.icims.com/jobs/search`, with
+  a `searchLocation` facet value copied from the site's own location
+  dropdown (`searchLocation=12781-12805-Boston`, an opaque iCIMS-internal
+  ID, not a computable zip/radius param — same as Aimbridge's Place ID)
+  plus `in_iframe=1` to get the bare results fragment. That single query
+  server-renders every open Highgate posting in the Boston area, no
+  browser/JS execution needed — plain `fetch()`. Pagination via `pr=N`;
+  page count is parsed from the results header's "Page X of Y" text.
+  Each job's own detail page embeds a schema.org `JobPosting` block
+  (`<script type="application/ld+json">`) with pay, property name, and
+  category — used both to enrich and to verify-before-including (a
+  removed/closed posting 410s outright).
+- Confirmed via this path: **The Newbury Boston** (13 live postings,
+  exact property-name string `"The Newbury Boston"`) — now automated,
+  `scrape.source: "highgate"`, no longer on the "not yet automated" list.
+  **Hilton Boston Back Bay** turned up too (5 postings) even though it's
+  scraped as a Hilton brand property — careers.hilton.com had been
+  quietly returning zero jobs for it while its real postings were on
+  Highgate's site all along (same pattern as the Westin Boston
+  Seaport/Aimbridge discovery: brand-flagged, brand site gone quiet,
+  management company has the real postings). Switched its
+  `scrape.source` to `"highgate"`; `brand` stays `"hilton"`.
+- **Moxy Boston Downtown** still has no live posting on Highgate's site
+  as of this pass (2026-08-13) — still Highgate-managed per prior
+  confirmation, but nothing to confirm the exact property-name string
+  against yet. `data.json` still has it tagged `scrape.source: "marriott"`
+  as a "re-check automatically in case that changes" placeholder; swap it
+  for `highgate` once a Moxy posting shows up in this same search.
+- The same Boston search also turned up two properties not on this
+  project's 41-hotel list at all: **The Atlas Hotel** (a brand-new
+  Highgate property, per its own job description text) and **Studio
+  Allston Hotel**. Not added here — worth asking the user whether either
+  belongs on Local 26's list before doing so, rather than assuming.
 
 **Not yet automated (no scraper built yet):**
-- Independent/other, unconfirmed management (7): Battery Wharf,
+- Independent/other, unconfirmed management (6): Battery Wharf,
   Colonnade, Copley Square, Encore Boston Harbor, Hotel Commonwealth,
-  Lenox, Newbury Boston — worth a quick pass to check whether any of
-  these are actually brand-affiliated (like Fairmont/Raffles turned out
-  to be) or managed by Aimbridge, Millennium, or another management
-  company (like Westin Boston Seaport, or like Hotel AKA turning out to
-  run its own dedicated careers site) before assuming they're truly
-  independent-independent.
+  Lenox — worth a quick pass to check whether any of these are actually
+  brand-affiliated (like Fairmont/Raffles turned out to be) or managed by
+  Aimbridge, Highgate, Millennium, or another management company (like
+  Westin Boston Seaport, Newbury Boston, or Hilton Boston Back Bay, or
+  like Hotel AKA turning out to run its own dedicated careers site)
+  before assuming they're truly independent-independent.
 
 ## Next steps (pick up in roughly this order)
-1. **Watch for the first live posting to confirm two known-but-unverified
-   management relationships: Dagny Boston (Aimbridge) and Moxy Boston
-   Downtown / The Newbury Boston (Highgate).** Both management companies
-   are confirmed correct — what's missing in both cases is a live posting
-   to confirm the exact property-name string (Aimbridge/Fountain) or a
-   working search path plus a live posting (Highgate/iCIMS — see Key
-   discoveries above for what's been tried and why it stalled) against.
-   The Aimbridge scraper itself is confirmed working end-to-end against
-   real live data elsewhere (it's already scraping Westin Boston Seaport
-   daily); Highgate has no scraper built yet at all. Worth an occasional
-   manual check of `careers.aimbridge.fountain.com/aimbridge` for "Dagny"
-   and of Highgate's iCIMS career site for "Moxy"/"Newbury" or similar.
-   Also worth spot-checking whether any *other* currently-automated
-   hotel is quietly in the same situation Westin Boston Seaport was in
-   (brand-flagged, but its own brand's site has gone to zero jobs while
-   the real postings moved to Aimbridge, Highgate, or another management
-   company) — that was found by chance, not by a systematic check.
-2. Remaining hotels (7) — a re-check for brand *and* management-company
+1. **Watch for the first live posting at Dagny Boston (or another
+   confirmed-Aimbridge hotel) to confirm its exact Aimbridge property-name
+   string.** Aimbridge management is confirmed correct and the scraper
+   itself is confirmed working end-to-end against real live data
+   elsewhere (it's already scraping Westin Boston Seaport daily) — what's
+   missing is just a posting to confirm the name against. Worth an
+   occasional manual check of `careers.aimbridge.fountain.com/aimbridge`
+   for "Dagny" or similar. (The equivalent Highgate gap closed this pass —
+   see Key discoveries above: Newbury Boston is now automated and Hilton
+   Boston Back Bay was found to be quietly Highgate- rather than
+   Hilton-sourced. Moxy Boston Downtown is the one Highgate-managed hotel
+   still waiting on a live posting.) Also worth spot-checking whether any
+   *other* currently-automated hotel is quietly in the same situation
+   Westin Boston Seaport and Hilton Boston Back Bay were in (brand-
+   flagged, but its own brand's site has gone to zero jobs while the real
+   postings moved to a management company) — both were found by chance,
+   not by a systematic check.
+2. Remaining hotels (6) — a re-check for brand *and* management-company
    affiliations before doing per-hotel research on whatever's genuinely
    independent (Fairmont and Raffles turned out to be mislabeled Accor
    properties; several others may be Aimbridge- or other-management-
@@ -713,9 +738,9 @@ to the brand's own corporate site):**
    Worth checking each one for the ATS platform it runs on first (Oracle
    Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, UKG Pro
    Recruiting, Recruitee, Workday, iCIMS, etc. — see the
-   Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA/Millennium discoveries
-   above for what that can look like — two of eight so far turned out to
-   share the same Oracle Recruiting Cloud infrastructure, worth checking
+   Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA/Millennium/Highgate
+   discoveries above for what that can look like — two of eight so far
+   turned out to share the same Oracle Recruiting Cloud infrastructure, worth checking
    for reuse before assuming a fresh build is needed) before assuming a
    Marriott-style DOM scrape is needed —
    though don't assume it *isn't* needed either; Accor's Attrax platform

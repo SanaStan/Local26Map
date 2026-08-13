@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T21:55:52.817Z",
+  "generatedAt": "2026-08-13T22:51:53.308Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -466,10 +466,55 @@
       "lng": -71.0849425,
       "brand": "hilton",
       "scrape": {
-        "source": "hilton",
+        "source": "highgate",
         "propertyMatch": "Hilton Boston Back Bay"
       },
-      "jobs": []
+      "scrapeNote": "Highgate-managed — careers.hilton.com has been showing zero jobs for this property while real postings are on Highgate's iCIMS careers site instead. brand stays \"hilton\" since it's still a Hilton-flagged hotel; only the job source changed.",
+      "jobs": [
+        {
+          "title": "Executive Chef",
+          "payMin": 100000,
+          "payMax": 120000,
+          "category": "Food and Beverage",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/79758/executive-chef/job",
+          "firstSeen": "2026-07-06",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Guest Services Supv",
+          "payMin": 34.2,
+          "payMax": 34.2,
+          "category": "Front Office Operations",
+          "url": "https://externalhourly-highgate.icims.com/jobs/79578/guest-services-supv/job",
+          "firstSeen": "2026-06-30"
+        },
+        {
+          "title": "Front Desk Manager",
+          "payMin": 70000,
+          "payMax": 70000,
+          "category": "Front Office Operations",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/79536/front-desk-manager/job",
+          "firstSeen": "2026-06-29",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Sous Chef",
+          "payMin": 75000,
+          "payMax": 80000,
+          "category": "Food and Beverage",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/78975/sous-chef/job",
+          "firstSeen": "2026-06-11",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Room Attendant",
+          "payMin": 32.95,
+          "payMax": 32.95,
+          "category": "Housekeeping",
+          "url": "https://externalhourly-highgate.icims.com/jobs/78833/room-attendant/job",
+          "firstSeen": "2026-06-08"
+        }
+      ]
     },
     {
       "name": "Hilton Boston Logan Airport",
@@ -504,14 +549,6 @@
           "payMax": 30.78,
           "category": "Housekeeping and Laundry",
           "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/216695",
-          "firstSeen": "2026-07-24"
-        },
-        {
-          "title": "FT Human Resources Coordinator",
-          "payMin": 29.8,
-          "payMax": 29.8,
-          "category": "Human Resources",
-          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/216716",
           "firstSeen": "2026-07-24"
         },
         {
@@ -746,14 +783,6 @@
           "firstSeen": "2026-07-16"
         },
         {
-          "title": "Part Time Bartender",
-          "payMin": 18.25,
-          "payMax": 18.25,
-          "category": "Hotel-Food and Beverage",
-          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/165872",
-          "firstSeen": "2026-07-16"
-        },
-        {
           "title": "Food & Beverage Manager",
           "payMin": 75000,
           "payMax": 81000,
@@ -845,8 +874,124 @@
       "lat": 42.3527354,
       "lng": -71.0715154,
       "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "highgate",
+        "propertyMatch": "The Newbury Boston"
+      },
+      "scrapeNote": "Highgate-managed (its own site states Highgate purchased and rebranded the property in 2018) — posts to Highgate's iCIMS careers site under the property name \"The Newbury Boston\".",
+      "jobs": [
+        {
+          "title": "The Street Bar Server",
+          "payMin": 15.51,
+          "payMax": 18.25,
+          "category": "Food and Beverage",
+          "url": "https://externalhourly-highgate.icims.com/jobs/81241/the-street-bar-server/job",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Guest Service Ambassador",
+          "payMin": 28.22,
+          "payMax": 33.2,
+          "category": "Front Office Operations",
+          "url": "https://externalhourly-highgate.icims.com/jobs/81137/guest-service-ambassador-/job",
+          "firstSeen": "2026-08-10"
+        },
+        {
+          "title": "F&B Manager in Training",
+          "payMin": 25,
+          "payMax": 27,
+          "category": "Food and Beverage",
+          "url": "https://externalhourly-highgate.icims.com/jobs/81136/f%26b-manager-in-training-/job",
+          "firstSeen": "2026-08-10"
+        },
+        {
+          "title": "Director of Guest Experience",
+          "payMin": 105000,
+          "payMax": 115000,
+          "category": "Front Office Operations",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/81135/director-of-guest-experience/job",
+          "firstSeen": "2026-08-10",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Executive Chef",
+          "payMin": 130000,
+          "payMax": 160000,
+          "category": "Culinary",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/80708/executive-chef/job",
+          "firstSeen": "2026-07-30",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Staff Accountant",
+          "payMin": 75000,
+          "payMax": 82000,
+          "category": "Accounting/Finance",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/80693/staff-accountant/job",
+          "firstSeen": "2026-07-30",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Assistant Director of Front Office",
+          "payMin": 90000,
+          "payMax": 95000,
+          "category": "Front Office Operations",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/80423/assistant-director-of-front-office/job",
+          "firstSeen": "2026-07-23",
+          "payUnit": "annual"
+        },
+        {
+          "title": "The Street Bar Service Assistant- Part Time",
+          "payMin": 27.94,
+          "payMax": 32.87,
+          "category": "Food and Beverage",
+          "url": "https://externalhourly-highgate.icims.com/jobs/80317/the-street-bar-service-assistant--part-time/job",
+          "firstSeen": "2026-07-20"
+        },
+        {
+          "title": "Guest Experience Telephone Agent",
+          "payMin": 28.03,
+          "payMax": 32.98,
+          "category": "Front Office Operations",
+          "url": "https://externalhourly-highgate.icims.com/jobs/79473/guest-experience-telephone-agent/job",
+          "firstSeen": "2026-06-26"
+        },
+        {
+          "title": "Assistant Food and Beverage Manager",
+          "payMin": 70000,
+          "payMax": 73500,
+          "category": "Food and Beverage",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/79438/assistant-food-and-beverage-manager-/job",
+          "firstSeen": "2026-07-22",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Sous Chef",
+          "payMin": 76000,
+          "payMax": 85000,
+          "category": "Culinary",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/79343/sous-chef/job",
+          "firstSeen": "2026-08-11",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Hospitality Operations Associate",
+          "payMin": 20,
+          "payMax": 25,
+          "category": "Food and Beverage",
+          "url": "https://externalhourly-highgate.icims.com/jobs/79177/hospitality-operations-associate/job",
+          "firstSeen": "2026-06-17"
+        },
+        {
+          "title": "Executive Sous Chef",
+          "payMin": 110000,
+          "payMax": 120000,
+          "category": "Culinary",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/78958/executive-sous-chef/job",
+          "firstSeen": "2026-06-10",
+          "payUnit": "annual"
+        }
+      ]
     },
     {
       "name": "Omni Boston Hotel at the Seaport",
