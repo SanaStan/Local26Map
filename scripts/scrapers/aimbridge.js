@@ -98,7 +98,12 @@ export async function scrapeAimbridgeLocation(placeId, { maxPages = 20 } = {}) {
     for (const o of openings) {
       jobs.push({
         id: o.id,
-        title: o.title,
+        // Aimbridge's own `title` field is always "{Property} - {Position}"
+        // (no separate position field on this endpoint) — strip the
+        // property-name prefix since every other scraper here returns a
+        // clean position-only title and the property name is already
+        // shown as the hotel heading in the UI.
+        title: o.title.startsWith(`${o.location} - `) ? o.title.slice(o.location.length + 3) : o.title,
         propertyName: o.location,
         payRate: o.pay_rate,
         applyUrl: o.apply_url,

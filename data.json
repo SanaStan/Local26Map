@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T03:25:32.137Z",
+  "generatedAt": "2026-08-13T15:42:05.303Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -523,14 +523,6 @@
           "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/213377",
           "firstSeen": "2026-08-12",
           "payUnit": "annual"
-        },
-        {
-          "title": "Front Office Supervisor - Hilton Boston Park Plaza",
-          "payMin": 35,
-          "payMax": 35,
-          "category": "Guest Services, Operations, and Front Office",
-          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/219038",
-          "firstSeen": "2026-08-12"
         },
         {
           "title": "Room Attendant - Hilton Boston Park Plaza",
@@ -1334,10 +1326,97 @@
       "lng": -71.0430104,
       "brand": "marriott",
       "scrape": {
-        "source": "marriott",
-        "propertyMatch": "The Westin Boston Seaport District"
+        "source": "aimbridge",
+        "propertyMatch": "Westin Boston Seaport District"
       },
-      "jobs": []
+      "scrapeNote": "Aimbridge-managed (confirmed via DiamondRock press release and live postings) — careers.marriott.com currently shows zero jobs for this property, real postings are on Aimbridge's Fountain site instead. brand stays \"marriott\" since it's still a Westin-flagged hotel; only the job source changed.",
+      "jobs": [
+        {
+          "title": "Concierge",
+          "payMin": 28,
+          "payMax": 32,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-concierge",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Director Banquets",
+          "payMin": 110000,
+          "payMax": 125000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-banquets",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Food & Beverage Manager OEM",
+          "payMin": 75000,
+          "payMax": 75000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-food-beverage-manager-restaurant-1-oem",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Sales Coordinator",
+          "payMin": 31,
+          "payMax": 34,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-sales-coordinator",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Housekeeper",
+          "payMin": 26.42,
+          "payMax": 32.95,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeper",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Director Finance",
+          "payMin": 170000,
+          "payMax": 180000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-finance",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Housekeeping Supervisor",
+          "payMin": 31,
+          "payMax": 35,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeping-supervisor",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Executive Sous Chef",
+          "payMin": 95000,
+          "payMax": 115000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-executive-sous-chef",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Kitchen Supervisor",
+          "payMin": 30,
+          "payMax": 34,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Convention Services Manager OEM",
+          "payMin": 75000,
+          "payMax": 85000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-convention-services-manager-oem",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
+        }
+      ]
     },
     {
       "name": "Westin Copley Place",

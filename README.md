@@ -31,7 +31,7 @@ package.json, scripts/      the scraper (Node + Playwright)
   scripts/scrapers/hyatt.js    brand-specific scraper module (Playwright, drives real UI)
   scripts/scrapers/omni.js     brand-specific scraper module (Playwright request client, no page render)
   scripts/scrapers/accor.js    brand-specific scraper module (Playwright DOM scrape)
-  scripts/scrapers/aimbridge.js management-company scraper module (plain public REST API) — wired in, no hotels configured yet
+  scripts/scrapers/aimbridge.js management-company scraper module (plain public REST API)
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -364,26 +364,40 @@ Marriott's.
   wrong by an order of magnitude), so `parsePay()` uses magnitude, not
   the label, to decide `payUnit` — same heuristic used everywhere else
   this comes up.
-- **No hotel on the list currently has a `scrape.source: "aimbridge"`
-  entry** — despite the user identifying several nominally-independent
-  hotels as Aimbridge-managed (Dagny Boston confirmed one, via a
-  DiamondRock/Aimbridge press release), an exhaustive check against
-  Aimbridge's *entire* nationwide job list (all ~1,450 postings, not
-  just ones near Boston) found zero matches for any of the 11
-  "independent" hotels on this project's list — including Dagny, which
-  the user had already flagged as having no current postings. Independent
-  web research also actively contradicted Aimbridge management for
-  several others (Colonnade: described as family-owned independent;
-  Newbury Boston: Teneo Hospitality Group; Hotel Commonwealth: associated
-  with Sage Hospitality Group) — so this isn't just "no current postings
-  yet," several of the 11 may not be Aimbridge-managed at all. The
-  scraper module and its orchestration in `run-scrape.js` are fully
-  wired in and tested against Aimbridge's real live data (confirmed
-  working end-to-end against an unrelated real posting, "Westin Boston
-  Seaport District - Concierge") — a hotel just needs a `scrape` config
-  added to `data.json` once (a) its Aimbridge management is confirmed
-  and (b) it has a live posting to confirm the exact property-name string
-  Aimbridge uses for it against.
+- **The `title` field is always "{Property} - {Position}"**, not a clean
+  position-only title like every other scraper here returns (no separate
+  position field exists on this endpoint) — `scrapeAimbridgeLocation`
+  strips the property-name prefix before returning, so it doesn't show
+  up doubled against the hotel name already displayed as the card/popup
+  heading in the UI.
+- **None of the 11 "independent" hotels on the original candidate list
+  turned out to have current Aimbridge postings** — despite the user
+  identifying several as Aimbridge-managed (Dagny Boston confirmed one,
+  via a DiamondRock/Aimbridge press release), an exhaustive check against
+  Aimbridge's *entire* nationwide job list (all ~1,450 postings, not just
+  ones near Boston) found zero matches for any of them, including Dagny,
+  which the user had already flagged as having no current postings.
+  Independent web research also actively contradicted Aimbridge
+  management for several others (Colonnade: described as family-owned
+  independent; Newbury Boston: Teneo Hospitality Group; Hotel
+  Commonwealth: associated with Sage Hospitality Group).
+- **A hotel already on the list, under a different brand, turned out to
+  be the real find**: Westin Boston Seaport was already tracked as
+  `brand: "marriott"` / `scrape.source: "marriott"`, but
+  careers.marriott.com currently shows *zero* jobs for it — its real
+  postings (10 of them, with full pay data) are on Aimbridge's site
+  instead ("Westin Boston Seaport District", confirmed Aimbridge-managed
+  via a DiamondRock press release about the Westin Boston Waterfront).
+  Switched its `scrape.source` to `"aimbridge"` while leaving
+  `brand: "marriott"` alone — brand describes the flag/franchise,
+  `scrape.source` describes which company's job board actually has the
+  postings, and a management company operating a brand-flagged hotel can
+  make those diverge. Worth keeping in mind for every other
+  Marriott/Hilton/Hyatt/Omni/Accor-branded hotel already on the list too,
+  not just the ones nominally tagged "independent" — a brand-flagged
+  hotel returning consistently zero postings from its own brand's site
+  is a signal worth checking against Aimbridge (or another management
+  company), not just assumed to mean "no one's hiring there right now."
 
 ## Data model
 `data.json`:
@@ -458,12 +472,12 @@ report but don't block the commit.
 
 ## Current status by hotel (41 total)
 **Automated (scraped daily):**
-- Marriott brand (14): Aloft Boston Seaport, Courtyard by Marriott
+- Marriott brand (13): Aloft Boston Seaport, Courtyard by Marriott
   Downtown/North Station, Courtyard by Marriott East Boston (Logan),
   Courtyard by Marriott South Boston, Element Seaport Boston, Le Meridien
   Cambridge, Moxy Boston Downtown, Renaissance Boston Seaport,
   Ritz-Carlton Boston, Sheraton Boston, Sheraton Commander, W Boston,
-  Westin Boston Seaport, Westin Copley Place
+  Westin Copley Place
 - Hilton brand (7): DoubleTree Suites Boston-Cambridge, Hampton Inn
   Crosstown, Hampton Inn & Homewood Suites Seaport, Hilton Boston Back
   Bay, Hilton Boston Logan Airport, Hilton Boston Park Plaza, Hilton
@@ -478,6 +492,10 @@ report but don't block the commit.
 - Omni brand (2): Omni Boston Hotel at the Seaport, Omni Parker House.
 - Accor brand (2): Fairmont Copley Plaza, Raffles Boston — both were
   previously mislabeled `brand: "independent"`; see Key discoveries above.
+- Aimbridge-managed (1): Westin Boston Seaport — still tagged
+  `brand: "marriott"` (it's a real Westin), but its `scrape.source` is
+  `"aimbridge"`: careers.marriott.com currently shows zero jobs for it,
+  its real postings are on Aimbridge's site — see Key discoveries above.
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
@@ -493,17 +511,19 @@ to the brand's own corporate site):**
   on excluded aggregators — see Key discoveries above, don't re-add
   without re-checking)
 
-**Scraper built and wired in, but not yet applied to any hotel:**
-- Aimbridge Hospitality — a management company, not a brand (see Key
-  discoveries above). Dagny Boston is confirmed Aimbridge-managed but
-  currently has zero live postings to confirm its exact Aimbridge
-  property name against; the same exhaustive check found zero postings
-  for every other candidate hotel too, and independent research actively
-  contradicts Aimbridge management for a few of them (Colonnade,
-  Newbury Boston, Hotel Commonwealth). Add a `scrape: {source:
-  "aimbridge", propertyMatch: "..."}` entry for a hotel once (a) its
-  Aimbridge management is confirmed and (b) it has a live posting to
-  confirm the property name against.
+**Aimbridge scraper live, but only wired to one hotel so far:**
+- Dagny Boston is confirmed Aimbridge-managed but currently has zero
+  live postings to confirm its exact Aimbridge property name against;
+  the same exhaustive nationwide check found zero postings for every
+  other candidate hotel on the original "independent" list too, and
+  independent research actively contradicts Aimbridge management for a
+  few of them (Colonnade, Newbury Boston, Hotel Commonwealth). Add a
+  `scrape: {source: "aimbridge", propertyMatch: "..."}` entry for a hotel
+  once (a) its Aimbridge management is confirmed and (b) it has a live
+  posting to confirm the property name against — and worth checking
+  every *other* brand-flagged hotel already on the list too (see the
+  Westin Boston Seaport discovery above) if its brand's own site is
+  consistently returning zero jobs.
 
 **Not yet automated (no scraper built yet):**
 - IHG (1): InterContinental Boston
@@ -516,14 +536,18 @@ to the brand's own corporate site):**
   independent-independent.
 
 ## Next steps (pick up in roughly this order)
-1. **Watch for the first live Aimbridge posting.** Dagny Boston (and
-   possibly other still-unconfirmed hotels on the independent list) is
-   Aimbridge-managed but has no current postings anywhere in Aimbridge's
-   system to confirm an exact property-name string against — the scraper
-   itself is done and tested (see Key discoveries above), it just needs
-   one confirmed hotel+posting to wire a `scrape` config in. Worth an
-   occasional manual check of `careers.aimbridge.fountain.com/aimbridge`
-   for "Dagny" or similar.
+1. **Watch for the first live Aimbridge posting at Dagny specifically.**
+   The Aimbridge scraper itself is confirmed working end-to-end against
+   real live data (it's already scraping Westin Boston Seaport daily —
+   see Key discoveries and status above); what's still missing is just a
+   posting at Dagny (or another confirmed-Aimbridge hotel) to confirm the
+   exact property-name string against. Worth an occasional manual check
+   of `careers.aimbridge.fountain.com/aimbridge` for "Dagny" or similar.
+   Also worth spot-checking whether any *other* currently-automated
+   hotel is quietly in the same situation Westin Boston Seaport was in
+   (brand-flagged, but its own brand's site has gone to zero jobs while
+   the real postings moved to Aimbridge or another management company) —
+   that was found by chance, not by a systematic check.
 2. Remaining brand scrapers — IHG next (1 hotel), then a re-check of the
    remaining "independent" hotels for brand *and* management-company
    affiliations before doing per-hotel research on whatever's genuinely
