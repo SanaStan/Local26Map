@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T19:16:27.899Z",
+  "generatedAt": "2026-08-13T20:46:38.031Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -516,6 +516,15 @@
       },
       "jobs": [
         {
+          "title": "Assistant Food and Beverage Manager - Hilton Boston Park Plaza",
+          "payMin": 55,
+          "payMax": 65000,
+          "category": "Banquets",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/219215",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
+        },
+        {
           "title": "Senior Banquet Manager - Hilton Boston Park Plaza",
           "payMin": 85000,
           "payMax": 85000,
@@ -584,8 +593,28 @@
       "lat": 42.349114,
       "lng": -71.0725213,
       "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "hotelaka",
+        "propertyMatch": "Hotel AKA Back Bay"
+      },
+      "jobs": [
+        {
+          "title": "Room Attendant",
+          "payMin": 32.95,
+          "payMax": 32.95,
+          "category": null,
+          "url": "https://shkmngt.rec.pro.ukg.net/SHK1500SHKM/JobBoard/635285d1-2897-495a-b0bc-2b2c63e45d20/OpportunityDetail?opportunityId=58baf05a-a619-4f2c-9f7e-b06d23e95b5c",
+          "firstSeen": "2026-08-05"
+        },
+        {
+          "title": "Sales Coordinator",
+          "payMin": 31,
+          "payMax": 31,
+          "category": null,
+          "url": "https://shkmngt.rec.pro.ukg.net/SHK1500SHKM/JobBoard/635285d1-2897-495a-b0bc-2b2c63e45d20/OpportunityDetail?opportunityId=f13b01c5-38f3-4f03-ae5a-e95d5c25c890",
+          "firstSeen": "2026-07-24"
+        }
+      ]
     },
     {
       "name": "Hotel AKA Boston Common",
@@ -593,8 +622,46 @@
       "lat": 42.357306,
       "lng": -71.0606874,
       "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "hotelaka",
+        "propertyMatch": "Hotel AKA Boston Common"
+      },
+      "jobs": [
+        {
+          "title": "Server",
+          "payMin": 19.01,
+          "payMax": 19.01,
+          "category": null,
+          "url": "https://shkmngt.rec.pro.ukg.net/SHK1500SHKM/JobBoard/635285d1-2897-495a-b0bc-2b2c63e45d20/OpportunityDetail?opportunityId=564c05e7-4aa8-4a52-8ed6-a4f9f4580a56",
+          "firstSeen": "2026-08-07"
+        },
+        {
+          "title": "Room Attendant",
+          "payMin": 32.95,
+          "payMax": 32.95,
+          "category": null,
+          "url": "https://shkmngt.rec.pro.ukg.net/SHK1500SHKM/JobBoard/635285d1-2897-495a-b0bc-2b2c63e45d20/OpportunityDetail?opportunityId=40230e4a-8267-42a6-a9fb-fdf03f406902",
+          "firstSeen": "2026-08-07"
+        },
+        {
+          "title": "Director of Food and Beverage",
+          "payMin": 125000,
+          "payMax": 131000,
+          "category": null,
+          "url": "https://shkmngt.rec.pro.ukg.net/SHK1500SHKM/JobBoard/635285d1-2897-495a-b0bc-2b2c63e45d20/OpportunityDetail?opportunityId=95f9e3d1-4864-40b2-80dc-25b9900ca126",
+          "firstSeen": "2026-07-27",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Senior Sales Manager",
+          "payMin": 95000,
+          "payMax": 115000,
+          "category": null,
+          "url": "https://shkmngt.rec.pro.ukg.net/SHK1500SHKM/JobBoard/635285d1-2897-495a-b0bc-2b2c63e45d20/OpportunityDetail?opportunityId=90605ada-fdb7-48e9-9708-422da496b003",
+          "firstSeen": "2026-07-17",
+          "payUnit": "annual"
+        }
+      ]
     },
     {
       "name": "Hotel Commonwealth",
@@ -1393,30 +1460,21 @@
       "scrapeNote": "Aimbridge-managed (confirmed via DiamondRock press release and live postings) — careers.marriott.com currently shows zero jobs for this property, real postings are on Aimbridge's Fountain site instead. brand stays \"marriott\" since it's still a Westin-flagged hotel; only the job source changed.",
       "jobs": [
         {
-          "title": "Concierge",
-          "payMin": 28,
-          "payMax": 32,
+          "title": "Director Finance",
+          "payMin": 170000,
+          "payMax": 180000,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-concierge",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-finance",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Housekeeping Supervisor",
+          "payMin": 31,
+          "payMax": 35,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeping-supervisor",
           "firstSeen": "2026-08-13"
-        },
-        {
-          "title": "Director Banquets",
-          "payMin": 110000,
-          "payMax": 125000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-banquets",
-          "firstSeen": "2026-08-13",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Food & Beverage Manager OEM",
-          "payMin": 75000,
-          "payMax": 75000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-food-beverage-manager-restaurant-1-oem",
-          "firstSeen": "2026-08-13",
-          "payUnit": "annual"
         },
         {
           "title": "Sales Coordinator",
@@ -1435,20 +1493,20 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Director Finance",
-          "payMin": 170000,
-          "payMax": 180000,
+          "title": "Food & Beverage Manager OEM",
+          "payMin": 75000,
+          "payMax": 75000,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-finance",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-food-beverage-manager-restaurant-1-oem",
           "firstSeen": "2026-08-13",
           "payUnit": "annual"
         },
         {
-          "title": "Housekeeping Supervisor",
-          "payMin": 31,
-          "payMax": 35,
+          "title": "Concierge",
+          "payMin": 28,
+          "payMax": 32,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeping-supervisor",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-concierge",
           "firstSeen": "2026-08-13"
         },
         {
@@ -1469,11 +1527,11 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Convention Services Manager OEM",
-          "payMin": 75000,
-          "payMax": 85000,
+          "title": "Director Banquets",
+          "payMin": 110000,
+          "payMax": 125000,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-convention-services-manager-oem",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-banquets",
           "firstSeen": "2026-08-13",
           "payUnit": "annual"
         }
@@ -1508,12 +1566,12 @@
           "payUnit": "annual"
         },
         {
-          "title": "Sous Chef, Westin Boston Copley",
+          "title": "Sous Chef",
           "payMin": 73000,
           "payMax": 93000,
           "category": null,
-          "url": "https://careers.marriott.com/sous-chef-westin-boston-copley/job/8903EF0C93871D9F6D73F5399052DDE7",
-          "firstSeen": "2026-07-15",
+          "url": "https://careers.marriott.com/sous-chef/job/8903EF0C93871D9F6D73F5399052DDE7",
+          "firstSeen": "2026-08-13",
           "payUnit": "annual"
         },
         {

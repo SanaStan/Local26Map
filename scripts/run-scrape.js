@@ -49,6 +49,11 @@ import {
   parsePay as parseIhgPay,
   propertyMatches as ihgPropertyMatches,
 } from './scrapers/ihg.js';
+import {
+  scrapeAkaJobs,
+  fetchJobDetail as fetchAkaJobDetail,
+  propertyMatches as akaPropertyMatches,
+} from './scrapers/hotelaka.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DATA_PATH = path.join(ROOT, 'data.json');
@@ -389,6 +394,39 @@ async function scrapeIhgBrand(hotels) {
   return byHotel;
 }
 
+/**
+ * Hotel AKA runs its own careers site (UKG Pro Recruiting), separate
+ * from every brand/management-company scraper above (see
+ * scripts/scrapers/hotelaka.js). Plain fetch(), no browser needed — and
+ * with only ~28 jobs across the entire chain, one unfiltered search
+ * covers every property, no per-city search needed.
+ */
+async function scrapeHotelAkaBrand(hotels) {
+  const allRaw = await scrapeAkaJobs();
+
+  const byHotel = new Map();
+  for (const hotel of hotels) {
+    const matches = allRaw.filter((j) => akaPropertyMatches(j.propertyName, hotel.scrape.propertyMatch));
+    const enriched = [];
+    for (const m of matches) {
+      const detail = await fetchAkaJobDetail(m.id);
+      if (detail === null) continue; // closed/removed posting — drop it (verify-before-including rule)
+      const pay = detail.pay;
+      enriched.push({
+        title: m.title,
+        url: detail.url,
+        jobId: m.id,
+        payMin: pay ? pay.payMin : null,
+        payMax: pay ? pay.payMax : null,
+        payUnit: pay && pay.payUnit ? pay.payUnit : undefined,
+        datePosted: m.postedDate,
+      });
+    }
+    byHotel.set(hotel.name, enriched);
+  }
+  return byHotel;
+}
+
 function diffHotelJobs(hotel, previousJobs, scrapedJobs, historyLines) {
   const prevByUrl = new Map(previousJobs.map((j) => [jobKey(j), j]));
   const newByUrl = new Map(scrapedJobs.map((j) => [jobKey(j), j]));
@@ -438,6 +476,7 @@ async function main() {
   const accorHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'accor');
   const aimbridgeHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'aimbridge');
   const ihgHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'ihg');
+  const hotelAkaHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hotelaka');
 
   const prevMarriottTotal = marriottHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHiltonTotal = hiltonHotels.reduce((sum, h) => sum + h.jobs.length, 0);
@@ -446,6 +485,7 @@ async function main() {
   const prevAccorTotal = accorHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevAimbridgeTotal = aimbridgeHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevIhgTotal = ihgHotels.reduce((sum, h) => sum + h.jobs.length, 0);
+  const prevHotelAkaTotal = hotelAkaHotels.reduce((sum, h) => sum + h.jobs.length, 0);
 
   const browser = await chromium.launch();
   // A realistic desktop UA is required for careers.hyatt.com, which 403s
@@ -481,6 +521,9 @@ async function main() {
   const ihgByHotel = await scrapeIhgBrand(ihgHotels);
   for (const [hotelName, jobs] of ihgByHotel) scrapedByHotel.set(hotelName, jobs);
 
+  const hotelAkaByHotel = await scrapeHotelAkaBrand(hotelAkaHotels);
+  for (const [hotelName, jobs] of hotelAkaByHotel) scrapedByHotel.set(hotelName, jobs);
+
   const newMarriottTotal = marriottHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHiltonTotal = hiltonHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHyattTotal = hyattHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
@@ -488,6 +531,7 @@ async function main() {
   const newAccorTotal = accorHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newAimbridgeTotal = aimbridgeHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newIhgTotal = ihgHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+  const newHotelAkaTotal = hotelAkaHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
 
   // Guardrail: if any brand's scrape comes back completely empty while the
   // previous run had jobs for that brand, treat the whole run as unreliable
@@ -502,6 +546,7 @@ async function main() {
   if (newAccorTotal === 0 && prevAccorTotal > 0) brokenBrands.push(`Accor (${accorHotels.length} properties, had ${prevAccorTotal})`);
   if (newAimbridgeTotal === 0 && prevAimbridgeTotal > 0) brokenBrands.push(`Aimbridge (${aimbridgeHotels.length} properties, had ${prevAimbridgeTotal})`);
   if (newIhgTotal === 0 && prevIhgTotal > 0) brokenBrands.push(`IHG (${ihgHotels.length} properties, had ${prevIhgTotal})`);
+  if (newHotelAkaTotal === 0 && prevHotelAkaTotal > 0) brokenBrands.push(`Hotel AKA (${hotelAkaHotels.length} properties, had ${prevHotelAkaTotal})`);
 
   if (brokenBrands.length) {
     const report = {
@@ -515,7 +560,7 @@ async function main() {
     return;
   }
 
-  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge', 'ihg']);
+  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge', 'ihg', 'hotelaka']);
   const historyLines = [];
   const perHotelCounts = [];
 
@@ -546,8 +591,9 @@ async function main() {
     accorPropertiesScraped: accorHotels.length,
     aimbridgePropertiesScraped: aimbridgeHotels.length,
     ihgPropertiesScraped: ihgHotels.length,
-    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal + prevIhgTotal,
-    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal + newIhgTotal,
+    hotelAkaPropertiesScraped: hotelAkaHotels.length,
+    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal + prevIhgTotal + prevHotelAkaTotal,
+    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal + newIhgTotal + newHotelAkaTotal,
     historyEventsWritten: historyLines.length,
     perHotelCounts,
     bigDrops: perHotelCounts.filter((c) => c.before >= 3 && c.after === 0),

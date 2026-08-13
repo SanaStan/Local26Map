@@ -33,6 +33,7 @@ package.json, scripts/      the scraper (Node + Playwright)
   scripts/scrapers/accor.js    brand-specific scraper module (Playwright DOM scrape)
   scripts/scrapers/aimbridge.js management-company scraper module (plain public REST API)
   scripts/scrapers/ihg.js      brand-specific scraper module (plain public REST API)
+  scripts/scrapers/hotelaka.js small-chain scraper module (plain public REST API + embedded-JSON HTML parsing)
 .github/workflows/
   daily-scrape.yml           GitHub Actions cron (daily) that runs the scraper and commits changes
 ```
@@ -429,6 +430,49 @@ Marriott's.
   actually has on hand — but `run-scrape.js` already has each hotel's
   `data.json` display name available, which happens to match exactly.
 
+## Key discoveries about Hotel AKA (UKG Pro Recruiting)
+- **A fifth distinct ATS**: UKG Pro Recruiting (tenant "SHK1500SHKM",
+  the property management company behind the AKA brand), no relation to
+  any of the platforms scraped so far. Found via a URL the user supplied
+  directly rather than independent research this time.
+- **Small enough to not need location filtering at all** — the whole
+  chain is ~11 properties nationwide (~28 total job postings), so one
+  unfiltered search (`Top: 50`) run once returns every property's jobs
+  in a single call; no per-city geocode/radius step like every other
+  brand here needed.
+- **Property names in the search results already match `data.json`
+  exactly** ("Hotel AKA Back Bay", "Hotel AKA Boston Common") — no
+  normalization workarounds needed, and titles come back clean already
+  (no redundant property-name prefix/suffix to strip, unlike
+  Aimbridge/IHG).
+- **No structured pay field in the search results** — has to come from
+  each job's own detail page, and that page isn't a JSON API either: the
+  full job record is embedded as a single minified JS object literal
+  (`var opportunity = new US.Opportunity.CandidateOpportunityDetail({...})`)
+  in otherwise-static HTML. Confirmed this is genuinely server-rendered
+  (present in a plain `curl`, not fetched by client JS after load), so
+  `hotelaka.js` just does `fetch()` + brace-matching extraction — no
+  browser needed. A naive regex isn't safe here since the object
+  contains free-text job descriptions that could coincidentally contain
+  `");` or stray `}` — `extractBalancedJson()` walks the string tracking
+  quote state so those don't truncate the match early.
+- **Two mutually-exclusive pay shapes** depending on a `Salaried` flag:
+  hourly roles carry a single rate in `CompensationAmount.Value` (never
+  a range — this platform apparently doesn't support hourly ranges, only
+  salaried ones), salaried roles carry a real min/max in
+  `PayRange.{PayRangeMinimum,PayRangeMaximum}` with `CompensationAmount
+  .Value` left `null`. Never both populated on the same posting.
+- **No usable category field** — every job across the entire nationwide
+  portfolio has the literal placeholder `JobCategoryName: "All"`, not a
+  real per-job classification (confirmed by checking all ~28 postings
+  at once, not just the Boston ones) — treated as absent, same as
+  Marriott/Omni/Aimbridge.
+- **Closed/invalid postings return HTTP 200** with no error, just
+  missing the `CandidateOpportunityDetail(...)` data blob entirely (for
+  a truly nonexistent ID) or a real detail object with
+  `OpportunityIsClosed: true` (for a since-closed requisition) — both
+  checked as the "verify before including" signal.
+
 ## Data model
 `data.json`:
 ```json
@@ -527,6 +571,9 @@ report but don't block the commit.
   `"aimbridge"`: careers.marriott.com currently shows zero jobs for it,
   its real postings are on Aimbridge's site — see Key discoveries above.
 - IHG brand (1): InterContinental Boston.
+- Hotel AKA (2): Hotel AKA Back Bay, Hotel AKA Boston Common — small
+  chain with its own careers site, not affiliated with any brand or
+  management company scraped so far.
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
@@ -557,13 +604,14 @@ to the brand's own corporate site):**
   consistently returning zero jobs.
 
 **Not yet automated (no scraper built yet):**
-- Independent/other, unconfirmed management (10): Battery Wharf,
-  Bostonian, Colonnade, Copley Square, Encore Boston Harbor, Hotel AKA
-  Back Bay, Hotel AKA Boston Common, Hotel Commonwealth, Lenox, Newbury
-  Boston — worth a quick pass to check whether any of these are actually
-  brand-affiliated (like Fairmont/Raffles turned out to be) or managed by
-  Aimbridge or another management company before assuming they're truly
-  independent-independent.
+- Independent/other, unconfirmed management (8): Battery Wharf,
+  Bostonian, Colonnade, Copley Square, Encore Boston Harbor, Hotel
+  Commonwealth, Lenox, Newbury Boston — worth a quick pass to check
+  whether any of these are actually brand-affiliated (like
+  Fairmont/Raffles turned out to be) or managed by Aimbridge or another
+  management company (like Westin Boston Seaport, or like Hotel AKA
+  turning out to run its own dedicated careers site) before assuming
+  they're truly independent-independent.
 
 ## Next steps (pick up in roughly this order)
 1. **Watch for the first live Aimbridge posting at Dagny specifically.**
@@ -578,19 +626,21 @@ to the brand's own corporate site):**
    (brand-flagged, but its own brand's site has gone to zero jobs while
    the real postings moved to Aimbridge or another management company) —
    that was found by chance, not by a systematic check.
-2. Remaining hotels — a re-check of the remaining "independent" hotels
-   for brand *and* management-company affiliations before doing
-   per-hotel research on whatever's genuinely independent (Fairmont and
-   Raffles turned out to be mislabeled Accor properties; several others
-   may be Aimbridge- or other-management-company-managed like Dagny —
-   worth ruling both out before treating a hotel as one-off research).
+2. Remaining hotels (8) — a re-check for brand *and* management-company
+   affiliations before doing per-hotel research on whatever's genuinely
+   independent (Fairmont and Raffles turned out to be mislabeled Accor
+   properties; several others may be Aimbridge- or other-management-
+   company-managed like Dagny; Hotel AKA turned out to have its own
+   dedicated careers site rather than being truly independent — worth
+   ruling all of these out before treating a hotel as one-off research).
    Worth checking each one for the ATS platform it runs on first (Oracle
-   Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, Workday,
-   iCIMS, etc. — see the Hilton/Hyatt/Omni/Accor/Aimbridge/IHG
-   discoveries above for what that can look like — two of six so far
-   turned out to share the same Oracle Recruiting Cloud infrastructure,
-   worth checking for reuse before assuming a fresh build is needed)
-   before assuming a Marriott-style DOM scrape is needed —
+   Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, UKG Pro
+   Recruiting, Workday, iCIMS, etc. — see the
+   Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA discoveries above for
+   what that can look like — two of seven so far turned out to share the
+   same Oracle Recruiting Cloud infrastructure, worth checking for reuse
+   before assuming a fresh build is needed) before assuming a
+   Marriott-style DOM scrape is needed —
    though don't assume it *isn't* needed either; Accor's Attrax platform
    turned out to require full DOM scraping same as Marriott, despite
    looking modern.
@@ -633,9 +683,10 @@ to the brand's own corporate site):**
   falling back to the hand-curated `category` text where present. Hilton,
   Hyatt, Accor, and IHG jobs do carry a real scraped `category` (e.g.
   "Housekeeping and Laundry", "Catering/Event Planning", "Food Beverage",
-  "Hotel-Front Office" — Omni and Aimbridge are the other exceptions with
-  no category, same as Marriott), but the classifier doesn't currently
-  prefer it over the keyword guess — see next-steps item 2.
+  "Hotel-Front Office" — Omni, Aimbridge, and Hotel AKA are the other
+  exceptions with no category, same as Marriott), but the classifier
+  doesn't currently prefer it over the keyword guess — see next-steps
+  item 2.
   Anything that doesn't match a rule (sales, events, security, management
   titles, etc.) is classified `Other` and is only visible when no
   career-field filter is applied.
