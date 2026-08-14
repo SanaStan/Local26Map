@@ -729,7 +729,7 @@ search path:**
   mini-site per hotel, so there's no property-name matching step: every
   job returned already belongs to that one hotel (confirmed via
   `organization.name` on each job).
-- **Colonnade Hotel** (2026-08-14): confirmed via
+- **The Colonnade Hotel** (2026-08-14): confirmed via
   `careers.hireology.com/colonnadehotel` — every job's `organization.name`
   reads `"The Colonnade Hotel"` and `locations[0].address` reads "120
   Huntington Avenue, Boston, MA 02116", matching this entry's

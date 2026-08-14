@@ -61,69 +61,6 @@
       ]
     },
     {
-      "name": "Colonnade Hotel",
-      "city": "Boston",
-      "lat": 42.3456719,
-      "lng": -71.0810382,
-      "brand": "independent",
-      "scrape": {
-        "source": "hireology",
-        "propertyMatch": "colonnadehotel"
-      },
-      "scrapeNote": "Runs its own dedicated Hireology careers site (careers.hireology.com/colonnadehotel) rather than any brand/management-company site — confirmed via organization.name (\"The Colonnade Hotel\") and address (120 Huntington Avenue, Boston, MA 02116) on each job, matching this entry's coordinates.",
-      "jobs": [
-        {
-          "title": "Housekeeping Supervisor",
-          "payMin": 30,
-          "payMax": 30,
-          "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2822775/description",
-          "firstSeen": "2026-07-22"
-        },
-        {
-          "title": "Guest Service Agent",
-          "payMin": 25,
-          "payMax": 25,
-          "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2822765/description",
-          "firstSeen": "2026-07-22"
-        },
-        {
-          "title": "Assistant Front Office Manager",
-          "payMin": 65000,
-          "payMax": 70000,
-          "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2811349/description",
-          "firstSeen": "2026-07-09",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Reservations Agent",
-          "payMin": 25,
-          "payMax": 25,
-          "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2791054/description",
-          "firstSeen": "2026-06-17"
-        },
-        {
-          "title": "General Maintenance Engineer",
-          "payMin": 30,
-          "payMax": 30,
-          "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2787511/description",
-          "firstSeen": "2026-06-12"
-        },
-        {
-          "title": "In-room Dining Server",
-          "payMin": 20.9,
-          "payMax": 20.9,
-          "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2770821/description",
-          "firstSeen": "2026-05-26"
-        }
-      ]
-    },
-    {
       "name": "Copley Square Hotel",
       "city": "Boston",
       "lat": 42.3483153,
@@ -1657,6 +1594,69 @@
         "propertyMatch": "Sheraton Commander Hotel"
       },
       "jobs": []
+    },
+    {
+      "name": "The Colonnade Hotel",
+      "city": "Boston",
+      "lat": 42.3456719,
+      "lng": -71.0810382,
+      "brand": "independent",
+      "scrape": {
+        "source": "hireology",
+        "propertyMatch": "colonnadehotel"
+      },
+      "scrapeNote": "Runs its own dedicated Hireology careers site (careers.hireology.com/colonnadehotel) rather than any brand/management-company site — confirmed via organization.name (\"The Colonnade Hotel\") and address (120 Huntington Avenue, Boston, MA 02116) on each job, matching this entry's coordinates.",
+      "jobs": [
+        {
+          "title": "Housekeeping Supervisor",
+          "payMin": 30,
+          "payMax": 30,
+          "category": null,
+          "url": "https://careers.hireology.com/colonnadehotel/2822775/description",
+          "firstSeen": "2026-07-22"
+        },
+        {
+          "title": "Guest Service Agent",
+          "payMin": 25,
+          "payMax": 25,
+          "category": null,
+          "url": "https://careers.hireology.com/colonnadehotel/2822765/description",
+          "firstSeen": "2026-07-22"
+        },
+        {
+          "title": "Assistant Front Office Manager",
+          "payMin": 65000,
+          "payMax": 70000,
+          "category": null,
+          "url": "https://careers.hireology.com/colonnadehotel/2811349/description",
+          "firstSeen": "2026-07-09",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Reservations Agent",
+          "payMin": 25,
+          "payMax": 25,
+          "category": null,
+          "url": "https://careers.hireology.com/colonnadehotel/2791054/description",
+          "firstSeen": "2026-06-17"
+        },
+        {
+          "title": "General Maintenance Engineer",
+          "payMin": 30,
+          "payMax": 30,
+          "category": null,
+          "url": "https://careers.hireology.com/colonnadehotel/2787511/description",
+          "firstSeen": "2026-06-12"
+        },
+        {
+          "title": "In-room Dining Server",
+          "payMin": 20.9,
+          "payMax": 20.9,
+          "category": null,
+          "url": "https://careers.hireology.com/colonnadehotel/2770821/description",
+          "firstSeen": "2026-05-26"
+        }
+      ]
     },
     {
       "name": "W Boston",
