@@ -828,6 +828,30 @@ search path:**
     against the live API rather than via a full `run-scrape.js` pass —
     Marriott's `networkidle` timeouts (documented under Sage above) made
     the full pipeline unreliable again this session.
+- **Unconfirmed lead, not yet wired up (2026-08-14)**: Courtyard by
+  Marriott South Boston (`scrape.source` currently still `"marriott"`,
+  `jobs: []`) may actually be Jiten Hotel Management-managed rather than
+  posting through careers.marriott.com — flagged by the user, who
+  wasn't certain and noted jobs may have posted on Marriott's own site
+  before, so this isn't a confirmed switch yet, just a lead worth
+  tracking. A third ADP account
+  (`cid=dc2c1d37-7cc1-4e74-be02-b2ae8006199c`,
+  `ccId=19000101_000001`) does check out as genuinely Jiten's — its own
+  `LOCATION` facet includes "Jiten Hotel Mgmt. Corporate Office,
+  Brockton, MA, US" alongside a scatter of MA/FL properties (Home2
+  Suites, Best Western, Hampton Inn, Comfort Inn, Holiday Inn Express,
+  Quality Inn, and two other Courtyard by Marriott locations in
+  Raynham and Barnstable), including one listed simply as "Courtyard by
+  Marriott, Boston, MA, US" — plausibly this hotel, though the location
+  text alone doesn't distinguish it from Courtyard Downtown/North
+  Station or other Boston-area Courtyards. None of the account's 8
+  currently-live postings are for that location, so — same situation as
+  Dagny Boston before it resolved — there's nothing to confirm the
+  exact match against yet. Worth an occasional check of this `cid`/
+  `ccId` for a live Boston-location posting, and worth double-checking
+  whether careers.marriott.com still returns anything for this property
+  at all before assuming it's gone quiet the way Westin Boston Seaport
+  and Hilton Boston Back Bay's brand sites did.
 
 **Sage scraper live (`scripts/scrapers/sage.js`):**
 - Sage Hospitality Group turned out to be a real management company
