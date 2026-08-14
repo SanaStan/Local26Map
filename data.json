@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T03:34:42.000Z",
+  "generatedAt": "2026-08-14T04:23:09.727Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -210,8 +210,166 @@
       "lat": 42.3952143,
       "lng": -71.0695365,
       "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "smartrecruiters",
+        "smartRecruitersCompany": "WynnResorts",
+        "propertyMatch": "Encore Boston Harbor"
+      },
+      "scrapeNote": "Wynn Resorts-managed; wynnresorts.com/careers funnels through a build-specific Next.js Server Action rather than a stable endpoint, so this bypasses it and calls SmartRecruiters' own public postings API (api.smartrecruiters.com) directly. Confirmed via each job's own customField \"Company\" value, an exact match on \"Encore Boston Harbor\" (all 18 current MA postings). Note: the API's own per-job location lat/lng (~42.408, -71.054) doesn't exactly match this entry's coordinates — similar generic-geocode caveat as Sage/Hotel Commonwealth, not a red flag on property identity.",
+      "jobs": [
+        {
+          "title": "Banquet Manager",
+          "payMin": 60000,
+          "payMax": 65000,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000143332904-banquet-manager",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Sr. Accounts Payable Clerk",
+          "payMin": 31,
+          "payMax": 31,
+          "category": "Accounting/Auditing",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000143332749-sr-accounts-payable-clerk",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Banquet Set-Up Porter",
+          "payMin": 31.73,
+          "payMax": 31.73,
+          "category": "Production",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000142979369-banquet-set-up-porter",
+          "firstSeen": "2026-08-11"
+        },
+        {
+          "title": "Manager- Tower Suites",
+          "payMin": 76875,
+          "payMax": 80000,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000142938370-manager-tower-suites-",
+          "firstSeen": "2026-08-11",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Refrigeration Technician",
+          "payMin": 58.99,
+          "payMax": 58.99,
+          "category": "Management",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000141571359-refrigeration-technician",
+          "firstSeen": "2026-08-04"
+        },
+        {
+          "title": "Manicurist - SE",
+          "payMin": 13.26,
+          "payMax": 13.26,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000141547429-manicurist-se-",
+          "firstSeen": "2026-08-04"
+        },
+        {
+          "title": "Massage Therapist - Spa",
+          "payMin": 10.66,
+          "payMax": 10.66,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000141340215-massage-therapist-spa",
+          "firstSeen": "2026-08-03"
+        },
+        {
+          "title": "Assistant Manager – Call Center 6PM-3AM",
+          "payMin": 61000,
+          "payMax": 66000,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000140971068-assistant-manager-call-center-6pm-3am-",
+          "firstSeen": "2026-07-31",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Staff Auditor",
+          "payMin": 75000,
+          "payMax": 75000,
+          "category": "Accounting/Auditing",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000140751819-staff-auditor-",
+          "firstSeen": "2026-07-30",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Poker Dealer",
+          "payMin": 11,
+          "payMax": 11,
+          "category": "Other",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000140731429-poker-dealer-",
+          "firstSeen": "2026-07-30"
+        },
+        {
+          "title": "Poker List Attendant (Steady Extra/Part Time)",
+          "payMin": 23.1,
+          "payMax": 23.1,
+          "category": "Other",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000140729250-poker-list-attendant-steady-extra-part-time-",
+          "firstSeen": "2026-07-30"
+        },
+        {
+          "title": "Cook I SE– Catering & Banquets",
+          "payMin": 32.67,
+          "payMax": 32.67,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000140681929-cook-i-se-catering-banquets",
+          "firstSeen": "2026-07-30"
+        },
+        {
+          "title": "Beverage Shift Manager (Overnights Required)",
+          "payMin": 66000,
+          "payMax": 75000,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000140492720-beverage-shift-manager-overnights-required-",
+          "firstSeen": "2026-07-29",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Specialist -  Casino & Promotions Special Events",
+          "payMin": 68000,
+          "payMax": 68000,
+          "category": "Marketing",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000139366034-specialist-casino-promotions-special-events",
+          "firstSeen": "2026-07-23",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Restaurant Manager - Rare Steakhouse",
+          "payMin": 66000,
+          "payMax": 71000,
+          "category": "Management",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000139317339-restaurant-manager-rare-steakhouse",
+          "firstSeen": "2026-07-23",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Poker Floor Supervisor",
+          "payMin": 36.21,
+          "payMax": 36.21,
+          "category": "Management",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000136556029-poker-floor-supervisor",
+          "firstSeen": "2026-07-08"
+        },
+        {
+          "title": "Wynn Rewards - Casino Host",
+          "payMin": 71000,
+          "payMax": 73000,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000136328752-wynn-rewards-casino-host",
+          "firstSeen": "2026-07-07",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Casino Service Supervisor (Minimum Four Games Preferred)",
+          "payMin": 37.85,
+          "payMax": 37.85,
+          "category": "Management",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000132492679-casino-service-supervisor-minimum-four-games-preferred-",
+          "firstSeen": "2026-06-16"
+        }
+      ]
     },
     {
       "name": "Fairmont Copley Plaza",
@@ -583,15 +741,6 @@
         "propertyMatch": "Hilton Boston Park Plaza"
       },
       "jobs": [
-        {
-          "title": "Assistant Food and Beverage Manager - Hilton Boston Park Plaza",
-          "payMin": 55,
-          "payMax": 65000,
-          "category": "Banquets",
-          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/219215",
-          "firstSeen": "2026-08-13",
-          "payUnit": "annual"
-        },
         {
           "title": "Senior Banquet Manager - Hilton Boston Park Plaza",
           "payMin": 85000,

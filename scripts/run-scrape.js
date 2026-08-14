@@ -70,6 +70,7 @@ import {
 import { scrapeHireologyCareers } from './scrapers/hireology.js';
 import { scrapeAdpJobRequisitions, locationMatches as adpLocationMatches } from './scrapers/adp.js';
 import { scrapeSageProperty } from './scrapers/sage.js';
+import { scrapeSmartRecruitersPostings, fetchJobDetail as fetchSmartRecruitersJobDetail } from './scrapers/smartrecruiters.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DATA_PATH = path.join(ROOT, 'data.json');
@@ -625,6 +626,52 @@ async function scrapeSageBrand(hotels) {
   return byHotel;
 }
 
+/**
+ * SmartRecruiters (see scripts/scrapers/smartrecruiters.js) is, like
+ * Hireology/ADP, a generic ATS rather than a management company —
+ * Encore Boston Harbor is Wynn Resorts-managed and posts through
+ * SmartRecruiters' public postings API directly (bypassing Wynn's own
+ * careers site, which funnels through a build-specific Next.js Server
+ * Action rather than a stable endpoint). One `smartRecruitersCompany`
+ * (e.g. "WynnResorts") can span a whole nationwide portfolio in a
+ * single un-filterable-by-property call, so hotels sharing a company
+ * identifier are grouped to fetch that portfolio once, then filtered
+ * per hotel by each job's own `customField` "Company" value — same
+ * filter-after-fetch-everything shape as Highgate.
+ */
+async function scrapeSmartRecruitersBrand(hotels) {
+  const byHotel = new Map();
+  const companyGroups = new Map();
+  for (const hotel of hotels) {
+    const company = hotel.scrape.smartRecruitersCompany;
+    if (!companyGroups.has(company)) companyGroups.set(company, []);
+    companyGroups.get(company).push(hotel);
+  }
+  for (const [company, companyHotels] of companyGroups) {
+    const allRaw = await scrapeSmartRecruitersPostings(company);
+    for (const hotel of companyHotels) {
+      const matches = allRaw.filter((j) => j.companyField === hotel.scrape.propertyMatch);
+      const enriched = [];
+      for (const m of matches) {
+        const detail = await fetchSmartRecruitersJobDetail(company, m.id);
+        if (detail === null) continue; // removed/closed posting — drop it (verify-before-including rule)
+        enriched.push({
+          title: m.title,
+          url: detail.url,
+          jobId: m.id,
+          payMin: detail.pay ? detail.pay.payMin : null,
+          payMax: detail.pay ? detail.pay.payMax : null,
+          payUnit: detail.pay && detail.pay.payUnit ? detail.pay.payUnit : undefined,
+          datePosted: detail.datePosted,
+          category: detail.category || null,
+        });
+      }
+      byHotel.set(hotel.name, enriched);
+    }
+  }
+  return byHotel;
+}
+
 function diffHotelJobs(hotel, previousJobs, scrapedJobs, historyLines) {
   const prevByUrl = new Map(previousJobs.map((j) => [jobKey(j), j]));
   const newByUrl = new Map(scrapedJobs.map((j) => [jobKey(j), j]));
@@ -680,6 +727,7 @@ async function main() {
   const hireologyHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hireology');
   const adpHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'adp');
   const sageHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'sage');
+  const smartRecruitersHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'smartrecruiters');
 
   const prevMarriottTotal = marriottHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHiltonTotal = hiltonHotels.reduce((sum, h) => sum + h.jobs.length, 0);
@@ -694,6 +742,7 @@ async function main() {
   const prevHireologyTotal = hireologyHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevAdpTotal = adpHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevSageTotal = sageHotels.reduce((sum, h) => sum + h.jobs.length, 0);
+  const prevSmartRecruitersTotal = smartRecruitersHotels.reduce((sum, h) => sum + h.jobs.length, 0);
 
   const browser = await chromium.launch();
   // A realistic desktop UA is required for careers.hyatt.com, which 403s
@@ -747,6 +796,9 @@ async function main() {
   const sageByHotel = await scrapeSageBrand(sageHotels);
   for (const [hotelName, jobs] of sageByHotel) scrapedByHotel.set(hotelName, jobs);
 
+  const smartRecruitersByHotel = await scrapeSmartRecruitersBrand(smartRecruitersHotels);
+  for (const [hotelName, jobs] of smartRecruitersByHotel) scrapedByHotel.set(hotelName, jobs);
+
   const newMarriottTotal = marriottHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHiltonTotal = hiltonHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHyattTotal = hyattHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
@@ -760,6 +812,7 @@ async function main() {
   const newHireologyTotal = hireologyHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newAdpTotal = adpHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newSageTotal = sageHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+  const newSmartRecruitersTotal = smartRecruitersHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
 
   // Guardrail: if any brand's scrape comes back completely empty while the
   // previous run had jobs for that brand, treat the whole run as unreliable
@@ -780,6 +833,7 @@ async function main() {
   if (newHireologyTotal === 0 && prevHireologyTotal > 0) brokenBrands.push(`Hireology (${hireologyHotels.length} properties, had ${prevHireologyTotal})`);
   if (newAdpTotal === 0 && prevAdpTotal > 0) brokenBrands.push(`ADP (${adpHotels.length} properties, had ${prevAdpTotal})`);
   if (newSageTotal === 0 && prevSageTotal > 0) brokenBrands.push(`Sage (${sageHotels.length} properties, had ${prevSageTotal})`);
+  if (newSmartRecruitersTotal === 0 && prevSmartRecruitersTotal > 0) brokenBrands.push(`SmartRecruiters (${smartRecruitersHotels.length} properties, had ${prevSmartRecruitersTotal})`);
 
   if (brokenBrands.length) {
     const report = {
@@ -793,7 +847,7 @@ async function main() {
     return;
   }
 
-  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge', 'ihg', 'hotelaka', 'millennium', 'highgate', 'hireology', 'adp', 'sage']);
+  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge', 'ihg', 'hotelaka', 'millennium', 'highgate', 'hireology', 'adp', 'sage', 'smartrecruiters']);
   const historyLines = [];
   const perHotelCounts = [];
 
@@ -830,8 +884,9 @@ async function main() {
     hireologyPropertiesScraped: hireologyHotels.length,
     adpPropertiesScraped: adpHotels.length,
     sagePropertiesScraped: sageHotels.length,
-    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal + prevIhgTotal + prevHotelAkaTotal + prevMillenniumTotal + prevHighgateTotal + prevHireologyTotal + prevAdpTotal + prevSageTotal,
-    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal + newIhgTotal + newHotelAkaTotal + newMillenniumTotal + newHighgateTotal + newHireologyTotal + newAdpTotal + newSageTotal,
+    smartRecruitersPropertiesScraped: smartRecruitersHotels.length,
+    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal + prevIhgTotal + prevHotelAkaTotal + prevMillenniumTotal + prevHighgateTotal + prevHireologyTotal + prevAdpTotal + prevSageTotal + prevSmartRecruitersTotal,
+    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal + newIhgTotal + newHotelAkaTotal + newMillenniumTotal + newHighgateTotal + newHireologyTotal + newAdpTotal + newSageTotal + newSmartRecruitersTotal,
     historyEventsWritten: historyLines.length,
     perHotelCounts,
     bigDrops: perHotelCounts.filter((c) => c.before >= 3 && c.after === 0),
