@@ -134,6 +134,26 @@ Marriott's.
   shows up in `history.jsonl` as one job "closing" and a new one
   "opening" on the same day, even though a human would call it the same
   job continuing. Known limitation, not a bug.
+- **Fixed (2026-08-14): `scrapeMarriottLocation()`'s initial page load
+  was using `waitUntil: 'networkidle'`, and this page's continuous
+  background analytics/tracking traffic could prevent that from ever
+  settling** — same class of issue already documented for Hyatt above,
+  just not noticed on Marriott until it started reliably hanging this
+  session (multiple full 60s timeouts across many consecutive
+  `run-scrape.js` attempts, blocking not just Marriott but the whole
+  pipeline behind it, since it runs first). Fixed the same way Hyatt's
+  was: switched to `waitUntil: 'domcontentloaded'` plus an explicit
+  `page.waitForSelector('li.results-list__item')` right after, rather
+  than a blind fixed delay. Confirmed the results list actually renders
+  ~2s after `domcontentloaded` fires (well before the old 1.5s blind
+  wait would even have fired), and confirmed the site never shows a
+  true "zero results" state for any location string — even a nonsense
+  one falls back to "these results are close to ..." against the full
+  nationwide list rather than rendering nothing — so waiting on that
+  selector can't hang on a genuinely-unmatched location either; the
+  per-hotel property-name filter downstream is what discards that noise.
+  Re-tested Boston (20 jobs, ~5s) and Cambridge (38 jobs, ~5s) directly
+  after the fix, both fast and reliable.
 
 ## Key discoveries about jobs.hilton.com
 - **It's a stock Oracle Recruiting Cloud ("Candidate Experience") site**,

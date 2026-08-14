@@ -10,6 +10,20 @@
  * drops the location filter and falls back to the full 13,000+ job list.
  * Clicking the in-page "next" control does not have this problem because
  * it's a client-side route change, not a fresh page load.
+ *
+ * domcontentloaded, not networkidle: same class of issue already seen on
+ * Hyatt — this page's continuous background analytics/tracking traffic
+ * can prevent networkidle from ever settling (observed repeated 60s
+ * timeouts starting 2026-08-14). Safe to drop since the results list is
+ * waited for explicitly by selector right after — confirmed the results
+ * list renders ~2s after domcontentloaded, well before any fixed delay
+ * would have fired anyway. Also confirmed the site always renders
+ * *something* for any location string, even a nonsense one (falls back
+ * to "these results are close to ..." against the full nationwide list
+ * rather than showing zero), so waiting for that selector can't hang on
+ * a genuinely-empty result set — the per-hotel property-name match
+ * downstream is what actually filters out that noise for an unmatched
+ * location.
  */
 
 const PAY_HOURLY_RE = /\$([\d,]+\.\d{2})\s*-\s*\$([\d,]+\.\d{2})\s*per hour/i;
@@ -46,8 +60,8 @@ export function propertyMatches(propertyName, propertyMatch) {
  */
 export async function scrapeMarriottLocation(page, locationName, { maxPages = 20 } = {}) {
   const url = `https://careers.marriott.com/jobs?location_type=2&location_name=${encodeURIComponent(locationName)}`;
-  await page.goto(url, { waitUntil: 'networkidle', timeout: 60000 });
-  await page.waitForTimeout(1500);
+  await page.goto(url, { waitUntil: 'domcontentloaded', timeout: 60000 });
+  await page.waitForSelector('li.results-list__item', { timeout: 30000 });
 
   const pageSizeSelect = page.locator('#page-size-select');
   if (await pageSizeSelect.count()) {

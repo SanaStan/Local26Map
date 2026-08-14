@@ -1095,7 +1095,7 @@
         "source": "aimbridge",
         "propertyMatch": "Le Meridien Boston Cambridge"
       },
-      "scrapeNote": "Aimbridge-managed; confirmed via a live posting under the exact property name \"Le Meridien Boston Cambridge\" (4 current postings). Switched from careers.marriott.com (propertyMatch \"Le Meridien Cambridge-MIT\", which was consistently returning 0 jobs) — same pattern as Westin Boston Seaport/Hilton Boston Back Bay. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Note: couldn't directly re-verify Marriott's own site is actually quiet (vs. just coincidentally 0 that day) due to a persistent networkidle timeout in marriott.js this session — worth a manual spot-check once that's fixed.",
+      "scrapeNote": "Aimbridge-managed; confirmed via a live posting under the exact property name \"Le Meridien Boston Cambridge\" (4 current postings). Switched from careers.marriott.com (propertyMatch \"Le Meridien Cambridge-MIT\") — same pattern as Westin Boston Seaport/Hilton Boston Back Bay. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Confirmed genuinely quiet on Marriott's own site (0 of 38 real Cambridge-area postings match, not just an artifact of the networkidle timeout bug that was blocking verification earlier the same day).",
       "jobs": [
         {
           "title": "Sales Coordinator",
