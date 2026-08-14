@@ -548,6 +548,7 @@ Marriott's.
       "city": "Boston",
       "lat": 42.xxxx, "lng": -71.xxxx,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": { "source": "marriott", "propertyMatch": "Exact Name Marriott Uses" },
       "scrapeNote": "optional — why this hotel is/isn't automated",
       "jobs": [
@@ -567,6 +568,23 @@ Marriott's.
 - `brand`: `marriott` | `hilton` | `hyatt` | `omni` | `ihg` | `independent`
   — used to route scraping. `marriott`, `hilton`, and `hyatt` have
   scrapers built so far.
+- `managedBy`: the real third-party operator running the hotel day to
+  day, when one has been specifically confirmed (e.g. `"Aimbridge
+  Hospitality"`, `"Highgate"`, `"Sage Hospitality Group"`) — distinct
+  from `brand`, which is just the flag/franchise a hotel posts under.
+  `null` means either the hotel is self-operated (its own brand/owner
+  runs it directly — Hotel AKA, The Colonnade Hotel) or, for the
+  majority of brand-scraped hotels, that no third-party operator has
+  been specifically investigated — `null` here is "unconfirmed," not
+  "confirmed self-operated," except for the handful of hotels noted
+  above. Deliberately left unfilled rather than guessed for every hotel
+  we haven't checked (most brand-flagged ones), since a wrong guess here
+  is worse than an honest blank — see `scrapeNote` on the confirmed
+  entries for how each one was verified. Two leads flagged by the user
+  (Courtyard South Boston/Jiten Hotel Management, Courtyard East Boston
+  (Logan)/Ocean Properties — see the ADP section above) are intentionally
+  still `null` since neither has a live posting to confirm the exact
+  match against yet.
 - `scrape`: `null` means "not automated" — either no scraper exists yet
   for the brand, or (see `scrapeNote`) the hotel doesn't post to its
   brand's corporate site at all (e.g. Hyatt Centric Faneuil Hall is

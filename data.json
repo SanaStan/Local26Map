@@ -7,6 +7,7 @@
       "lat": 42.3434606,
       "lng": -71.0449174,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Aloft by Marriott Boston Seaport District"
@@ -28,6 +29,7 @@
       "lat": 42.3674239,
       "lng": -71.050285,
       "brand": "independent",
+      "managedBy": "Westmont Hospitality Group",
       "scrape": {
         "source": "adp",
         "adpCid": "1c7fb0ee-a452-42a0-bb0d-786747fc0bb0",
@@ -77,6 +79,7 @@
       "lat": 42.3609819,
       "lng": -71.0558644,
       "brand": "independent",
+      "managedBy": "Millennium Hotels & Resorts",
       "scrape": {
         "source": "millennium",
         "propertyMatch": "The Bostonian"
@@ -106,6 +109,7 @@
       "lat": 42.3483153,
       "lng": -71.0786214,
       "brand": "independent",
+      "managedBy": "FCL Management",
       "scrape": null,
       "scrapeNote": "Management confirmed (branded \"a FOUND Hotel\", operated by FCL Management) but no live posting found anywhere to automate against as of 2026-08-14. FOUND Hotels' own careers page (foundhotels.com/careers/) is an empty nav stub with no ATS widget or jobs API call. FCL Management's site (fclmgmt.com) has no careers section at all, corporate/investor-facing only. The hotel's own domain (copleysquarehotel.com) has no careers link either. Targeted searches against known ATS platforms (Workday, iCIMS, UltiPro, Hireology, Paylocity, BambooHR) found nothing for this specific hotel. Don't re-add automated scraping without re-checking whether a posting has since appeared.",
       "jobs": []
@@ -116,6 +120,7 @@
       "lat": 42.3585973,
       "lng": -71.114959,
       "brand": "marriott",
+      "managedBy": "Highgate",
       "scrape": {
         "source": "highgate",
         "propertyMatch": "Courtyard Boston Cambridge"
@@ -146,6 +151,7 @@
       "lat": 42.3658713,
       "lng": -71.0596385,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Courtyard by Marriott Boston Downtown"
@@ -167,6 +173,7 @@
       "lat": 42.387417,
       "lng": -71.016385,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Courtyard by Marriott Boston Logan Airport"
@@ -179,6 +186,7 @@
       "lat": 42.326362,
       "lng": -71.0605163,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Courtyard by Marriott Boston South Boston"
@@ -191,6 +199,7 @@
       "lat": 42.3574115,
       "lng": -71.0530807,
       "brand": "independent",
+      "managedBy": "Aimbridge Hospitality",
       "scrape": {
         "source": "aimbridge",
         "propertyMatch": "The Dagny"
@@ -213,6 +222,7 @@
       "lat": 42.3603277,
       "lng": -71.1181015,
       "brand": "hilton",
+      "managedBy": null,
       "scrape": {
         "source": "hilton",
         "propertyMatch": "DoubleTree Suites by Hilton Boston - Cambridge"
@@ -243,6 +253,7 @@
       "lat": 42.342969,
       "lng": -71.045365,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Element by Marriott Boston Seaport District"
@@ -264,6 +275,7 @@
       "lat": 42.3952143,
       "lng": -71.0695365,
       "brand": "independent",
+      "managedBy": "Wynn Resorts",
       "scrape": {
         "source": "smartrecruiters",
         "smartRecruitersCompany": "WynnResorts",
@@ -431,6 +443,7 @@
       "lat": 42.3490335,
       "lng": -71.076239,
       "brand": "accor",
+      "managedBy": null,
       "scrape": {
         "source": "accor",
         "propertyMatch": "Fairmont Copley Plaza Boston"
@@ -642,6 +655,7 @@
       "lat": 42.3325348,
       "lng": -71.0730551,
       "brand": "hilton",
+      "managedBy": null,
       "scrape": {
         "source": "hilton",
         "propertyMatch": "Hampton Inn & Suites Boston Crosstown Center"
@@ -654,6 +668,7 @@
       "lat": 42.3440114,
       "lng": -71.0377504,
       "brand": "hilton",
+      "managedBy": null,
       "scrape": {
         "source": "hilton",
         "propertyMatch": [
@@ -688,6 +703,7 @@
       "lat": 42.3462978,
       "lng": -71.0849425,
       "brand": "hilton",
+      "managedBy": "Highgate",
       "scrape": {
         "source": "highgate",
         "propertyMatch": "Hilton Boston Back Bay"
@@ -745,6 +761,7 @@
       "lat": 42.3675085,
       "lng": -71.0229555,
       "brand": "hilton",
+      "managedBy": null,
       "scrape": {
         "source": "hilton",
         "propertyMatch": "Hilton Boston Logan Airport"
@@ -790,6 +807,7 @@
       "lat": 42.3510338,
       "lng": -71.0697226,
       "brand": "hilton",
+      "managedBy": null,
       "scrape": {
         "source": "hilton",
         "propertyMatch": "Hilton Boston Park Plaza"
@@ -852,6 +870,7 @@
       "lat": 42.3897368,
       "lng": -71.0122025,
       "brand": "hilton",
+      "managedBy": null,
       "scrape": {
         "source": "hilton",
         "propertyMatch": "Hilton Garden Inn Boston Logan Airport"
@@ -864,6 +883,7 @@
       "lat": 42.349114,
       "lng": -71.0725213,
       "brand": "independent",
+      "managedBy": null,
       "scrape": {
         "source": "hotelaka",
         "propertyMatch": "Hotel AKA Back Bay"
@@ -893,6 +913,7 @@
       "lat": 42.357306,
       "lng": -71.0606874,
       "brand": "independent",
+      "managedBy": null,
       "scrape": {
         "source": "hotelaka",
         "propertyMatch": "Hotel AKA Boston Common"
@@ -932,6 +953,7 @@
       "lat": 42.3484911,
       "lng": -71.095243,
       "brand": "independent",
+      "managedBy": "Sage Hospitality Group",
       "scrape": {
         "source": "sage",
         "propertyMatch": "hotel-commonwealth"
@@ -978,6 +1000,7 @@
       "lat": 42.3582532,
       "lng": -71.057184,
       "brand": "hyatt",
+      "managedBy": null,
       "scrape": null,
       "jobs": [],
       "scrapeNote": "Magna Hospitality-managed; does not post to careers.hyatt.com (confirmed via careers.hyatt.com search — property absent from both the live org-search index and the site's full ~3000-property checkbox list). Its only listings found were on hospitalityonline.com/hcareers, both explicitly excluded aggregators. Don't re-add automated scraping without re-checking."
@@ -988,6 +1011,7 @@
       "lat": 42.3475646,
       "lng": -71.0368804,
       "brand": "hyatt",
+      "managedBy": null,
       "scrape": {
         "source": "hyatt",
         "propertyMatch": "Hyatt Place Boston MA Seaport"
@@ -1000,6 +1024,7 @@
       "lat": 42.3534777,
       "lng": -71.0608477,
       "brand": "hyatt",
+      "managedBy": null,
       "scrape": {
         "source": "hyatt",
         "propertyMatch": "Hyatt Regency Boston"
@@ -1012,6 +1037,7 @@
       "lat": 42.3536908,
       "lng": -71.0519125,
       "brand": "ihg",
+      "managedBy": null,
       "scrape": {
         "source": "ihg",
         "propertyMatch": "IC - Boston (BOSHA)"
@@ -1091,6 +1117,7 @@
       "lat": 42.3621253,
       "lng": -71.1000153,
       "brand": "marriott",
+      "managedBy": "Aimbridge Hospitality",
       "scrape": {
         "source": "aimbridge",
         "propertyMatch": "Le Meridien Boston Cambridge"
@@ -1140,6 +1167,7 @@
       "lat": 42.349229,
       "lng": -71.079528,
       "brand": "independent",
+      "managedBy": "Saunders Hotel Group",
       "scrape": {
         "source": "adp",
         "adpCid": "fc87c3e5-bb17-4857-9e3a-28a4049196cb",
@@ -1196,6 +1224,7 @@
       "lat": 42.3508921,
       "lng": -71.0646016,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Moxy Boston Downtown"
@@ -1209,6 +1238,7 @@
       "lat": 42.3527354,
       "lng": -71.0715154,
       "brand": "independent",
+      "managedBy": "Highgate",
       "scrape": {
         "source": "highgate",
         "propertyMatch": "The Newbury Boston"
@@ -1334,6 +1364,7 @@
       "lat": 42.3470497,
       "lng": -71.0421624,
       "brand": "omni",
+      "managedBy": null,
       "scrape": {
         "source": "omni",
         "propertyMatch": "Omni Boston Hotel at the Seaport"
@@ -1568,6 +1599,7 @@
       "lat": 42.3577637,
       "lng": -71.060106,
       "brand": "omni",
+      "managedBy": null,
       "scrape": {
         "source": "omni",
         "propertyMatch": "Omni Parker House"
@@ -1673,6 +1705,7 @@
       "lat": 42.3485405,
       "lng": -71.0748711,
       "brand": "accor",
+      "managedBy": null,
       "scrape": {
         "source": "accor",
         "propertyMatch": "Raffles Boston"
@@ -1775,6 +1808,7 @@
       "lat": 42.348157,
       "lng": -71.039472,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Renaissance Boston Seaport District"
@@ -1846,6 +1880,7 @@
       "lat": 42.3531231,
       "lng": -71.0632517,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "The Ritz-Carlton, Boston"
@@ -1875,6 +1910,7 @@
       "lat": 42.3465151,
       "lng": -71.0839224,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Sheraton Boston Hotel"
@@ -1913,6 +1949,7 @@
       "lat": 42.3772651,
       "lng": -71.1233101,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "Sheraton Commander Hotel"
@@ -1925,6 +1962,7 @@
       "lat": 42.3456719,
       "lng": -71.0810382,
       "brand": "independent",
+      "managedBy": null,
       "scrape": {
         "source": "hireology",
         "propertyMatch": "colonnadehotel"
@@ -1988,6 +2026,7 @@
       "lat": 42.3508419,
       "lng": -71.0656551,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "W Boston"
@@ -2000,6 +2039,7 @@
       "lat": 42.3459926,
       "lng": -71.0430104,
       "brand": "marriott",
+      "managedBy": "Aimbridge Hospitality",
       "scrape": {
         "source": "aimbridge",
         "propertyMatch": "Westin Boston Seaport District"
@@ -2090,6 +2130,7 @@
       "lat": 42.3483206,
       "lng": -71.0774615,
       "brand": "marriott",
+      "managedBy": null,
       "scrape": {
         "source": "marriott",
         "propertyMatch": "The Westin Copley Place, Boston"
