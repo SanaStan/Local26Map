@@ -793,17 +793,65 @@ search path:**
   either belongs on Local 26's list before assuming not, same as the
   Atlas Hotel/Studio Allston situation found via Highgate's search.
 
+**Sage scraper live (`scripts/scrapers/sage.js`):**
+- Sage Hospitality Group turned out to be a real management company
+  (like Highgate/Aimbridge/Millennium), not just an ATS vendor —
+  **Hotel Commonwealth** (2026-08-14, `brand: "independent"`) posts
+  through Sage's own careers site, `sagehospitality.jobs`, which spans
+  ~70 properties nationwide. Checked every property name in the site's
+  own per-property filter config for any other match against this
+  project's list — only Hotel Commonwealth matched.
+- The site is a Nuxt (Vue) SPA with no jobs in the initial HTML. It
+  calls a public Solr-backed search API,
+  `prod-search-api.jobsyn.org/api/v1/solr/search`, filtered by a
+  `property2` slug (`hotel-commonwealth`) that maps server-side to an
+  exact-phrase Solr query against the job's own text — confirmed via the
+  site's own filter config, which literally spells out
+  `text:"Hotel Commonwealth"` for this slug, plus the job description
+  text itself ("nestled in the heart of Fenway"). That API call requires
+  a custom `x-origin` header (the bare hostname,
+  `sagehospitality.jobs`) — a plain `Origin`/`Referer` pair alone 403s
+  with "Mismatched origin" — but no cookies/session/browser JS execution
+  otherwise, plain `fetch()` works once that header is set.
+- **No pay field exists anywhere in this API** (checked both the list
+  response and the separate `microsites.dejobs.org` per-job detail
+  endpoint) — every job from this source has null pay, same as any other
+  scraper's no-data case.
+- The clean per-job URL isn't in the API response either (its own `link`
+  field points at a `de.jobsyn.org` redirector, not the canonical site)
+  — found by watching real navigation in a browser:
+  `sagehospitality.jobs/{city-slug}-{state-slug}/{title_slug}/{guid}/job/`,
+  all pieces already present in the same search response.
+- **Note**: the API's own `GeoLocation` field on each job
+  (42.354702, -71.06527) doesn't match this entry's existing, correct
+  coordinates (42.3485, -71.0952, Kenmore Square/Fenway) — looks like a
+  generic/default geocode on Sage's end rather than the real property
+  pin, not a red flag on property identity given the exact-phrase and
+  description-text confirmation above.
+- This pass hit persistent, reproducible timeouts on Marriott's own
+  scraper (`waitUntil: 'networkidle'` never settling — same class of
+  issue already documented for Hyatt above, apparently now also
+  affecting Marriott) that blocked a full end-to-end `run-scrape.js`
+  pass across several consecutive attempts, unrelated to this change.
+  Rather than block on that unrelated, pre-existing issue, the Sage
+  scraper module was verified directly in isolation (its exact output
+  matches manual navigation of the real site) and that verified output
+  was applied to `data.json`/`history.jsonl` by hand instead of via a
+  full pipeline run. Worth a look separately: whether Marriott's
+  `waitUntil: 'networkidle'` should drop to `'domcontentloaded'` like
+  Hyatt's already does.
+
 **Not yet automated (no scraper built yet):**
-- Independent/other, unconfirmed management (4): Battery Wharf,
-  Copley Square, Encore Boston Harbor, Hotel Commonwealth — worth
+- Independent/other, unconfirmed management (3): Battery Wharf,
+  Copley Square, Encore Boston Harbor — worth
   a quick pass to check whether any of these are actually
   brand-affiliated (like Fairmont/Raffles turned out to be) or managed by
-  Aimbridge, Highgate, Millennium, or another management company (like
-  Westin Boston Seaport, Newbury Boston, or Hilton Boston Back Bay), or
-  run their own dedicated careers site (like Hotel AKA, The Colonnade
-  Hotel turning out to be on Hireology, or Lenox Hotel turning out to be
-  on ADP Workforce Now) before assuming they're truly
-  independent-independent.
+  Aimbridge, Highgate, Millennium, Sage, or another management company
+  (like Westin Boston Seaport, Newbury Boston, Hilton Boston Back Bay,
+  or Hotel Commonwealth), or run their own dedicated careers site (like
+  Hotel AKA, The Colonnade Hotel turning out to be on Hireology, or
+  Lenox Hotel turning out to be on ADP Workforce Now) before assuming
+  they're truly independent-independent.
 
 ## Next steps (pick up in roughly this order)
 1. **Watch for the first live posting at Dagny Boston (or another
@@ -823,23 +871,24 @@ search path:**
    flagged, but its own brand's site has gone to zero jobs while the real
    postings moved to a management company) — both were found by chance,
    not by a systematic check.
-2. Remaining hotels (4) — a re-check for brand *and* management-company
+2. Remaining hotels (3) — a re-check for brand *and* management-company
    affiliations before doing per-hotel research on whatever's genuinely
    independent (Fairmont and Raffles turned out to be mislabeled Accor
    properties; several others may be Aimbridge- or other-management-
    company-managed like Dagny; Hotel AKA, Millennium/Bostonian, The
-   Colonnade Hotel, and now Lenox turned out to run their own/a
-   third-party dedicated careers site rather than being truly
-   independent — worth ruling all of these out before treating a hotel
-   as one-off research).
+   Colonnade Hotel, Lenox, and now Hotel Commonwealth turned out to run
+   their own/a third-party dedicated careers site rather than being
+   truly independent — worth ruling all of these out before treating a
+   hotel as one-off research).
    Worth checking each one for the ATS platform it runs on first (Oracle
    Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, UKG Pro
    Recruiting, Recruitee, Workday, iCIMS, Hireology, ADP Workforce Now,
-   etc. — see the Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA/
-   Millennium/Highgate/Hireology/ADP discoveries above for what that can
-   look like — two of eight brand/management-company scrapers so far
-   turned out to share the same Oracle Recruiting Cloud infrastructure,
-   worth checking for reuse before assuming a fresh build is needed)
+   jobsyn/Recruit Rooster, etc. — see the Hilton/Hyatt/Omni/Accor/
+   Aimbridge/IHG/Hotel AKA/Millennium/Highgate/Hireology/ADP/Sage
+   discoveries above for what that can look like — two of eight
+   brand/management-company scrapers so far turned out to share the same
+   Oracle Recruiting Cloud infrastructure, worth checking for reuse
+   before assuming a fresh build is needed)
    before assuming a Marriott-style DOM scrape is needed —
    though don't assume it *isn't* needed either; Accor's Attrax platform
    turned out to require full DOM scraping same as Marriott, despite

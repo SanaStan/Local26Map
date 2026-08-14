@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T02:33:50.686Z",
+  "generatedAt": "2026-08-14T03:34:42.000Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -729,8 +729,45 @@
       "lat": 42.3484911,
       "lng": -71.095243,
       "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "sage",
+        "propertyMatch": "hotel-commonwealth"
+      },
+      "scrapeNote": "Sage Hospitality Group-managed; posts through sagehospitality.jobs rather than any brand site. Confirmed via the site's own per-property exact-phrase filter (property2=hotel-commonwealth maps to text:\"Hotel Commonwealth\") and job description text (\"nestled in the heart of Fenway\"). Note: the API's own GeoLocation field on each job (42.354702, -71.06527) doesn't match this entry's coordinates — looks like a generic/default geocode on Sage's end, not a red flag on property identity.",
+      "jobs": [
+        {
+          "title": "Director of Front Office",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://sagehospitality.jobs/boston-ma/director-of-front-office/1688F5C83F9946DEA2512E1F6677D514/job/",
+          "firstSeen": "2026-08-12"
+        },
+        {
+          "title": "Director of Sales & Marketing",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://sagehospitality.jobs/boston-ma/director-of-sales-marketing/C4810FE9DE5A4445BCF6927F8DBBE800/job/",
+          "firstSeen": "2026-08-03"
+        },
+        {
+          "title": "Reservations Agent - Hotel Commonwealth",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://sagehospitality.jobs/boston-ma/reservations-agent-hotel-commonwealth/028A74D231584E02A1CB8705B94E682C/job/",
+          "firstSeen": "2026-06-25"
+        },
+        {
+          "title": "Senior Catering Sales Manager - Hotel Commonwealth",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://sagehospitality.jobs/boston-ma/senior-catering-sales-manager-hotel-commonwealth/22F6B42BE7DF4F269FBDABE6C220DEBE/job/",
+          "firstSeen": "2026-05-22"
+        }
+      ]
     },
     {
       "name": "Hyatt Centric Faneuil Hall Boston",
