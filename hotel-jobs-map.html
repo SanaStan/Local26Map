@@ -246,13 +246,18 @@
     font-size:16px;
     margin:0 0 4px 0;
   }
+  .popup-meta{
+    display:flex;
+    align-items:center;
+    gap:8px;
+    margin-bottom:8px;
+  }
   .popup-city{
     font-family:'Space Mono',monospace;
     font-size:10.5px;
     letter-spacing:.06em;
     text-transform:uppercase;
     color:var(--brass-bright);
-    margin-bottom:8px;
   }
   .popup-jobs{font-size:12.5px; color:var(--cream-dim); line-height:1.5;}
 
@@ -477,7 +482,7 @@ function popupHTML(h){
       }).join('<br>')
     : 'No openings posted yet.';
   return `<div class="popup-name">${h.name}</div>
-          <div class="popup-city">${h.city}</div>
+          <div class="popup-meta"><span class="popup-city">${h.city}</span><span class="dot"></span><span class="brand-tag">${brandLabel(h.brand)}</span></div>
           <div class="popup-jobs">${jobsHTML}</div>`;
 }
 
