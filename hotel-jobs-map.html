@@ -259,6 +259,7 @@
     text-transform:uppercase;
     color:var(--brass-bright);
   }
+  .popup-managed{font-size:11.5px; color:var(--cream-dim); font-style:italic; margin-bottom:8px;}
   .popup-jobs{font-size:12.5px; color:var(--cream-dim); line-height:1.5;}
 
   .marker-pin{
@@ -481,8 +482,10 @@ function popupHTML(h){
         return `${title} — ${pay} <span style="color:var(--brass-bright); font-size:11px;">(${dept})</span>`;
       }).join('<br>')
     : 'No openings posted yet.';
+  const managedHTML = h.managedBy ? `<div class="popup-managed">Managed by ${h.managedBy}</div>` : '';
   return `<div class="popup-name">${h.name}</div>
           <div class="popup-meta"><span class="popup-city">${h.city}</span><span class="dot"></span><span class="brand-tag">${brandLabel(h.brand)}</span></div>
+          ${managedHTML}
           <div class="popup-jobs">${jobsHTML}</div>`;
 }
 
