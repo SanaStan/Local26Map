@@ -753,15 +753,56 @@ search path:**
   (e.g. `"colonnadehotel"`), not a display name to match against, since
   the API scopes results to one hotel already.
 
+**ADP scraper live (`scripts/scrapers/adp.js`):**
+- Another ATS-not-management-company case, like Hireology, but ADP
+  Workforce Now's "recruitment-current-openings" widget is keyed by a
+  `cid` (client ID, the whole ADP account) and `ccId` (career-center ID,
+  a specific widget/job-board view within it) rather than one path per
+  hotel — and a single `cid` can span more than one physical location,
+  so (unlike Hireology) each job still needs verifying against the
+  hotel it's actually for.
+- **Lenox Hotel** (2026-08-14): confirmed via the widget embedded on
+  `lenoxhotel.com/careers` — `cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb`,
+  `ccId=9203358411273_3`. The page itself is client-rendered with no
+  jobs in the initial HTML, same shape as Hireology: an `apiToken` isn't
+  needed here, but the public endpoint
+  (`workforcenow.adp.com/mascsr/default/careercenter/public/events/
+  staffing/v1/job-requisitions`) is openly queryable by anyone who knows
+  the `cid`/`ccId` pair, no browser/JS execution needed to read it —
+  those two IDs were pulled from the page's embedded
+  `<recruitment-current-openings>` markup. Each job's own
+  `requisitionLocations` reads `"Lenox, Boston, MA, US"`, matching this
+  entry's coordinates (the page's own text also confirms: "Since 1900,
+  The Lenox has been a beloved Back Bay landmark"). Pay unit comes from
+  an explicit `SalaryType` code field (`shortName: "Hourly"` on every
+  posting seen so far) rather than a magnitude-inference heuristic —
+  more reliable when present, so treated as authoritative; magnitude is
+  only a fallback for the shape this hasn't produced yet (a salaried
+  posting). The clean per-job URL isn't in the list response either —
+  found by watching a real click in a browser, which opens
+  `.../mdf/recruitment/recruitment.html?cid=...&ccId=...&jobId=
+  {ExternalJobID}&jwId={jobWidget.itemID}`, both IDs already present in
+  the same list response. 0 → 5 jobs on this hotel, guardrail passed, no
+  other brand affected (one incidental drop-then-recover on Fairmont
+  Copley Plaza, 24→12→24, was Accor's own site timing out across a few
+  manual test runs this same session, unrelated to this change).
+- **Not yet followed up**: the same `cid` also spans "Somerville/
+  Cambridge" and "Revere" per the API's own `LOCATION` facet in
+  `meta.links` — Saunders Hotel Group (Lenox's owner) likely manages
+  a property in at least one of those areas. Worth checking whether
+  either belongs on Local 26's list before assuming not, same as the
+  Atlas Hotel/Studio Allston situation found via Highgate's search.
+
 **Not yet automated (no scraper built yet):**
-- Independent/other, unconfirmed management (5): Battery Wharf,
-  Copley Square, Encore Boston Harbor, Hotel Commonwealth, Lenox — worth
+- Independent/other, unconfirmed management (4): Battery Wharf,
+  Copley Square, Encore Boston Harbor, Hotel Commonwealth — worth
   a quick pass to check whether any of these are actually
   brand-affiliated (like Fairmont/Raffles turned out to be) or managed by
   Aimbridge, Highgate, Millennium, or another management company (like
   Westin Boston Seaport, Newbury Boston, or Hilton Boston Back Bay), or
-  run their own dedicated careers site (like Hotel AKA, or Colonnade
-  Hotel turning out to be on Hireology) before assuming they're truly
+  run their own dedicated careers site (like Hotel AKA, The Colonnade
+  Hotel turning out to be on Hireology, or Lenox Hotel turning out to be
+  on ADP Workforce Now) before assuming they're truly
   independent-independent.
 
 ## Next steps (pick up in roughly this order)
@@ -782,22 +823,24 @@ search path:**
    flagged, but its own brand's site has gone to zero jobs while the real
    postings moved to a management company) — both were found by chance,
    not by a systematic check.
-2. Remaining hotels (5) — a re-check for brand *and* management-company
+2. Remaining hotels (4) — a re-check for brand *and* management-company
    affiliations before doing per-hotel research on whatever's genuinely
    independent (Fairmont and Raffles turned out to be mislabeled Accor
    properties; several others may be Aimbridge- or other-management-
-   company-managed like Dagny; Hotel AKA, Millennium/Bostonian, and now
-   Colonnade turned out to run their own/a third-party dedicated careers
-   site rather than being truly independent — worth ruling all of these
-   out before treating a hotel as one-off research).
+   company-managed like Dagny; Hotel AKA, Millennium/Bostonian, The
+   Colonnade Hotel, and now Lenox turned out to run their own/a
+   third-party dedicated careers site rather than being truly
+   independent — worth ruling all of these out before treating a hotel
+   as one-off research).
    Worth checking each one for the ATS platform it runs on first (Oracle
    Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, UKG Pro
-   Recruiting, Recruitee, Workday, iCIMS, etc. — see the
-   Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA/Millennium/Highgate
-   discoveries above for what that can look like — two of eight so far
-   turned out to share the same Oracle Recruiting Cloud infrastructure, worth checking
-   for reuse before assuming a fresh build is needed) before assuming a
-   Marriott-style DOM scrape is needed —
+   Recruiting, Recruitee, Workday, iCIMS, Hireology, ADP Workforce Now,
+   etc. — see the Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA/
+   Millennium/Highgate/Hireology/ADP discoveries above for what that can
+   look like — two of eight brand/management-company scrapers so far
+   turned out to share the same Oracle Recruiting Cloud infrastructure,
+   worth checking for reuse before assuming a fresh build is needed)
+   before assuming a Marriott-style DOM scrape is needed —
    though don't assume it *isn't* needed either; Accor's Attrax platform
    turned out to require full DOM scraping same as Marriott, despite
    looking modern.

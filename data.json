@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T01:53:18.936Z",
+  "generatedAt": "2026-08-14T02:33:50.686Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -330,7 +330,7 @@
           "payMax": 27.25,
           "category": "Rooms",
           "url": "https://careers.accor.com/global/en/job/health-club-attendant-part-time-in-fairmont-copley-plaza-boston-boston-united-states-jid-96541",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "Marketing & Communications Coordinator",
@@ -338,7 +338,7 @@
           "payMax": 30.5,
           "category": "Sales Marketing",
           "url": "https://careers.accor.com/global/en/job/marketing-and-communications-coordinator-in-fairmont-copley-plaza-boston-boston-united-states-jid-105311",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "OAK Long Bar + Kitchen Barback",
@@ -346,7 +346,7 @@
           "payMax": 26.87,
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-barback-in-fairmont-copley-plaza-boston-boston-united-states-jid-105308",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "Front Office Assistant Manager",
@@ -354,7 +354,7 @@
           "payMax": null,
           "category": "Rooms",
           "url": "https://careers.accor.com/global/en/job/front-office-assistant-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-105893",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "Overnight Cleaner",
@@ -362,7 +362,7 @@
           "payMax": 26.95,
           "category": "Rooms",
           "url": "https://careers.accor.com/global/en/job/overnight-cleaner-in-fairmont-copley-plaza-boston-boston-united-states-jid-105889",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "Assistant Banquet Manager",
@@ -370,7 +370,7 @@
           "payMax": 74000,
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/assistant-banquet-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-105309",
-          "firstSeen": "2026-08-12",
+          "firstSeen": "2026-08-14",
           "payUnit": "annual"
         },
         {
@@ -379,7 +379,7 @@
           "payMax": 70000,
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-assistant-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-97552",
-          "firstSeen": "2026-08-12",
+          "firstSeen": "2026-08-14",
           "payUnit": "annual"
         },
         {
@@ -388,7 +388,7 @@
           "payMax": 12.25,
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-server-in-fairmont-copley-plaza-boston-boston-united-states-jid-105310",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "OAK Long Bar + Kitchen Host/Hostess",
@@ -396,7 +396,7 @@
           "payMax": 27.03,
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-host-hostess-in-fairmont-copley-plaza-boston-boston-united-states-jid-105323",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "OAK Long Bar + Kitchen Server Assistant",
@@ -404,7 +404,7 @@
           "payMax": 24.25,
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-server-assistant-in-fairmont-copley-plaza-boston-boston-united-states-jid-97684",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "On-Call Banquet Bartender",
@@ -412,7 +412,7 @@
           "payMax": 23.19,
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/on-call-banquet-bartender-in-fairmont-copley-plaza-boston-boston-united-states-jid-97573",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "Steward",
@@ -420,7 +420,7 @@
           "payMax": 27.07,
           "category": "Food Beverage",
           "url": "https://careers.accor.com/global/en/job/steward-in-fairmont-copley-plaza-boston-boston-united-states-jid-96593",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-14"
         }
       ]
     },
@@ -863,8 +863,55 @@
       "lat": 42.349229,
       "lng": -71.079528,
       "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "adp",
+        "adpCid": "fc87c3e5-bb17-4857-9e3a-28a4049196cb",
+        "adpCcId": "9203358411273_3",
+        "propertyMatch": "Lenox"
+      },
+      "scrapeNote": "Runs its own ADP Workforce Now recruitment widget (embedded on lenoxhotel.com/careers) rather than any brand/management-company site. The underlying ADP account (`adpCid`) also spans other locations (Somerville/Cambridge, Revere per the API's own location facet) — each job is verified via its own requisitionLocations against \"Lenox\" before being counted, not just the widget's scope.",
+      "jobs": [
+        {
+          "title": "Lenox Hotel - Line Cook",
+          "payMin": 25,
+          "payMax": 26,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570255&jwId=9203358411273_1",
+          "firstSeen": "2026-08-04"
+        },
+        {
+          "title": "Food Runner/Support, Sweeney's",
+          "payMin": 0,
+          "payMax": 10,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570254&jwId=9203358411273_1",
+          "firstSeen": "2026-08-04"
+        },
+        {
+          "title": "Restaurant Host/Hostess",
+          "payMin": 20,
+          "payMax": 22,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570253&jwId=9203358411273_1",
+          "firstSeen": "2026-08-04"
+        },
+        {
+          "title": "Lenox Hotel - Steward - Full Time",
+          "payMin": 0,
+          "payMax": 18,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570251&jwId=9203358411273_1",
+          "firstSeen": "2026-08-04"
+        },
+        {
+          "title": "Lenox Hotel - Security - Full Time",
+          "payMin": 26,
+          "payMax": 27,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=568829&jwId=9203358411273_1",
+          "firstSeen": "2026-07-07"
+        }
+      ]
     },
     {
       "name": "Moxy Boston Downtown",
