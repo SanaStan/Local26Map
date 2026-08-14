@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-13T22:51:53.308Z",
+  "generatedAt": "2026-08-14T01:26:51.617Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -84,9 +84,29 @@
       "lat": 42.3585973,
       "lng": -71.114959,
       "brand": "marriott",
-      "scrape": null,
-      "scrapeNote": "Highgate-managed; does not post to careers.marriott.com. Confirmed manually — don't re-add automated scraping without re-checking.",
-      "jobs": []
+      "scrape": {
+        "source": "highgate",
+        "propertyMatch": "Courtyard Boston Cambridge"
+      },
+      "scrapeNote": "Highgate-managed; does not post to careers.marriott.com. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Confirmed via job posting address (777 Memorial Drive, Cambridge, MA 02139), matching this entry's coordinates.",
+      "jobs": [
+        {
+          "title": "Complex Human Resources Coordinator",
+          "payMin": 30,
+          "payMax": 33,
+          "category": "Human Resources",
+          "url": "https://externalhourly-highgate.icims.com/jobs/80579/complex-human-resources-coordinator/job",
+          "firstSeen": "2026-07-28"
+        },
+        {
+          "title": "Night Auditor",
+          "payMin": 31,
+          "payMax": 33,
+          "category": "Front Office Operations",
+          "url": "https://externalhourly-highgate.icims.com/jobs/79920/night-auditor/job",
+          "firstSeen": "2026-07-09"
+        }
+      ]
     },
     {
       "name": "Courtyard by Marriott Downtown/North Station",

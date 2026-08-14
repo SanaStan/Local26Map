@@ -48,6 +48,10 @@ const SEARCH_BASE = 'https://careershub-highgate.icims.com/jobs/search';
  * (same class of "just hardcode it" facet as Aimbridge's Place ID). */
 export const BOSTON_SEARCH_LOCATION = '12781-12805-Boston';
 
+/** Same deal as BOSTON_SEARCH_LOCATION but for "Cambridge" — confirms
+ * Courtyard Boston Cambridge (777 Memorial Drive) as Highgate-managed. */
+export const CAMBRIDGE_SEARCH_LOCATION = '12781-12805-Cambridge';
+
 const ENTITY_MAP = { amp: '&', lt: '<', gt: '>', quot: '"', '#39': "'", nbsp: ' ', rsquo: '’', mdash: '—', ndash: '–' };
 
 export function decodeEntities(s) {

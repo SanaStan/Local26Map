@@ -62,6 +62,7 @@ import {
 } from './scrapers/millennium.js';
 import {
   BOSTON_SEARCH_LOCATION as HIGHGATE_BOSTON_SEARCH_LOCATION,
+  CAMBRIDGE_SEARCH_LOCATION as HIGHGATE_CAMBRIDGE_SEARCH_LOCATION,
   scrapeHighgateLocation,
   fetchJobDetail as fetchHighgateJobDetail,
   propertyMatches as highgatePropertyMatches,
@@ -479,12 +480,34 @@ async function scrapeMillenniumBrand(hotels) {
  * `brand: "independent"` (or, for Hilton Boston Back Bay, whose own
  * brand site has gone quiet) are actually Highgate-managed and post jobs
  * through Highgate's own iCIMS careers site instead (see
- * scripts/scrapers/highgate.js). Plain fetch(), no browser needed. One
- * search covers Highgate's whole Boston-area portfolio, same as the
- * city/radius searches above.
+ * scripts/scrapers/highgate.js). Plain fetch(), no browser needed.
+ * Highgate's location facet is a per-city opaque ID (not a computable
+ * radius search like Hilton/IHG), so this searches once per distinct
+ * city among the tracked Highgate hotels rather than once for the whole
+ * metro area — same reasoning as the Boston-only search this replaced,
+ * just generalized once Cambridge (Courtyard Boston Cambridge) joined
+ * Boston as a covered city.
  */
+const HIGHGATE_SEARCH_LOCATIONS_BY_CITY = {
+  Boston: HIGHGATE_BOSTON_SEARCH_LOCATION,
+  Cambridge: HIGHGATE_CAMBRIDGE_SEARCH_LOCATION,
+};
+
 async function scrapeHighgateBrand(hotels) {
-  const allRaw = await scrapeHighgateLocation(HIGHGATE_BOSTON_SEARCH_LOCATION);
+  const cities = [...new Set(hotels.map((h) => h.city))];
+  const allRaw = [];
+  const seen = new Set();
+  for (const city of cities) {
+    const searchLocation = HIGHGATE_SEARCH_LOCATIONS_BY_CITY[city];
+    if (!searchLocation) continue;
+    const jobs = await scrapeHighgateLocation(searchLocation);
+    for (const j of jobs) {
+      if (j.url && !seen.has(j.url)) {
+        seen.add(j.url);
+        allRaw.push(j);
+      }
+    }
+  }
 
   const byHotel = new Map();
   for (const hotel of hotels) {

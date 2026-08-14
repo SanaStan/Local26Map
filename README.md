@@ -211,9 +211,10 @@ Marriott's.
   Centric Faneuil Hall Boston is Magna Hospitality-managed and never
   appears in Hyatt's org search or property list; its only listings
   found anywhere were on hospitalityonline.com/hcareers — both
-  explicitly excluded aggregators per this project's ground rules. Same
-  situation as Courtyard by Marriott Cambridge: `scrape: null` with a
-  `scrapeNote`, not scraped.
+  explicitly excluded aggregators per this project's ground rules.
+  `scrape: null` with a `scrapeNote`, not scraped. (Courtyard by
+  Marriott Cambridge was in the same boat until its Highgate management
+  was confirmed and wired up — see Highgate section below.)
 - **Selected filters accumulate in the page URL** (`?searchable=[...]`)
   rather than being replaced by a new search — searching a second
   property on the same page ORs it in with the first rather than
@@ -548,9 +549,13 @@ Marriott's.
   scrapers built so far.
 - `scrape`: `null` means "not automated" — either no scraper exists yet
   for the brand, or (see `scrapeNote`) the hotel doesn't post to its
-  brand's corporate site at all (e.g. Courtyard Cambridge is
-  Highgate-managed, Hyatt Centric Faneuil Hall is Magna
-  Hospitality-managed). `propertyMatch` is usually a single string but
+  brand's corporate site at all (e.g. Hyatt Centric Faneuil Hall is
+  Magna Hospitality-managed and appears on no scraped ATS at all).
+  `scrape.source` can also differ from `brand` for a hotel that's
+  brand-flagged but actually posts through a management company's site
+  instead (e.g. Courtyard by Marriott Cambridge and Hilton Boston Back
+  Bay are both `scrape.source: "highgate"` while keeping their original
+  `brand`). `propertyMatch` is usually a single string but
   may be an array of alias strings, for the rare case where one `data.json`
   hotel entry corresponds to more than one listing on the brand's site
   (e.g. a combined Hampton Inn/Homewood Suites building with two
@@ -625,22 +630,24 @@ report but don't block the commit.
   its `scrape.source` is `"millennium"`: it posts through Millennium
   Hotels & Resorts' own careers site rather than any aggregator or a
   site of its own — see Key discoveries above.
-- Highgate-managed (2): The Newbury Boston (`brand: "independent"`,
+- Highgate-managed (3): The Newbury Boston (`brand: "independent"`,
   confirmed via a live posting under the property name "The Newbury
-  Boston") and Hilton Boston Back Bay (`brand: "hilton"` — careers.hilton.com
+  Boston"), Hilton Boston Back Bay (`brand: "hilton"` — careers.hilton.com
   was showing zero jobs for it while real postings are on Highgate's
-  site). `scrape.source: "highgate"` on both — see Key discoveries above
-  for the working search path (it took two earlier passes to find).
+  site), and Courtyard by Marriott Cambridge (`brand: "marriott"` —
+  doesn't post to careers.marriott.com at all; confirmed via the job
+  posting's own address, 777 Memorial Drive, Cambridge, MA 02139,
+  matching this entry's coordinates). `scrape.source: "highgate"` on all
+  three — see Key discoveries above for the working search path (it took
+  two earlier passes to find).
 
 Whatever `data.json` currently shows for automated hotels is live as of
 the last scrape run; this README won't try to track individual counts
 for them since they update daily.
 
 **Branded but excluded from scraping (third-party managed, doesn't post
-to the brand's own corporate site):**
-- Courtyard by Marriott Cambridge (Highgate-managed, doesn't post to
-  careers.marriott.com — confirmed by hand, don't re-add without
-  re-checking)
+to the brand's own corporate site, and no alternative scraper covers it
+either):**
 - Hyatt Centric Faneuil Hall Boston (Magna Hospitality-managed, doesn't
   appear in careers.hyatt.com's org search or property list; only found
   on excluded aggregators — see Key discoveries above, don't re-add
@@ -698,6 +705,22 @@ search path:**
   Highgate property, per its own job description text) and **Studio
   Allston Hotel**. Not added here — worth asking the user whether either
   belongs on Local 26's list before doing so, rather than assuming.
+- **Courtyard by Marriott Cambridge** (2026-08-13, later pass): already
+  had a `scrapeNote` from prior manual confirmation that it's
+  Highgate-managed and doesn't post to careers.marriott.com, but had
+  never been wired to this scraper (`scrape: null`). The Boston search
+  location doesn't cover it — Highgate's location facet is per-city, not
+  a radius — so a second search location was added,
+  `searchLocation=12781-12805-Cambridge` (`CAMBRIDGE_SEARCH_LOCATION` in
+  `highgate.js`). Confirmed via a live posting under the property name
+  `"Courtyard Boston Cambridge"`, and cross-checked against the job's own
+  `jobLocation` address (777 Memorial Drive, Cambridge, MA 02139), which
+  matches this entry's coordinates exactly. `scrapeHighgateBrand` in
+  `run-scrape.js` now searches once per distinct city among Highgate-
+  sourced hotels rather than a single hardcoded Boston search, so a third
+  city would just need its own facet ID added to
+  `HIGHGATE_SEARCH_LOCATIONS_BY_CITY`. 0 → 2 jobs on this hotel, guardrail
+  passed, no other brand affected.
 
 **Not yet automated (no scraper built yet):**
 - Independent/other, unconfirmed management (6): Battery Wharf,
