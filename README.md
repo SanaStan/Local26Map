@@ -852,6 +852,27 @@ search path:**
   whether careers.marriott.com still returns anything for this property
   at all before assuming it's gone quiet the way Westin Boston Seaport
   and Hilton Boston Back Bay's brand sites did.
+- **Second unconfirmed lead, not yet wired up (2026-08-14)**: Courtyard
+  by Marriott East Boston (Logan) (`scrape.source` currently still
+  `"marriott"`, `jobs: []`) may be Ocean Properties-managed — found via
+  Ocean Properties' own careers page
+  (`ophotels.com/careers/`), which funnels hiring through a separate
+  site, `op-careers.com`, whose "Browse our Current Openings" link
+  points at a fourth ADP account
+  (`cid=add92c21-8443-48e1-9e10-34d2e23c5e27`,
+  `ccId=19000101_000001`). Unlike the Jiten lead above, this one's
+  `LOCATION` facet (188 entries, Ocean Properties runs a huge portfolio
+  across NH/ME/FL/AZ/UT/NY/CO) has an exact-string match: "Courtyard by
+  Marriott- Logan Airport, Boston, MA, US" — no ambiguity with another
+  Boston-area Courtyard the way the Jiten lead has. Still not switched
+  over, though, for the same reason: only 3 jobs are currently live
+  company-wide (Bangor ME, Longboat Key FL, Key West FL), none in
+  Boston, so there's no live posting yet to confirm what this property's
+  exact `requisitionLocations` text looks like on a real job (the
+  `LOCATION` facet is a static company/property list, not proof a
+  posting would use identical text). Worth an occasional check of this
+  `cid`/`ccId` for a live Boston-location posting, same as the Jiten
+  lead and Dagny Boston before it resolved.
 
 **Sage scraper live (`scripts/scrapers/sage.js`):**
 - Sage Hospitality Group turned out to be a real management company
