@@ -946,10 +946,24 @@ search path:**
   `sagehospitality.jobs`) — a plain `Origin`/`Referer` pair alone 403s
   with "Mismatched origin" — but no cookies/session/browser JS execution
   otherwise, plain `fetch()` works once that header is set.
-- **No pay field exists anywhere in this API** (checked both the list
-  response and the separate `microsites.dejobs.org` per-job detail
-  endpoint) — every job from this source has null pay, same as any other
-  scraper's no-data case.
+- **Corrected 2026-08-14** (user spot-check caught it: the site's own
+  postings clearly showed a salary, but this project's data didn't):
+  the original build of this scraper only checked for a *structured*
+  pay field (none exists, on either the list response or the separate
+  `microsites.dejobs.org` per-job detail endpoint) and stopped there —
+  it never checked the job's own `description` text, which turns out to
+  embed pay, category, and the property name as literal markdown:
+  `**Min:** _USD $80,000.00/Yr._`, `**Max:** _USD $100,000.00/Yr._`,
+  `**Category:** _Front Desk & Guest Services_`, `**Property** **:**
+  _Hotel Commonwealth_` — present on every job checked. The `/Yr.`/`/Hr.`
+  unit suffix is occasionally wrong (observed: "$75,000.00 -
+  $85,000.00 /Hr." for a Senior Catering Sales Manager role, obviously
+  annual) — magnitude decides `payUnit`, not the suffix, same heuristic
+  used elsewhere in this project (Highgate, IHG, ADP). The `Property`
+  field is a bonus: a second, independent per-job confirmation beyond
+  the server-side `property2` filter alone. All 4 current Hotel
+  Commonwealth postings now show real pay/category; previously all 4
+  showed null pay, which is what the user caught.
 - The clean per-job URL isn't in the API response either (its own `link`
   field points at a `de.jobsyn.org` redirector, not the canonical site)
   — found by watching real navigation in a browser:

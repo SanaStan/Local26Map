@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T08:29:12.000Z",
+  "generatedAt": "2026-08-14T09:40:34.000Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -958,39 +958,42 @@
         "source": "sage",
         "propertyMatch": "hotel-commonwealth"
       },
-      "scrapeNote": "Sage Hospitality Group-managed; posts through sagehospitality.jobs rather than any brand site. Confirmed via the site's own per-property exact-phrase filter (property2=hotel-commonwealth maps to text:\"Hotel Commonwealth\") and job description text (\"nestled in the heart of Fenway\"). Note: the API's own GeoLocation field on each job (42.354702, -71.06527) doesn't match this entry's coordinates — looks like a generic/default geocode on Sage's end, not a red flag on property identity.",
+      "scrapeNote": "Sage Hospitality Group-managed; posts through sagehospitality.jobs rather than any brand site. Confirmed via the site's own per-property exact-phrase filter (property2=hotel-commonwealth maps to text:\"Hotel Commonwealth\") and job description text (\"nestled in the heart of Fenway\"). Note: the API's own GeoLocation field on each job (42.354702, -71.06527) doesn't match this entry's coordinates — looks like a generic/default geocode on Sage's end, not a red flag on property identity. Pay/category are embedded as markdown text inside each job's own description field, not a structured field (fixed 2026-08-14 after a user spot-check found pay was showing as missing).",
       "jobs": [
         {
           "title": "Director of Front Office",
-          "payMin": null,
-          "payMax": null,
-          "category": null,
+          "payMin": 80000,
+          "payMax": 100000,
+          "category": "Front Desk & Guest Services",
           "url": "https://sagehospitality.jobs/boston-ma/director-of-front-office/1688F5C83F9946DEA2512E1F6677D514/job/",
-          "firstSeen": "2026-08-12"
+          "firstSeen": "2026-08-12",
+          "payUnit": "annual"
         },
         {
           "title": "Director of Sales & Marketing",
-          "payMin": null,
-          "payMax": null,
-          "category": null,
+          "payMin": 150000,
+          "payMax": 175000,
+          "category": "Sales & Marketing",
           "url": "https://sagehospitality.jobs/boston-ma/director-of-sales-marketing/C4810FE9DE5A4445BCF6927F8DBBE800/job/",
-          "firstSeen": "2026-08-03"
+          "firstSeen": "2026-08-03",
+          "payUnit": "annual"
         },
         {
           "title": "Reservations Agent - Hotel Commonwealth",
-          "payMin": null,
-          "payMax": null,
-          "category": null,
+          "payMin": 31,
+          "payMax": 31,
+          "category": "Reservations",
           "url": "https://sagehospitality.jobs/boston-ma/reservations-agent-hotel-commonwealth/028A74D231584E02A1CB8705B94E682C/job/",
           "firstSeen": "2026-06-25"
         },
         {
           "title": "Senior Catering Sales Manager - Hotel Commonwealth",
-          "payMin": null,
-          "payMax": null,
-          "category": null,
+          "payMin": 75000,
+          "payMax": 85000,
+          "category": "Catering & Events",
           "url": "https://sagehospitality.jobs/boston-ma/senior-catering-sales-manager-hotel-commonwealth/22F6B42BE7DF4F269FBDABE6C220DEBE/job/",
-          "firstSeen": "2026-05-22"
+          "firstSeen": "2026-05-22",
+          "payUnit": "annual"
         }
       ]
     },

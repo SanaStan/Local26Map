@@ -625,8 +625,10 @@ async function scrapeSageBrand(hotels) {
       title: j.title,
       url: j.url,
       jobId: j.id,
-      payMin: null,
-      payMax: null,
+      payMin: j.pay ? j.pay.payMin : null,
+      payMax: j.pay ? j.pay.payMax : null,
+      payUnit: j.pay && j.pay.payUnit ? j.pay.payUnit : undefined,
+      category: j.category || null,
       datePosted: j.datePosted,
     }));
     byHotel.set(hotel.name, enriched);

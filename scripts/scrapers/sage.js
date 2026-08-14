@@ -26,11 +26,18 @@
  * origin," but no cookies/session/browser JS execution is needed
  * otherwise, plain `fetch()` works once that header is set.
  *
- * No pay field exists anywhere in this API's job data (list or detail)
- * — confirmed by dumping every field on a sample job from both the
- * search response and the separate microsites.dejobs.org detail
- * endpoint. Every job from this source has null pay, same as any other
- * scraper's no-data case (e.g. some Marriott listings).
+ * Fixed 2026-08-14: there's no *structured* pay field on the job object
+ * (list or detail), which is as far as the original build of this
+ * scraper checked — but pay, category, and the property name are all
+ * embedded as literal markdown text inside the job's own `description`
+ * field (`**Min:** _USD $80,000.00/Yr._`, `**Max:** _USD $100,000.00/Yr._`,
+ * `**Category:** _Front Desk & Guest Services_`, `**Property** **:**
+ * _Hotel Commonwealth_`), confirmed present on every job checked. The
+ * `/Yr.`/`/Hr.` unit suffix is occasionally wrong (observed:
+ * "USD $75,000.00 - USD $85,000.00 /Hr." for a Senior Catering Sales
+ * Manager role, obviously an annual salary) — same "label sometimes
+ * lies, magnitude decides" heuristic as highgate.js/ihg.js/adp.js, not
+ * the suffix text.
  *
  * The clean per-job URL isn't in the API response either (no `url`/
  * `link` field pointing at sagehospitality.jobs itself — the API's own
@@ -57,6 +64,38 @@ function jobDetailUrl(job) {
   return `https://${SITE_HOST}/${citySlug}/${job.title_slug}/${job.guid}/job/`;
 }
 
+/** Pay is embedded as markdown text in the job's own `description`
+ * field, not a structured field — see module docs. Magnitude, not the
+ * `/Yr.`/`/Hr.` suffix, decides payUnit (same heuristic used elsewhere
+ * in this project) since that suffix has been observed wrong. */
+export function parsePay(description) {
+  if (!description) return null;
+  const min = description.match(/\*\*Min:\*\*\s*_USD \$([\d,]+\.\d{2})/);
+  const max = description.match(/\*\*Max:\*\*\s*_USD \$([\d,]+\.\d{2})/);
+  if (!min && !max) return null;
+  const minVal = min ? parseFloat(min[1].replace(/,/g, '')) : null;
+  const maxVal = max ? parseFloat(max[1].replace(/,/g, '')) : null;
+  const payMin = minVal ?? maxVal;
+  const payMax = maxVal ?? minVal;
+  const payUnit = payMax >= 200 ? 'annual' : undefined;
+  return payUnit ? { payMin, payMax, payUnit } : { payMin, payMax };
+}
+
+export function parseCategory(description) {
+  if (!description) return null;
+  const m = description.match(/\*\*Category:\*\*\s*_([^_]+)_/);
+  return m ? m[1].trim() : null;
+}
+
+/** Second, independent per-job property confirmation beyond the
+ * server-side property2 filter — same "verify per job, not just per
+ * search" caution used throughout this project. */
+export function parsePropertyName(description) {
+  if (!description) return null;
+  const m = description.match(/\*\*Property\*\*\s*\*\*:\*\*\s*_([^_]+)_/);
+  return m ? m[1].trim() : null;
+}
+
 export async function scrapeSageProperty(propertySlug) {
   const jobs = [];
   let page = 1;
@@ -78,6 +117,9 @@ export async function scrapeSageProperty(propertySlug) {
         title: (job.title_exact || '').trim(),
         url: jobDetailUrl(job),
         datePosted: job.date_new || job.date_added || null,
+        pay: parsePay(job.description),
+        category: parseCategory(job.description),
+        propertyName: parsePropertyName(job.description),
       });
     }
     if (!json.pagination?.has_more_pages) break;
