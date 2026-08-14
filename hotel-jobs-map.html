@@ -205,6 +205,7 @@
     color:var(--cream-dim);
   }
   .dot{width:3px;height:3px;border-radius:50%;background:var(--cream-dim);}
+  .hotel-managed{font-size:11px; color:var(--cream-dim); font-style:italic; margin-top:2px;}
   .job-badge{
     display:inline-block;
     margin-top:7px;
@@ -589,9 +590,11 @@ function render(){
         badgeText = `${h.jobs.length} opening${h.jobs.length>1?'s':''}`;
       }
     }
+    const managedHTML = h.managedBy ? `<p class="hotel-managed">Managed by ${h.managedBy}</p>` : '';
     card.innerHTML = `
       <p class="hotel-name">${h.name}</p>
       <div class="hotel-meta"><span class="city-tag">${h.city}</span><span class="dot"></span><span class="brand-tag">${brandLabel(h.brand)}</span></div>
+      ${managedHTML}
       <span class="job-badge ${h.jobs.length?'open':'none'}">${badgeText}</span>
     `;
     card.addEventListener('click', ()=>{
