@@ -722,15 +722,47 @@ search path:**
   `HIGHGATE_SEARCH_LOCATIONS_BY_CITY`. 0 → 2 jobs on this hotel, guardrail
   passed, no other brand affected.
 
+**Hireology scraper live (`scripts/scrapers/hireology.js`):**
+- Unlike Highgate/Aimbridge/Millennium, Hireology isn't a management
+  company with one shared portal — it's an ATS platform hosting a
+  separate single-property "careers.hireology.com/{careersPath}"
+  mini-site per hotel, so there's no property-name matching step: every
+  job returned already belongs to that one hotel (confirmed via
+  `organization.name` on each job).
+- **Colonnade Hotel** (2026-08-14): confirmed via
+  `careers.hireology.com/colonnadehotel` — every job's `organization.name`
+  reads `"The Colonnade Hotel"` and `locations[0].address` reads "120
+  Huntington Avenue, Boston, MA 02116", matching this entry's
+  coordinates. The page itself is client-rendered with no jobs in the
+  initial HTML, but it does embed a short-lived signed `apiToken` (JWT,
+  ~30min TTL) that the app sends as `Authorization: Bearer <token>` to
+  the actual data source, `api.hireology.com/v2/public/careers/
+  {careersPath}` — that token has to be scraped fresh off the HTML page
+  before each API call, but no browser/JS execution is needed for either
+  step, plain `fetch()` works for both. That one API call already
+  returns location, `career_site_url`, and per-job compensation, so
+  (unlike every other scraper here) there's no separate detail-page
+  fetch needed to enrich or verify each job. Two comp shapes depending on
+  `is_comp_range`: `comp_single_amount` (observed for every hourly role)
+  or `comp_range_min`/`max` (observed for the one salaried role,
+  Assistant Front Office Manager) — `comp_period` ("hour" vs "year")
+  gives the pay unit directly, unlike Highgate/IHG's magnitude-inference
+  heuristic. 0 → 6 jobs on this hotel, guardrail passed, no other brand
+  affected.
+- `scrape.propertyMatch` stores the hotel's Hireology `careersPath`
+  (e.g. `"colonnadehotel"`), not a display name to match against, since
+  the API scopes results to one hotel already.
+
 **Not yet automated (no scraper built yet):**
-- Independent/other, unconfirmed management (6): Battery Wharf,
-  Colonnade, Copley Square, Encore Boston Harbor, Hotel Commonwealth,
-  Lenox — worth a quick pass to check whether any of these are actually
+- Independent/other, unconfirmed management (5): Battery Wharf,
+  Copley Square, Encore Boston Harbor, Hotel Commonwealth, Lenox — worth
+  a quick pass to check whether any of these are actually
   brand-affiliated (like Fairmont/Raffles turned out to be) or managed by
   Aimbridge, Highgate, Millennium, or another management company (like
-  Westin Boston Seaport, Newbury Boston, or Hilton Boston Back Bay, or
-  like Hotel AKA turning out to run its own dedicated careers site)
-  before assuming they're truly independent-independent.
+  Westin Boston Seaport, Newbury Boston, or Hilton Boston Back Bay), or
+  run their own dedicated careers site (like Hotel AKA, or Colonnade
+  Hotel turning out to be on Hireology) before assuming they're truly
+  independent-independent.
 
 ## Next steps (pick up in roughly this order)
 1. **Watch for the first live posting at Dagny Boston (or another
@@ -750,14 +782,14 @@ search path:**
    flagged, but its own brand's site has gone to zero jobs while the real
    postings moved to a management company) — both were found by chance,
    not by a systematic check.
-2. Remaining hotels (6) — a re-check for brand *and* management-company
+2. Remaining hotels (5) — a re-check for brand *and* management-company
    affiliations before doing per-hotel research on whatever's genuinely
    independent (Fairmont and Raffles turned out to be mislabeled Accor
    properties; several others may be Aimbridge- or other-management-
-   company-managed like Dagny; Hotel AKA and Millennium/Bostonian turned
-   out to run their own/a third-party dedicated careers site rather than
-   being truly independent — worth ruling all of these out before
-   treating a hotel as one-off research).
+   company-managed like Dagny; Hotel AKA, Millennium/Bostonian, and now
+   Colonnade turned out to run their own/a third-party dedicated careers
+   site rather than being truly independent — worth ruling all of these
+   out before treating a hotel as one-off research).
    Worth checking each one for the ATS platform it runs on first (Oracle
    Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, UKG Pro
    Recruiting, Recruitee, Workday, iCIMS, etc. — see the

@@ -67,6 +67,7 @@ import {
   fetchJobDetail as fetchHighgateJobDetail,
   propertyMatches as highgatePropertyMatches,
 } from './scrapers/highgate.js';
+import { scrapeHireologyCareers } from './scrapers/hireology.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DATA_PATH = path.join(ROOT, 'data.json');
@@ -533,6 +534,35 @@ async function scrapeHighgateBrand(hotels) {
   return byHotel;
 }
 
+/**
+ * Hireology hosts single-property careers mini-sites (see
+ * scripts/scrapers/hireology.js), one per hotel rather than one shared
+ * portal per management company — so unlike Highgate/Aimbridge/
+ * Millennium above, this searches once per hotel directly by its own
+ * `careersPath` (stored in `scrape.propertyMatch`, e.g. "colonnadehotel"
+ * for The Colonnade Hotel) rather than once per city, and there's no
+ * property-name filtering step since every job returned already belongs
+ * to that one hotel.
+ */
+async function scrapeHireologyBrand(hotels) {
+  const byHotel = new Map();
+  for (const hotel of hotels) {
+    const careersPath = Array.isArray(hotel.scrape.propertyMatch) ? hotel.scrape.propertyMatch[0] : hotel.scrape.propertyMatch;
+    const raw = await scrapeHireologyCareers(careersPath);
+    const enriched = raw.map((j) => ({
+      title: j.title,
+      url: j.url,
+      jobId: j.id,
+      payMin: j.pay ? j.pay.payMin : null,
+      payMax: j.pay ? j.pay.payMax : null,
+      payUnit: j.pay && j.pay.payUnit ? j.pay.payUnit : undefined,
+      datePosted: j.datePosted,
+    }));
+    byHotel.set(hotel.name, enriched);
+  }
+  return byHotel;
+}
+
 function diffHotelJobs(hotel, previousJobs, scrapedJobs, historyLines) {
   const prevByUrl = new Map(previousJobs.map((j) => [jobKey(j), j]));
   const newByUrl = new Map(scrapedJobs.map((j) => [jobKey(j), j]));
@@ -585,6 +615,7 @@ async function main() {
   const hotelAkaHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hotelaka');
   const millenniumHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'millennium');
   const highgateHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'highgate');
+  const hireologyHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'hireology');
 
   const prevMarriottTotal = marriottHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHiltonTotal = hiltonHotels.reduce((sum, h) => sum + h.jobs.length, 0);
@@ -596,6 +627,7 @@ async function main() {
   const prevHotelAkaTotal = hotelAkaHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevMillenniumTotal = millenniumHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHighgateTotal = highgateHotels.reduce((sum, h) => sum + h.jobs.length, 0);
+  const prevHireologyTotal = hireologyHotels.reduce((sum, h) => sum + h.jobs.length, 0);
 
   const browser = await chromium.launch();
   // A realistic desktop UA is required for careers.hyatt.com, which 403s
@@ -640,6 +672,9 @@ async function main() {
   const highgateByHotel = await scrapeHighgateBrand(highgateHotels);
   for (const [hotelName, jobs] of highgateByHotel) scrapedByHotel.set(hotelName, jobs);
 
+  const hireologyByHotel = await scrapeHireologyBrand(hireologyHotels);
+  for (const [hotelName, jobs] of hireologyByHotel) scrapedByHotel.set(hotelName, jobs);
+
   const newMarriottTotal = marriottHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHiltonTotal = hiltonHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHyattTotal = hyattHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
@@ -650,6 +685,7 @@ async function main() {
   const newHotelAkaTotal = hotelAkaHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newMillenniumTotal = millenniumHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHighgateTotal = highgateHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+  const newHireologyTotal = hireologyHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
 
   // Guardrail: if any brand's scrape comes back completely empty while the
   // previous run had jobs for that brand, treat the whole run as unreliable
@@ -667,6 +703,7 @@ async function main() {
   if (newHotelAkaTotal === 0 && prevHotelAkaTotal > 0) brokenBrands.push(`Hotel AKA (${hotelAkaHotels.length} properties, had ${prevHotelAkaTotal})`);
   if (newMillenniumTotal === 0 && prevMillenniumTotal > 0) brokenBrands.push(`Millennium (${millenniumHotels.length} properties, had ${prevMillenniumTotal})`);
   if (newHighgateTotal === 0 && prevHighgateTotal > 0) brokenBrands.push(`Highgate (${highgateHotels.length} properties, had ${prevHighgateTotal})`);
+  if (newHireologyTotal === 0 && prevHireologyTotal > 0) brokenBrands.push(`Hireology (${hireologyHotels.length} properties, had ${prevHireologyTotal})`);
 
   if (brokenBrands.length) {
     const report = {
@@ -680,7 +717,7 @@ async function main() {
     return;
   }
 
-  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge', 'ihg', 'hotelaka', 'millennium', 'highgate']);
+  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge', 'ihg', 'hotelaka', 'millennium', 'highgate', 'hireology']);
   const historyLines = [];
   const perHotelCounts = [];
 
@@ -714,8 +751,9 @@ async function main() {
     hotelAkaPropertiesScraped: hotelAkaHotels.length,
     millenniumPropertiesScraped: millenniumHotels.length,
     highgatePropertiesScraped: highgateHotels.length,
-    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal + prevIhgTotal + prevHotelAkaTotal + prevMillenniumTotal + prevHighgateTotal,
-    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal + newIhgTotal + newHotelAkaTotal + newMillenniumTotal + newHighgateTotal,
+    hireologyPropertiesScraped: hireologyHotels.length,
+    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal + prevIhgTotal + prevHotelAkaTotal + prevMillenniumTotal + prevHighgateTotal + prevHireologyTotal,
+    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal + newIhgTotal + newHotelAkaTotal + newMillenniumTotal + newHighgateTotal + newHireologyTotal,
     historyEventsWritten: historyLines.length,
     perHotelCounts,
     bigDrops: perHotelCounts.filter((c) => c.before >= 3 && c.after === 0),
