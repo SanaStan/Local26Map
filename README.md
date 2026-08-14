@@ -925,17 +925,51 @@ search path:**
   SmartRecruiters' public API instead — arguably a better outcome than
   the DOM-scrape fallback this class of problem usually leads to.
 
+**Copley Square Hotel — management confirmed, nothing to automate
+against yet:**
+- Copley Square Hotel is branded "a FOUND Hotel" and operated by FCL
+  Management, a national third-party hotel management company —
+  confirmed via web research (the hotel's refinancing press coverage
+  names both), same "confirmed management, no automatable posting yet"
+  situation Dagny Boston and Hyatt Centric Faneuil Hall were in before
+  (Dagny has since been resolved — see Aimbridge section above).
+- Checked every plausible source and found nothing live: FOUND Hotels'
+  own careers page (`foundhotels.com/careers/`) is an empty nav
+  stub — confirmed via full browser network capture, no XHR/fetch call
+  to any jobs API at all, just analytics pixels. FCL Management's own
+  site (`fclmgmt.com`) has no "Careers" nav item anywhere, corporate/
+  investor-facing only. The hotel's own domain
+  (`copleysquarehotel.com`) has no careers link either. Targeted
+  searches against every ATS platform seen so far on this project, plus
+  a few not yet seen (Workday, iCIMS, UltiPro, Hireology, Paylocity,
+  BambooHR), turned up nothing for this specific hotel — only
+  false-positive matches for unrelated same-named businesses (a bakery
+  called "Tatte Copley Square", an unrelated "Copley Health Systems").
+  A general "now hiring" search turns up plenty of results for other
+  Copley-area hotels (Marriott, Courtyard, Fairmont Copley Plaza) but
+  zero for this one — plausibly this small boutique property (143
+  rooms) just has no current openings anywhere right now, aggregator or
+  otherwise, rather than an automatable source being missed.
+- Worth an occasional recheck of `foundhotels.com/careers/` (or
+  whatever FOUND Hotels' careers page becomes) in case they ever wire
+  up a real ATS behind it — right now there's nothing there to build
+  against.
+
 **Not yet automated (no scraper built yet):**
-- Independent/other, unconfirmed management (1): Copley Square — worth
-  a quick check on whether it's actually brand-affiliated (like
-  Fairmont/Raffles turned out to be) or managed by Aimbridge, Highgate,
-  Millennium, Sage, or another management company (like Westin Boston
+- Copley Square Hotel — the last one on the original "unconfirmed
+  independent" list; management is now confirmed (FOUND Hotels/FCL
+  Management, see above) but there's no live posting anywhere to
+  automate against yet, same status Dagny Boston had before it
+  resolved. Every other hotel that was once on this "unconfirmed
+  independent" list has since turned out to be brand-affiliated (like
+  Fairmont/Raffles), management-company-managed (like Westin Boston
   Seaport, Newbury Boston, Hilton Boston Back Bay, Hotel Commonwealth,
-  or Battery Wharf), or runs its own dedicated careers site (like Hotel
-  AKA, The Colonnade Hotel turning out to be on Hireology, Lenox Hotel
-  or Battery Wharf turning out to be on ADP Workforce Now, or Encore
-  Boston Harbor turning out to be on SmartRecruiters) before assuming
-  it's truly independent-independent.
+  or Battery Wharf), or running its own dedicated careers site (like
+  Hotel AKA, The Colonnade Hotel on Hireology, Lenox Hotel or Battery
+  Wharf on ADP Workforce Now, or Encore Boston Harbor on
+  SmartRecruiters) — so Copley Square is genuinely the one hotel left
+  with nothing to build a scraper against yet, not one that hasn't been
+  looked into.
 
 ## Next steps (pick up in roughly this order)
 1. **Watch for the first live posting at Dagny Boston (or another
@@ -955,29 +989,19 @@ search path:**
    flagged, but its own brand's site has gone to zero jobs while the real
    postings moved to a management company) — both were found by chance,
    not by a systematic check.
-2. Remaining hotel (1, Copley Square) — a re-check for brand *and*
-   management-company affiliations before doing per-hotel research if
-   it turns out to be genuinely independent (Fairmont and Raffles
-   turned out to be mislabeled Accor properties; several others may be
-   Aimbridge- or other-management-company-managed like Dagny; Hotel
-   AKA, Millennium/Bostonian, The Colonnade Hotel, Lenox, Hotel
-   Commonwealth, Encore Boston Harbor, and now Battery Wharf turned out
-   to run their own/a third-party dedicated careers site rather than
-   being truly independent — worth ruling all of these out before
-   treating a hotel as one-off research).
-   Worth checking each one for the ATS platform it runs on first (Oracle
-   Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, UKG Pro
-   Recruiting, Recruitee, Workday, iCIMS, Hireology, ADP Workforce Now,
-   jobsyn/Recruit Rooster, SmartRecruiters, etc. — see the
-   Hilton/Hyatt/Omni/Accor/Aimbridge/IHG/Hotel AKA/Millennium/Highgate/
-   Hireology/ADP/Sage/SmartRecruiters discoveries above for what that
-   can look like — two of eight brand/management-company scrapers so far
-   turned out to share the same Oracle Recruiting Cloud infrastructure,
-   worth checking for reuse before assuming a fresh build is needed)
-   before assuming a Marriott-style DOM scrape is needed —
-   though don't assume it *isn't* needed either; Accor's Attrax platform
-   turned out to require full DOM scraping same as Marriott, despite
-   looking modern.
+2. **Copley Square Hotel** — the last remaining hotel, and the
+   brand/management-company/ATS-platform check that resolved every
+   other hotel on the original "unconfirmed independent" list (Fairmont
+   and Raffles turned out to be mislabeled Accor properties; Hotel AKA,
+   Millennium/Bostonian, The Colonnade Hotel, Lenox, Hotel Commonwealth,
+   Encore Boston Harbor, and Battery Wharf all turned out to run their
+   own/a third-party dedicated careers site) has already been done for
+   it too — see the "Copley Square Hotel — management confirmed" section
+   above. Management is confirmed (FOUND Hotels/FCL Management) but
+   there's genuinely no live posting anywhere to automate against right
+   now. Nothing left to do here except periodically recheck
+   `foundhotels.com/careers/` in case FOUND Hotels ever wires up a real
+   ATS behind their currently-empty careers page.
 3. Spot-check the career field classifier (`classifyDepartment()` in
    `hotel-jobs-map.html`) now that more brands' real job titles are
    flowing in — the keyword rules were tuned against the ~20 Marriott

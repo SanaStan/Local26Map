@@ -107,6 +107,7 @@
       "lng": -71.0786214,
       "brand": "independent",
       "scrape": null,
+      "scrapeNote": "Management confirmed (branded \"a FOUND Hotel\", operated by FCL Management) but no live posting found anywhere to automate against as of 2026-08-14. FOUND Hotels' own careers page (foundhotels.com/careers/) is an empty nav stub with no ATS widget or jobs API call. FCL Management's site (fclmgmt.com) has no careers section at all, corporate/investor-facing only. The hotel's own domain (copleysquarehotel.com) has no careers link either. Targeted searches against known ATS platforms (Workday, iCIMS, UltiPro, Hireology, Paylocity, BambooHR) found nothing for this specific hotel. Don't re-add automated scraping without re-checking whether a posting has since appeared.",
       "jobs": []
     },
     {
