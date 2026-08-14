@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-14T04:23:09.727Z",
+  "generatedAt": "2026-08-14T04:50:53.000Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -28,8 +28,48 @@
       "lat": 42.3674239,
       "lng": -71.050285,
       "brand": "independent",
-      "scrape": null,
-      "jobs": []
+      "scrape": {
+        "source": "adp",
+        "adpCid": "1c7fb0ee-a452-42a0-bb0d-786747fc0bb0",
+        "adpCcId": "19000101_000001",
+        "adpPostalCode": "02109"
+      },
+      "scrapeNote": "Runs on an ADP Workforce Now recruitment widget, like Lenox Hotel, but on a separate ADP account belonging to a different nationwide hotel management company (spans many Hilton/Embassy Suites/DoubleTree/Hyatt-flagged and independent hotels across the US, confirmed via the account's own LOCATION facet listing \"Boston Battery Wharf, Boston, MA, US\"). Unlike Lenox's account, this one's per-job requisitionLocations carries no property-name text at all (every job just reads \" Boston, MA, US\") and 3 of the 4 current postings don't name the hotel in their own description either (generic corporate templates) — so property confirmation here uses each job's address.postalCode (02109) instead, unique to this property among all 68 postings on the account.",
+      "jobs": [
+        {
+          "title": "Room Attendant",
+          "payMin": 23.07,
+          "payMax": 32.95,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0&ccId=19000101_000001&lang=en_US&jobId=575014&jwId=",
+          "firstSeen": "2026-07-14"
+        },
+        {
+          "title": "Front Desk Agent",
+          "payMin": 23.07,
+          "payMax": 32.95,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0&ccId=19000101_000001&lang=en_US&jobId=574287&jwId=",
+          "firstSeen": "2026-06-26"
+        },
+        {
+          "title": "Sales Manager",
+          "payMin": 80000,
+          "payMax": 90000,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0&ccId=19000101_000001&lang=en_US&jobId=573293&jwId=",
+          "firstSeen": "2026-06-01",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Supervisor - Kitchen",
+          "payMin": 33,
+          "payMax": 35,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0&ccId=19000101_000001&lang=en_US&jobId=572071&jwId=",
+          "firstSeen": "2026-05-01"
+        }
+      ]
     },
     {
       "name": "Bostonian Hotel",

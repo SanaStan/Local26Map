@@ -68,7 +68,7 @@ import {
   propertyMatches as highgatePropertyMatches,
 } from './scrapers/highgate.js';
 import { scrapeHireologyCareers } from './scrapers/hireology.js';
-import { scrapeAdpJobRequisitions, locationMatches as adpLocationMatches } from './scrapers/adp.js';
+import { scrapeAdpJobRequisitions, locationMatches as adpLocationMatches, postalCodeMatches as adpPostalCodeMatches } from './scrapers/adp.js';
 import { scrapeSageProperty } from './scrapers/sage.js';
 import { scrapeSmartRecruitersPostings, fetchJobDetail as fetchSmartRecruitersJobDetail } from './scrapers/smartrecruiters.js';
 
@@ -573,17 +573,25 @@ async function scrapeHireologyBrand(hotels) {
  * by a `cid`/`ccId` pair pulled from that page's markup. Unlike
  * Hireology's single-property sites, one `cid` can span multiple
  * locations (see scraper module docs), so each job's own
- * `requisitionLocations` is checked against `scrape.propertyMatch`
- * (a location-name substring, e.g. "Lenox") to confirm it belongs to
- * this hotel — same verify-per-job pattern as the city-wide brand
- * searches above, just keyed by location text instead of property name.
+ * `requisitionLocations` is checked before being counted, rather than
+ * trusting the widget's `ccId` scope blindly — same verify-per-job
+ * pattern as the city-wide brand searches above. Two matching
+ * strategies depending on what a given `cid`'s location data actually
+ * carries: `scrape.propertyMatch` (a location-name substring, e.g.
+ * "Lenox") where the property name is embedded in the location text
+ * itself, or `scrape.adpPostalCode` where it isn't (Battery Wharf's
+ * account only gives generic "Boston, MA, US" location text with no
+ * property name anywhere in it, so its zip code is the only
+ * consistently-present per-job signal — see scraper module docs).
  */
 async function scrapeAdpBrand(hotels) {
   const byHotel = new Map();
   for (const hotel of hotels) {
-    const { adpCid, adpCcId, propertyMatch } = hotel.scrape;
+    const { adpCid, adpCcId, propertyMatch, adpPostalCode } = hotel.scrape;
     const raw = await scrapeAdpJobRequisitions(adpCid, adpCcId);
-    const matches = raw.filter((j) => adpLocationMatches(j.locations, propertyMatch));
+    const matches = adpPostalCode
+      ? raw.filter((j) => adpPostalCodeMatches(j.locations, adpPostalCode))
+      : raw.filter((j) => adpLocationMatches(j.locations, propertyMatch));
     const enriched = matches.map((j) => ({
       title: j.title,
       url: j.url,

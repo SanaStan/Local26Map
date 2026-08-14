@@ -792,6 +792,42 @@ search path:**
   a property in at least one of those areas. Worth checking whether
   either belongs on Local 26's list before assuming not, same as the
   Atlas Hotel/Studio Allston situation found via Highgate's search.
+- **Battery Wharf Hotel** (2026-08-14): a second, unrelated ADP account
+  (`cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0`, `ccId=19000101_000001`)
+  belonging to a different nationwide hotel management company — its
+  own `LOCATION` facet spans Hilton/Embassy Suites/DoubleTree/Hyatt-
+  flagged and independent hotels across the US, including "Boston
+  Battery Wharf, Boston, MA, US". Two real gaps found and fixed on this
+  pass, both worth calling out:
+  - **Pagination bug**: this account has 68 total postings, but the
+    scraper only ever fetched one page — `$top` turned out to be capped
+    at 20 by the API regardless of the value requested (confirmed by
+    requesting `$top=50` and getting 20 back), so anything past the
+    first 20 was silently dropped. Lenox's own account only has 6
+    postings, small enough that this never surfaced there. Fixed with
+    proper `$skip`-based pagination, looping until the running total
+    reaches `meta.totalNumber`.
+  - **No property-name text to match against**: unlike Lenox's location
+    strings (which include "Lenox" directly), every job on this account
+    has generic `requisitionLocations` text — just `" Boston, MA, US"`,
+    no hotel name anywhere in it — and 3 of the 4 current Battery Wharf
+    postings don't name the hotel in their own description either
+    (generic corporate templates; only "Room Attendant" opens with
+    "Battery Wharf Hotel is seeking..."). The one consistently-present
+    per-job signal turned out to be `address.postalCode` (`02109`),
+    unique to this property among all 68 postings on the account —
+    added as a second matching strategy (`scrape.adpPostalCode`)
+    alongside the existing name-substring one (`scrape.propertyMatch`),
+    selected per-hotel in `run-scrape.js`.
+  - The clean per-job URL pattern is identical to Lenox's, just with an
+    empty `jwId` param (confirmed by loading the constructed URL in a
+    real browser and checking it renders the correct job) — this
+    account's list response never includes a `jobWidget` object at all,
+    unlike Lenox's.
+  - 0 → 4 jobs on this hotel, guardrail passed. Verified directly
+    against the live API rather than via a full `run-scrape.js` pass —
+    Marriott's `networkidle` timeouts (documented under Sage above) made
+    the full pipeline unreliable again this session.
 
 **Sage scraper live (`scripts/scrapers/sage.js`):**
 - Sage Hospitality Group turned out to be a real management company
@@ -890,17 +926,16 @@ search path:**
   the DOM-scrape fallback this class of problem usually leads to.
 
 **Not yet automated (no scraper built yet):**
-- Independent/other, unconfirmed management (2): Battery Wharf,
-  Copley Square — worth
-  a quick pass to check whether either of these is actually
-  brand-affiliated (like Fairmont/Raffles turned out to be) or managed by
-  Aimbridge, Highgate, Millennium, Sage, or another management company
-  (like Westin Boston Seaport, Newbury Boston, Hilton Boston Back Bay,
-  or Hotel Commonwealth), or run their own dedicated careers site (like
-  Hotel AKA, The Colonnade Hotel turning out to be on Hireology, Lenox
-  Hotel turning out to be on ADP Workforce Now, or Encore Boston Harbor
-  turning out to be on SmartRecruiters) before assuming they're truly
-  independent-independent.
+- Independent/other, unconfirmed management (1): Copley Square — worth
+  a quick check on whether it's actually brand-affiliated (like
+  Fairmont/Raffles turned out to be) or managed by Aimbridge, Highgate,
+  Millennium, Sage, or another management company (like Westin Boston
+  Seaport, Newbury Boston, Hilton Boston Back Bay, Hotel Commonwealth,
+  or Battery Wharf), or runs its own dedicated careers site (like Hotel
+  AKA, The Colonnade Hotel turning out to be on Hireology, Lenox Hotel
+  or Battery Wharf turning out to be on ADP Workforce Now, or Encore
+  Boston Harbor turning out to be on SmartRecruiters) before assuming
+  it's truly independent-independent.
 
 ## Next steps (pick up in roughly this order)
 1. **Watch for the first live posting at Dagny Boston (or another
@@ -920,15 +955,16 @@ search path:**
    flagged, but its own brand's site has gone to zero jobs while the real
    postings moved to a management company) — both were found by chance,
    not by a systematic check.
-2. Remaining hotels (2) — a re-check for brand *and* management-company
-   affiliations before doing per-hotel research on whatever's genuinely
-   independent (Fairmont and Raffles turned out to be mislabeled Accor
-   properties; several others may be Aimbridge- or other-management-
-   company-managed like Dagny; Hotel AKA, Millennium/Bostonian, The
-   Colonnade Hotel, Lenox, Hotel Commonwealth, and now Encore Boston
-   Harbor turned out to run their own/a third-party dedicated careers
-   site rather than being truly independent — worth ruling all of these
-   out before treating a hotel as one-off research).
+2. Remaining hotel (1, Copley Square) — a re-check for brand *and*
+   management-company affiliations before doing per-hotel research if
+   it turns out to be genuinely independent (Fairmont and Raffles
+   turned out to be mislabeled Accor properties; several others may be
+   Aimbridge- or other-management-company-managed like Dagny; Hotel
+   AKA, Millennium/Bostonian, The Colonnade Hotel, Lenox, Hotel
+   Commonwealth, Encore Boston Harbor, and now Battery Wharf turned out
+   to run their own/a third-party dedicated careers site rather than
+   being truly independent — worth ruling all of these out before
+   treating a hotel as one-off research).
    Worth checking each one for the ATS platform it runs on first (Oracle
    Recruiting Cloud, Oracle Taleo, Dayforce, Attrax, Fountain, UKG Pro
    Recruiting, Recruitee, Workday, iCIMS, Hireology, ADP Workforce Now,

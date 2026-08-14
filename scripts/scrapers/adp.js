@@ -20,6 +20,23 @@
  * verify-per-job pattern as every other scraper here, rather than
  * trusting the widget's `ccId` scope blindly.
  *
+ * A second, unrelated ADP account (Battery Wharf Hotel's) turned out to
+ * ignore `$top` past 20 results per call — its `meta.totalNumber` (68)
+ * is bigger than the `jobRequisitions` array actually returned, silently
+ * dropping everything past the first page. `$skip`-based pagination
+ * (looping until `startSequence`-plus-count reaches `totalNumber`) is
+ * needed for any account this size; Lenox's own account only has 6
+ * postings so this went unnoticed until a bigger one showed up. That
+ * same account's `requisitionLocations` also turned out to carry no
+ * property-name text at all — just generic city/state (every job reads
+ * " Boston, MA, US", no "Battery Wharf" substring like Lenox's own
+ * location strings have) — so property confirmation there falls back to
+ * matching each job's `address.postalCode` instead (02109, unique to
+ * this one property among all 68 postings on the account; 3 of the 4
+ * matches don't even name the hotel in their own description text,
+ * being generic corporate templates, so postal code is the only
+ * consistently-present per-job signal here).
+ *
  * Pay unit comes from an explicit `SalaryType` code field (`shortName`
  * "Hourly" observed on every current posting) rather than Hotel AKA's
  * `Salaried` boolean or Highgate/IHG's magnitude-inference heuristic —
@@ -72,18 +89,32 @@ export function locationMatches(locations, locationSubstring) {
   return (locations || []).some((loc) => (loc.nameCode?.shortName || '').includes(locationSubstring));
 }
 
+export function postalCodeMatches(locations, postalCode) {
+  return (locations || []).some((loc) => loc.address?.postalCode === postalCode);
+}
+
 export async function scrapeAdpJobRequisitions(cid, ccId) {
-  const url = `${API_BASE}?${new URLSearchParams({ cid, ccId, lang: 'en_US', locale: 'en_US', $top: '100', isWidget: 'true' })}`;
-  const res = await fetch(url, { headers: { 'User-Agent': 'Mozilla/5.0', Accept: 'application/json' } });
-  if (!res.ok) throw new Error(`ADP job-requisitions ${res.status}`);
-  const json = await res.json();
-  const jobWidgetItemId = json.jobWidget?.itemID;
-  return (json.jobRequisitions || []).map((job) => ({
-    id: findStringField(job, 'ExternalJobID') || job.itemID,
-    title: (job.requisitionTitle || '').trim(),
-    url: jobDetailUrl(cid, ccId, job, jobWidgetItemId),
-    pay: parsePay(job),
-    datePosted: job.postDate || null,
-    locations: job.requisitionLocations || [],
-  }));
+  const jobs = [];
+  let jobWidgetItemId;
+  const pageSize = 20;
+  for (let skip = 0; ; skip += pageSize) {
+    const params = new URLSearchParams({ cid, ccId, lang: 'en_US', locale: 'en_US', $top: String(pageSize), $skip: String(skip), isWidget: 'true' });
+    const res = await fetch(`${API_BASE}?${params}`, { headers: { 'User-Agent': 'Mozilla/5.0', Accept: 'application/json' } });
+    if (!res.ok) throw new Error(`ADP job-requisitions ${res.status}`);
+    const json = await res.json();
+    if (jobWidgetItemId === undefined) jobWidgetItemId = json.jobWidget?.itemID;
+    const page = json.jobRequisitions || [];
+    for (const job of page) {
+      jobs.push({
+        id: findStringField(job, 'ExternalJobID') || job.itemID,
+        title: (job.requisitionTitle || '').trim(),
+        url: jobDetailUrl(cid, ccId, job, jobWidgetItemId),
+        pay: parsePay(job),
+        datePosted: job.postDate || null,
+        locations: job.requisitionLocations || [],
+      });
+    }
+    if (page.length === 0 || jobs.length >= (json.meta?.totalNumber ?? jobs.length)) break;
+  }
+  return jobs;
 }
