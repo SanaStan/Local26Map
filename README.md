@@ -653,13 +653,27 @@ either):**
   on excluded aggregators — see Key discoveries above, don't re-add
   without re-checking)
 
-**Aimbridge scraper live, but only wired to one hotel so far:**
-- Dagny Boston is confirmed Aimbridge-managed but currently has zero
-  live postings to confirm its exact Aimbridge property name against;
-  the same exhaustive nationwide check found zero postings for every
-  other candidate hotel on the original "independent" list too, and
-  independent research actively contradicts Aimbridge management for a
-  few of them (Colonnade, Newbury Boston, Hotel Commonwealth). Add a
+**Aimbridge scraper live, now wired to three hotels:**
+- **Dagny Boston** and **Le Meridien Cambridge** (2026-08-14, both
+  user-flagged): confirmed via live postings under the exact property
+  names `"The Dagny"` (1 posting) and `"Le Meridien Boston Cambridge"`
+  (4 postings). `scrape: {source: "aimbridge", propertyMatch: "..."}`
+  added for both. Le Meridien Cambridge was previously sourced from
+  careers.marriott.com (`propertyMatch: "Le Meridien Cambridge-MIT"`,
+  consistently 0 jobs) — switched over, same pattern as Westin Boston
+  Seaport/Hilton Boston Back Bay; `brand` stays `"marriott"`, only the
+  job source changed. Verified directly against the live API rather
+  than via a full `run-scrape.js` pass — Marriott's `networkidle`
+  timeouts (documented under Sage above) made the full pipeline
+  unreliable again this session, so it's not independently confirmed
+  whether careers.marriott.com is now actually returning zero for this
+  property or just was that day — worth a manual spot-check once that
+  underlying issue is fixed.
+- The same exhaustive nationwide check that first surfaced these two
+  still finds zero postings for every other candidate hotel on the
+  original "independent" list, and independent research actively
+  contradicts Aimbridge management for a few of them (Colonnade,
+  Newbury Boston, Hotel Commonwealth). Add a
   `scrape: {source: "aimbridge", propertyMatch: "..."}` entry for a hotel
   once (a) its Aimbridge management is confirmed and (b) it has a live
   posting to confirm the property name against — and worth checking
@@ -1017,23 +1031,17 @@ against yet:**
   looked into.
 
 ## Next steps (pick up in roughly this order)
-1. **Watch for the first live posting at Dagny Boston (or another
-   confirmed-Aimbridge hotel) to confirm its exact Aimbridge property-name
-   string.** Aimbridge management is confirmed correct and the scraper
-   itself is confirmed working end-to-end against real live data
-   elsewhere (it's already scraping Westin Boston Seaport daily) — what's
-   missing is just a posting to confirm the name against. Worth an
-   occasional manual check of `careers.aimbridge.fountain.com/aimbridge`
-   for "Dagny" or similar. (The equivalent Highgate gap closed this pass —
-   see Key discoveries above: Newbury Boston is now automated and Hilton
-   Boston Back Bay was found to be quietly Highgate- rather than
-   Hilton-sourced. Moxy Boston Downtown is the one Highgate-managed hotel
-   still waiting on a live posting.) Also worth spot-checking whether any
-   *other* currently-automated hotel is quietly in the same situation
-   Westin Boston Seaport and Hilton Boston Back Bay were in (brand-
-   flagged, but its own brand's site has gone to zero jobs while the real
-   postings moved to a management company) — both were found by chance,
-   not by a systematic check.
+1. **Dagny Boston and Le Meridien Cambridge are resolved** (both
+   Aimbridge, see Aimbridge section above) — the Highgate equivalent
+   also closed a prior pass (Newbury Boston, Hilton Boston Back Bay).
+   Moxy Boston Downtown is the one Highgate-managed hotel still waiting
+   on a live posting; worth an occasional manual check of Highgate's
+   Boston search for it. Also worth spot-checking whether any *other*
+   currently-automated hotel is quietly in the same situation Westin
+   Boston Seaport, Hilton Boston Back Bay, and now Le Meridien Cambridge
+   were in (brand-flagged, but its own brand's site has gone to zero
+   jobs while the real postings moved to a management company) — all
+   three were found by chance or user tip, not by a systematic check.
 2. **Copley Square Hotel** — the last remaining hotel, and the
    brand/management-company/ATS-platform check that resolved every
    other hotel on the original "unconfirmed independent" list (Fairmont
