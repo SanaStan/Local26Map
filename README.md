@@ -1120,6 +1120,19 @@ against yet:**
 7. Consider: does the user want RIPTA/commuter rail added later for
    completeness, or is MBTA subway sufficient? (Unrelated to the scraper
    work — held over from before.)
+8. **Possible addition: mobile popup is unreachable.** Found while
+   testing the brand/`managedBy` display work (2026-08-14) — on mobile,
+   `#sidebar` is `position: absolute` with `height:100%` and
+   `z-index:1000` (see the `@media (max-width: 820px)` rule), so it
+   covers the entire screen with no collapse/toggle button. Confirmed
+   via bounding boxes that tapping a hotel card *does* open the map
+   popup correctly (right hotel, right content) — it's just rendered
+   entirely behind the opaque sidebar, so a mobile user can never
+   actually see any popup, for any hotel. Pre-existing, not something
+   the brand/`managedBy` work introduced. Worth adding a way to
+   collapse/dismiss the sidebar on narrow viewports (e.g. a toggle
+   button, or auto-collapsing it on card tap) so the map and its
+   popups are actually reachable on mobile.
 
 ## Other features already built into the artifact
 - **City filter, career field filter, search box, "only hotels hiring"
