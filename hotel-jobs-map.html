@@ -197,6 +197,13 @@
     text-transform:uppercase;
     color:var(--brass-bright);
   }
+  .brand-tag{
+    font-family:'Space Mono',monospace;
+    font-size:10.5px;
+    letter-spacing:.05em;
+    text-transform:uppercase;
+    color:var(--cream-dim);
+  }
   .dot{width:3px;height:3px;border-radius:50%;background:var(--cream-dim);}
   .job-badge{
     display:inline-block;
@@ -385,6 +392,19 @@
    ============================================================ */
 let HOTELS = [];
 
+const BRAND_LABELS = {
+  marriott: 'Marriott',
+  hilton: 'Hilton',
+  hyatt: 'Hyatt',
+  omni: 'Omni',
+  accor: 'Accor',
+  ihg: 'IHG',
+  independent: 'Independent',
+};
+function brandLabel(brand){
+  return BRAND_LABELS[brand] || brand;
+}
+
 /* ============================================================
    STATE + MAP INIT
    ============================================================ */
@@ -563,7 +583,7 @@ function render(){
     }
     card.innerHTML = `
       <p class="hotel-name">${h.name}</p>
-      <div class="hotel-meta"><span class="city-tag">${h.city}</span></div>
+      <div class="hotel-meta"><span class="city-tag">${h.city}</span><span class="dot"></span><span class="brand-tag">${brandLabel(h.brand)}</span></div>
       <span class="job-badge ${h.jobs.length?'open':'none'}">${badgeText}</span>
     `;
     card.addEventListener('click', ()=>{
