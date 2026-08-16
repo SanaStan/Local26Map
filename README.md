@@ -1036,6 +1036,30 @@ search path:**
   SmartRecruiters' public API instead — arguably a better outcome than
   the DOM-scrape fallback this class of problem usually leads to.
 
+**Third unconfirmed lead, not yet wired up (2026-08-16)**: Hyatt
+Centric Faneuil Hall Boston (`scrape: null`, confirmed Magna
+Hospitality-managed but previously found on no scrapable ATS at all —
+see the Hyatt key-discoveries section above) may actually be
+scrapable after all, via a fifth ADP account
+(`cid=ab4f1580-ffa6-4332-864e-b7c35afbfb55`, `ccId=19000101_000001`),
+user-flagged. Checks out as genuinely Magna's — its own `LOCATION`
+facet lists "Magna Hospitality Group, Warwick, RI, US" (their real
+corporate HQ) among ~115 properties nationwide, and includes an exact
+match: "Hyatt Centric Faneuil Hall Boston, Boston, MA, US". Same
+pattern as the other ADP leads, though: 0 of the account's 20
+currently-live postings are for that location, so there's nothing to
+confirm the exact match against yet. Worth an occasional check of this
+`cid`/`ccId` for a live Boston posting.
+  - Side finding from the same search, not yet followed up: the same
+    Magna account also lists **"Moxy Boston, Boston, MA, US"** as a
+    property — Moxy Boston Downtown is already on this project's list
+    (currently `scrape.source: "marriott"`, `scrapeNote`: "Previously
+    found only on third-party boards, not careers.marriott.com").
+    Worth checking whether Moxy Boston Downtown is actually
+    Magna-managed rather than (or in addition to) whatever the prior
+    Highgate-search pass found for it — unconfirmed, just noting the
+    overlap.
+
 **Copley Square Hotel — management confirmed, nothing to automate
 against yet:**
 - Copley Square Hotel is branded "a FOUND Hotel" and operated by FCL

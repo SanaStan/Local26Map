@@ -1005,7 +1005,7 @@
       "managedBy": null,
       "scrape": null,
       "jobs": [],
-      "scrapeNote": "Magna Hospitality-managed; does not post to careers.hyatt.com (confirmed via careers.hyatt.com search — property absent from both the live org-search index and the site's full ~3000-property checkbox list). Its only listings found were on hospitalityonline.com/hcareers, both explicitly excluded aggregators. Don't re-add automated scraping without re-checking."
+      "scrapeNote": "Magna Hospitality-managed; does not post to careers.hyatt.com (confirmed via careers.hyatt.com search — property absent from both the live org-search index and the site's full ~3000-property checkbox list). Its only listings found were on hospitalityonline.com/hcareers, both explicitly excluded aggregators. Don't re-add automated scraping without re-checking. Possible lead (2026-08-16, unconfirmed): Magna's own ADP Workforce Now account (cid=ab4f1580-ffa6-4332-864e-b7c35afbfb55, ccId=19000101_000001) lists this exact property, but has 0 live postings for it right now — see README ADP section."
     },
     {
       "name": "Hyatt Place Boston Seaport District",
