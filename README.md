@@ -1060,6 +1060,35 @@ confirm the exact match against yet. Worth an occasional check of this
     Highgate-search pass found for it — unconfirmed, just noting the
     overlap.
 
+**Paycom scraper live (`scripts/scrapers/paycom.js`):**
+- **Courtyard by Marriott Downtown/North Station** (2026-08-16,
+  user-flagged): previously `scrapeNote`'d as "found only on
+  third-party boards, not careers.marriott.com" — turns out it runs
+  its own dedicated Paycom career portal instead. Confirmed via the
+  portal's own `company-name` API returning "Courtyard Boston
+  Downtown/North Station" exactly, and via the job posting's own
+  description text ("Promote Fontainebleau Development and Courtyard
+  marketing programs") plus independent web research: the hotel is
+  owned/operated by **Fontainebleau Development**, with Related Beal
+  as co-developer — added as `managedBy`. `brand` stays `"marriott"`,
+  only the job source changed.
+- The portal page is client-rendered, but — like Hireology — embeds a
+  short-lived signed JWT directly in the initial server-rendered HTML
+  (`var configsFromHost = {"sessionJWT":"..."}`, no JS execution
+  needed to read it) that the app sends as a plain `Authorization`
+  header (no `Bearer ` prefix, unlike most JWT-bearer APIs this
+  project has seen) to the real data API,
+  `portal-applicant-tracking.us-cent.paycomonline.net`. No
+  cookies/session/browser needed otherwise, plain `fetch()` works for
+  both steps.
+- The list endpoint (`job-posting-previews/search`, POST) returns
+  title/location but no pay or clean per-job URL — those come from a
+  per-job detail fetch (`job-postings/{jobId}`, GET), which also gives
+  pay as freeform text (`"$33.98 - $33.98 Hourly"`) rather than a
+  structured field, parsed the same way as Marriott's own pay text. No
+  category has been populated on any job seen so far
+  (`jobCategory: ""`). 0 → 1 job on this hotel, guardrail passed.
+
 **Copley Square Hotel — management confirmed, nothing to automate
 against yet:**
 - Copley Square Hotel is branded "a FOUND Hotel" and operated by FCL

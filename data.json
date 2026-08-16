@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-16T10:26:30.259Z",
+  "generatedAt": "2026-08-16T23:22:15.583Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -134,12 +134,22 @@
       "lat": 42.3658713,
       "lng": -71.0596385,
       "brand": "marriott",
-      "managedBy": null,
+      "managedBy": "Fontainebleau Development",
       "scrape": {
-        "source": "marriott",
-        "propertyMatch": "Courtyard by Marriott Boston Downtown"
+        "source": "paycom",
+        "propertyMatch": "864246267865F2D3D81D004ADB83D769"
       },
-      "jobs": []
+      "scrapeNote": "Runs its own dedicated Paycom career portal rather than posting through careers.marriott.com (previously only found on third-party boards). Confirmed via the portal's own company-name API returning \"Courtyard Boston Downtown/North Station\" exactly, and via the job posting's own description text (\"Promote Fontainebleau Development and Courtyard marketing programs\") plus independent web research: the hotel is owned/operated by Fontainebleau Development, with Related Beal as co-developer. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed.",
+      "jobs": [
+        {
+          "title": "Front Desk Supervisor",
+          "payMin": 33.98,
+          "payMax": 33.98,
+          "category": null,
+          "url": "https://www.paycomonline.net/v4/ats/web.php/portal/864246267865F2D3D81D004ADB83D769/jobs/579150",
+          "firstSeen": "2026-08-16"
+        }
+      ]
     },
     {
       "name": "Courtyard by Marriott East Boston (Logan)",
@@ -530,104 +540,6 @@
           "category": "Rooms",
           "url": "https://careers.accor.com/global/en/job/bell-attendant-in-fairmont-copley-plaza-boston-boston-united-states-jid-105322",
           "firstSeen": "2026-08-12"
-        },
-        {
-          "title": "Health Club Attendant - Part Time",
-          "payMin": 27.25,
-          "payMax": 27.25,
-          "category": "Rooms",
-          "url": "https://careers.accor.com/global/en/job/health-club-attendant-part-time-in-fairmont-copley-plaza-boston-boston-united-states-jid-96541",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "Marketing & Communications Coordinator",
-          "payMin": 30.5,
-          "payMax": 30.5,
-          "category": "Sales Marketing",
-          "url": "https://careers.accor.com/global/en/job/marketing-and-communications-coordinator-in-fairmont-copley-plaza-boston-boston-united-states-jid-105311",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "OAK Long Bar + Kitchen Barback",
-          "payMin": 26.87,
-          "payMax": 26.87,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-barback-in-fairmont-copley-plaza-boston-boston-united-states-jid-105308",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "Front Office Assistant Manager",
-          "payMin": null,
-          "payMax": null,
-          "category": "Rooms",
-          "url": "https://careers.accor.com/global/en/job/front-office-assistant-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-105893",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "Overnight Cleaner",
-          "payMin": 26.95,
-          "payMax": 26.95,
-          "category": "Rooms",
-          "url": "https://careers.accor.com/global/en/job/overnight-cleaner-in-fairmont-copley-plaza-boston-boston-united-states-jid-105889",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "Assistant Banquet Manager",
-          "payMin": 72000,
-          "payMax": 74000,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/assistant-banquet-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-105309",
-          "firstSeen": "2026-08-14",
-          "payUnit": "annual"
-        },
-        {
-          "title": "OAK Long Bar + Kitchen Assistant Manager",
-          "payMin": 70000,
-          "payMax": 70000,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-assistant-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-97552",
-          "firstSeen": "2026-08-14",
-          "payUnit": "annual"
-        },
-        {
-          "title": "OAK Long Bar + Kitchen Server",
-          "payMin": 12.25,
-          "payMax": 12.25,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-server-in-fairmont-copley-plaza-boston-boston-united-states-jid-105310",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "OAK Long Bar + Kitchen Host/Hostess",
-          "payMin": 27.03,
-          "payMax": 27.03,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-host-hostess-in-fairmont-copley-plaza-boston-boston-united-states-jid-105323",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "OAK Long Bar + Kitchen Server Assistant",
-          "payMin": 24.25,
-          "payMax": 24.25,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/oak-long-bar-kitchen-server-assistant-in-fairmont-copley-plaza-boston-boston-united-states-jid-97684",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "On-Call Banquet Bartender",
-          "payMin": 23.19,
-          "payMax": 23.19,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/on-call-banquet-bartender-in-fairmont-copley-plaza-boston-boston-united-states-jid-97573",
-          "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "Steward",
-          "payMin": 27.07,
-          "payMax": 27.07,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/steward-in-fairmont-copley-plaza-boston-boston-united-states-jid-96593",
-          "firstSeen": "2026-08-14"
         }
       ]
     },
@@ -1119,20 +1031,20 @@
       "scrapeNote": "Aimbridge-managed; confirmed via a live posting under the exact property name \"Le Meridien Boston Cambridge\" (4 current postings). Switched from careers.marriott.com (propertyMatch \"Le Meridien Cambridge-MIT\") — same pattern as Westin Boston Seaport/Hilton Boston Back Bay. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Confirmed genuinely quiet on Marriott's own site (0 of 38 real Cambridge-area postings match, not just an artifact of the networkidle timeout bug that was blocking verification earlier the same day).",
       "jobs": [
         {
-          "title": "Catering & Convention Services Manager OEM",
-          "payMin": 68000,
-          "payMax": 75000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
-          "firstSeen": "2026-08-14",
-          "payUnit": "annual"
-        },
-        {
           "title": "Banquets Manager",
           "payMin": 70000,
           "payMax": 80000,
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
+          "firstSeen": "2026-08-14",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Catering & Convention Services Manager OEM",
+          "payMin": 68000,
+          "payMax": 75000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
           "firstSeen": "2026-08-14",
           "payUnit": "annual"
         },
@@ -1144,14 +1056,6 @@
           "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-food-beverage-director",
           "firstSeen": "2026-08-15",
           "payUnit": "annual"
-        },
-        {
-          "title": "Sales Coordinator",
-          "payMin": 25,
-          "payMax": 28,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
-          "firstSeen": "2026-08-14"
         },
         {
           "title": "Front Desk Assistant Manager OEM",
@@ -1673,14 +1577,6 @@
           "payUnit": "annual"
         },
         {
-          "title": "Utility Cleaner Overnight",
-          "payMin": 24.72,
-          "payMax": 32.76,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/15875",
-          "firstSeen": "2026-05-28"
-        },
-        {
           "title": "Guest Room Attendant",
           "payMin": 24.72,
           "payMax": 32.96,
@@ -2071,12 +1967,12 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Kitchen Supervisor",
-          "payMin": 30,
-          "payMax": 34,
+          "title": "Barista",
+          "payMin": 24.4,
+          "payMax": 26.4,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
-          "firstSeen": "2026-08-13"
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
+          "firstSeen": "2026-08-15"
         },
         {
           "title": "Food & Beverage Manager OEM",
@@ -2096,12 +1992,13 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Barista",
-          "payMin": 24.4,
-          "payMax": 26.4,
+          "title": "Executive Sous Chef",
+          "payMin": 95000,
+          "payMax": 115000,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
-          "firstSeen": "2026-08-15"
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-executive-sous-chef",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
         },
         {
           "title": "Sales Coordinator",
@@ -2120,13 +2017,12 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Executive Sous Chef",
-          "payMin": 95000,
-          "payMax": 115000,
+          "title": "Kitchen Supervisor",
+          "payMin": 30,
+          "payMax": 34,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-executive-sous-chef",
-          "firstSeen": "2026-08-13",
-          "payUnit": "annual"
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
+          "firstSeen": "2026-08-13"
         },
         {
           "title": "Front Desk Agent",
@@ -2137,20 +2033,20 @@
           "firstSeen": "2026-08-15"
         },
         {
-          "title": "Director Front Office",
-          "payMin": 100000,
-          "payMax": 110000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-front-office",
-          "firstSeen": "2026-08-15",
-          "payUnit": "annual"
-        },
-        {
           "title": "Director Finance",
           "payMin": 170000,
           "payMax": 180000,
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-finance",
+          "firstSeen": "2026-08-16",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Convention Services Manager OEM",
+          "payMin": 75000,
+          "payMax": 85000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-convention-services-manager-oem",
           "firstSeen": "2026-08-16",
           "payUnit": "annual"
         },

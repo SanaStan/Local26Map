@@ -71,6 +71,7 @@ import { scrapeHireologyCareers } from './scrapers/hireology.js';
 import { scrapeAdpJobRequisitions, locationMatches as adpLocationMatches, postalCodeMatches as adpPostalCodeMatches } from './scrapers/adp.js';
 import { scrapeSageProperty } from './scrapers/sage.js';
 import { scrapeSmartRecruitersPostings, fetchJobDetail as fetchSmartRecruitersJobDetail } from './scrapers/smartrecruiters.js';
+import { scrapePaycomJobs } from './scrapers/paycom.js';
 
 const ROOT = path.dirname(path.dirname(fileURLToPath(import.meta.url)));
 const DATA_PATH = path.join(ROOT, 'data.json');
@@ -567,6 +568,31 @@ async function scrapeHireologyBrand(hotels) {
 }
 
 /**
+ * Paycom (see scripts/scrapers/paycom.js) is, like Hireology, a
+ * single-property dedicated career portal per hotel — one search
+ * covers the whole portal, no property-name filtering needed since
+ * every job already belongs to that one hotel.
+ */
+async function scrapePaycomBrand(hotels) {
+  const byHotel = new Map();
+  for (const hotel of hotels) {
+    const portalId = Array.isArray(hotel.scrape.propertyMatch) ? hotel.scrape.propertyMatch[0] : hotel.scrape.propertyMatch;
+    const raw = await scrapePaycomJobs(portalId);
+    const enriched = raw.map((j) => ({
+      title: j.title,
+      url: j.url,
+      jobId: j.id,
+      payMin: j.pay ? j.pay.payMin : null,
+      payMax: j.pay ? j.pay.payMax : null,
+      payUnit: j.pay && j.pay.payUnit ? j.pay.payUnit : undefined,
+      category: j.category || null,
+    }));
+    byHotel.set(hotel.name, enriched);
+  }
+  return byHotel;
+}
+
+/**
  * ADP Workforce Now (see scripts/scrapers/adp.js) is, like Hireology,
  * an ATS platform rather than a management company — a hotel embeds a
  * "recruitment-current-openings" widget on its own careers page, keyed
@@ -738,6 +764,7 @@ async function main() {
   const adpHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'adp');
   const sageHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'sage');
   const smartRecruitersHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'smartrecruiters');
+  const paycomHotels = data.hotels.filter((h) => h.scrape && h.scrape.source === 'paycom');
 
   const prevMarriottTotal = marriottHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevHiltonTotal = hiltonHotels.reduce((sum, h) => sum + h.jobs.length, 0);
@@ -753,6 +780,7 @@ async function main() {
   const prevAdpTotal = adpHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevSageTotal = sageHotels.reduce((sum, h) => sum + h.jobs.length, 0);
   const prevSmartRecruitersTotal = smartRecruitersHotels.reduce((sum, h) => sum + h.jobs.length, 0);
+  const prevPaycomTotal = paycomHotels.reduce((sum, h) => sum + h.jobs.length, 0);
 
   const browser = await chromium.launch();
   // A realistic desktop UA is required for careers.hyatt.com, which 403s
@@ -809,6 +837,9 @@ async function main() {
   const smartRecruitersByHotel = await scrapeSmartRecruitersBrand(smartRecruitersHotels);
   for (const [hotelName, jobs] of smartRecruitersByHotel) scrapedByHotel.set(hotelName, jobs);
 
+  const paycomByHotel = await scrapePaycomBrand(paycomHotels);
+  for (const [hotelName, jobs] of paycomByHotel) scrapedByHotel.set(hotelName, jobs);
+
   const newMarriottTotal = marriottHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHiltonTotal = hiltonHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newHyattTotal = hyattHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
@@ -823,6 +854,7 @@ async function main() {
   const newAdpTotal = adpHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newSageTotal = sageHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
   const newSmartRecruitersTotal = smartRecruitersHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
+  const newPaycomTotal = paycomHotels.reduce((sum, h) => sum + (scrapedByHotel.get(h.name) || []).length, 0);
 
   // Guardrail: if any brand's scrape comes back completely empty while the
   // previous run had jobs for that brand, treat the whole run as unreliable
@@ -844,6 +876,7 @@ async function main() {
   if (newAdpTotal === 0 && prevAdpTotal > 0) brokenBrands.push(`ADP (${adpHotels.length} properties, had ${prevAdpTotal})`);
   if (newSageTotal === 0 && prevSageTotal > 0) brokenBrands.push(`Sage (${sageHotels.length} properties, had ${prevSageTotal})`);
   if (newSmartRecruitersTotal === 0 && prevSmartRecruitersTotal > 0) brokenBrands.push(`SmartRecruiters (${smartRecruitersHotels.length} properties, had ${prevSmartRecruitersTotal})`);
+  if (newPaycomTotal === 0 && prevPaycomTotal > 0) brokenBrands.push(`Paycom (${paycomHotels.length} properties, had ${prevPaycomTotal})`);
 
   if (brokenBrands.length) {
     const report = {
@@ -857,7 +890,7 @@ async function main() {
     return;
   }
 
-  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge', 'ihg', 'hotelaka', 'millennium', 'highgate', 'hireology', 'adp', 'sage', 'smartrecruiters']);
+  const automatedSources = new Set(['marriott', 'hilton', 'hyatt', 'omni', 'accor', 'aimbridge', 'ihg', 'hotelaka', 'millennium', 'highgate', 'hireology', 'adp', 'sage', 'smartrecruiters', 'paycom']);
   const historyLines = [];
   const perHotelCounts = [];
 
@@ -895,8 +928,9 @@ async function main() {
     adpPropertiesScraped: adpHotels.length,
     sagePropertiesScraped: sageHotels.length,
     smartRecruitersPropertiesScraped: smartRecruitersHotels.length,
-    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal + prevIhgTotal + prevHotelAkaTotal + prevMillenniumTotal + prevHighgateTotal + prevHireologyTotal + prevAdpTotal + prevSageTotal + prevSmartRecruitersTotal,
-    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal + newIhgTotal + newHotelAkaTotal + newMillenniumTotal + newHighgateTotal + newHireologyTotal + newAdpTotal + newSageTotal + newSmartRecruitersTotal,
+    paycomPropertiesScraped: paycomHotels.length,
+    totalJobsBefore: prevMarriottTotal + prevHiltonTotal + prevHyattTotal + prevOmniTotal + prevAccorTotal + prevAimbridgeTotal + prevIhgTotal + prevHotelAkaTotal + prevMillenniumTotal + prevHighgateTotal + prevHireologyTotal + prevAdpTotal + prevSageTotal + prevSmartRecruitersTotal + prevPaycomTotal,
+    totalJobsAfter: newMarriottTotal + newHiltonTotal + newHyattTotal + newOmniTotal + newAccorTotal + newAimbridgeTotal + newIhgTotal + newHotelAkaTotal + newMillenniumTotal + newHighgateTotal + newHireologyTotal + newAdpTotal + newSageTotal + newSmartRecruitersTotal + newPaycomTotal,
     historyEventsWritten: historyLines.length,
     perHotelCounts,
     bigDrops: perHotelCounts.filter((c) => c.before >= 3 && c.after === 0),
