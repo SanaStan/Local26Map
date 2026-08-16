@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-15T10:26:14.512Z",
+  "generatedAt": "2026-08-16T10:26:30.259Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -36,14 +36,6 @@
           "category": null,
           "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0&ccId=19000101_000001&lang=en_US&jobId=575014&jwId=",
           "firstSeen": "2026-07-14"
-        },
-        {
-          "title": "Front Desk Agent",
-          "payMin": 23.07,
-          "payMax": 32.95,
-          "category": null,
-          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0&ccId=19000101_000001&lang=en_US&jobId=574287&jwId=",
-          "firstSeen": "2026-06-26"
         },
         {
           "title": "Sales Manager",
@@ -668,6 +660,14 @@
       },
       "jobs": [
         {
+          "title": "Engineer - Temporary Starting Mid September - Hampton Inn Boston Seaport",
+          "payMin": 26.12,
+          "payMax": 26.12,
+          "category": "Engineering, Maintenance and Facilities",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/219424",
+          "firstSeen": "2026-08-16"
+        },
+        {
           "title": "Night Auditor - Hampton Inn Boston Seaport",
           "payMin": 30,
           "payMax": 30,
@@ -1080,14 +1080,6 @@
           "payUnit": "annual"
         },
         {
-          "title": "People & Culture Intern",
-          "payMin": null,
-          "payMax": null,
-          "category": "Hotel-Human Resources",
-          "url": "https://fa-evax-saasfaprod1.fa.ocs.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1001/job/164723",
-          "firstSeen": "2026-06-23"
-        },
-        {
           "title": "Executive Steward",
           "payMin": null,
           "payMax": null,
@@ -1145,14 +1137,6 @@
           "payUnit": "annual"
         },
         {
-          "title": "Sales Coordinator",
-          "payMin": 25,
-          "payMax": 28,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
-          "firstSeen": "2026-08-14"
-        },
-        {
           "title": "Food & Beverage Director",
           "payMin": 105000,
           "payMax": 115000,
@@ -1160,6 +1144,14 @@
           "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-food-beverage-director",
           "firstSeen": "2026-08-15",
           "payUnit": "annual"
+        },
+        {
+          "title": "Sales Coordinator",
+          "payMin": 25,
+          "payMax": 28,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
+          "firstSeen": "2026-08-14"
         },
         {
           "title": "Front Desk Assistant Manager OEM",
@@ -2154,12 +2146,12 @@
           "payUnit": "annual"
         },
         {
-          "title": "Convention Services Manager OEM",
-          "payMin": 75000,
-          "payMax": 85000,
+          "title": "Director Finance",
+          "payMin": 170000,
+          "payMax": 180000,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-convention-services-manager-oem",
-          "firstSeen": "2026-08-15",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-finance",
+          "firstSeen": "2026-08-16",
           "payUnit": "annual"
         },
         {
