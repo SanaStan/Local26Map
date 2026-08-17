@@ -162,6 +162,7 @@
         "source": "marriott",
         "propertyMatch": "Courtyard by Marriott Boston Logan Airport"
       },
+      "scrapeNote": "Possible lead (2026-08-16, unconfirmed, user-flagged twice): Ocean Properties' own ADP Workforce Now account (cid=add92c21-8443-48e1-9e10-34d2e23c5e27, ccId=19000101_000001) lists this exact property (\"Courtyard by Marriott- Logan Airport, Boston, MA, US\"), confirmed genuinely Ocean Properties' account via its own LOCATION facet. Still 0 live postings for it on that account as of the second check, so not switched over yet — see README ADP section.",
       "jobs": []
     },
     {

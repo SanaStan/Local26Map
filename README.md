@@ -925,6 +925,10 @@ search path:**
   posting would use identical text). Worth an occasional check of this
   `cid`/`ccId` for a live Boston-location posting, same as the Jiten
   lead and Dagny Boston before it resolved.
+  - **Re-checked 2026-08-16** (user-flagged again): still 0 live Boston
+    postings on this account. Added a `scrapeNote` to this hotel's
+    `data.json` entry for the first time (previously only documented
+    here) so this doesn't get re-researched from scratch again.
 
 **Sage scraper live (`scripts/scrapers/sage.js`):**
 - Sage Hospitality Group turned out to be a real management company
