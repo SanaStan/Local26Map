@@ -782,11 +782,12 @@
       "lat": 42.3897368,
       "lng": -71.0122025,
       "brand": "hilton",
-      "managedBy": null,
+      "managedBy": "First Bristol Corporation",
       "scrape": {
         "source": "hilton",
         "propertyMatch": "Hilton Garden Inn Boston Logan Airport"
       },
+      "scrapeNote": "Owned/managed by First Bristol Corporation (confirmed via web research and First Bristol's own site listing this property). Checked for a dedicated First Bristol careers site/ATS (2026-08-16, user-requested) and found none: firstbristol.com has no \"Careers\" nav item anywhere, the property's own page on that site links only to Hilton's booking site, and searches across First Bristol's other hotels (Homewood Suites Providence, Hampton Inn & Suites Newport/Middletown, Residence Inn New Bedford Dartmouth) surface only excluded aggregators (Indeed, Glassdoor, HospitalityOnline), never a First Bristol-owned ATS. Confirmed the existing careers.hilton.com propertyMatch is correctly configured (verified against the site's own current property list) and genuinely shows 0 postings for this property, not a naming mismatch. Same \"confirmed management, nothing to automate against\" situation as Copley Square Hotel.",
       "jobs": []
     },
     {

@@ -1123,6 +1123,33 @@ against yet:**
   up a real ATS behind it — right now there's nothing there to build
   against.
 
+**Hilton Garden Inn Boston Logan Airport — management confirmed,
+nothing to automate against yet (2026-08-16, user-requested check):**
+- Owned/managed by **First Bristol Corporation**, a Fall River, MA-based
+  real estate development company — confirmed via web research and
+  First Bristol's own site, which lists this property directly (added
+  as `managedBy`). Same "confirmed management, no automatable posting"
+  situation as Copley Square Hotel.
+- Checked every plausible source and found nothing: `firstbristol.com`
+  has no "Careers" nav item anywhere (About/Team/Portfolio/New
+  Projects/News/Contact only), and the property's own page on that site
+  links out only to Hilton's booking site, not any job portal. Searches
+  across First Bristol's other hotels (Homewood Suites by Hilton
+  Providence Downtown, Hampton Inn & Suites Newport/Middletown,
+  Residence Inn New Bedford Dartmouth) surface only excluded
+  aggregators (Indeed, Glassdoor, HospitalityOnline) — never a First
+  Bristol-owned ATS.
+- Also double-checked the existing `careers.hilton.com` config isn't
+  the actual problem: re-scraped Hilton's current Boston-area postings
+  directly and confirmed the `propertyMatch` string ("Hilton Garden Inn
+  Boston Logan Airport") is exactly right — genuinely 0 postings for
+  this specific property right now, not a naming mismatch. (The only
+  "Logan"-named Hilton currently posting is "Hilton Boston Logan
+  Airport", a different hotel already on this list.)
+- Worth an occasional recheck of `firstbristol.com` in case a careers
+  page ever gets added — right now there's nothing there to build
+  against.
+
 **Not yet automated (no scraper built yet):**
 - Copley Square Hotel — the last one on the original "unconfirmed
   independent" list; management is now confirmed (FOUND Hotels/FCL
