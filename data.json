@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-18T10:31:22.905Z",
+  "generatedAt": "2026-08-19T10:31:27.883Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -231,21 +231,21 @@
       },
       "jobs": [
         {
+          "title": "Food and Beverage Manager - DoubleTree by Hilton Boston Cambridge",
+          "payMin": 65000,
+          "payMax": 70000,
+          "category": "Food and Beverage",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/219429",
+          "firstSeen": "2026-08-18",
+          "payUnit": "annual"
+        },
+        {
           "title": "Beverage Server",
           "payMin": 18.25,
           "payMax": 18.25,
           "category": "Food and Beverage",
           "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/218598",
           "firstSeen": "2026-08-07"
-        },
-        {
-          "title": "Director of Hotel Operations",
-          "payMin": 120000,
-          "payMax": 140000,
-          "category": "General Manager/Hotel Manager",
-          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/215716",
-          "firstSeen": "2026-07-16",
-          "payUnit": "annual"
         }
       ]
     },
@@ -285,6 +285,14 @@
       },
       "scrapeNote": "Wynn Resorts-managed; wynnresorts.com/careers funnels through a build-specific Next.js Server Action rather than a stable endpoint, so this bypasses it and calls SmartRecruiters' own public postings API (api.smartrecruiters.com) directly. Confirmed via each job's own customField \"Company\" value, an exact match on \"Encore Boston Harbor\" (all 18 current MA postings). Note: the API's own per-job location lat/lng (~42.408, -71.054) doesn't exactly match this entry's coordinates — similar generic-geocode caveat as Sage/Hotel Commonwealth, not a red flag on property identity.",
       "jobs": [
+        {
+          "title": "Table Games Dealer (Steady Extra, Craps Preferred)",
+          "payMin": 9,
+          "payMax": 14.5,
+          "category": "Other",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000144086133-table-games-dealer-steady-extra-craps-preferred-",
+          "firstSeen": "2026-08-18"
+        },
         {
           "title": "Front Office Manager",
           "payMin": 76875,
@@ -483,6 +491,15 @@
           "category": "Culinary",
           "url": "https://careers.accor.com/global/en/job/sous-chef-in-fairmont-copley-plaza-boston-boston-united-states-jid-87625",
           "firstSeen": "2026-08-12",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Banquet Manager",
+          "payMin": 75000,
+          "payMax": 77000,
+          "category": "Food Beverage",
+          "url": "https://careers.accor.com/global/en/job/banquet-manager-in-fairmont-copley-plaza-boston-boston-united-states-jid-101853",
+          "firstSeen": "2026-08-19",
           "payUnit": "annual"
         },
         {
@@ -761,6 +778,14 @@
       },
       "jobs": [
         {
+          "title": "Utility Steward/Dishwasher",
+          "payMin": 23.15,
+          "payMax": 23.15,
+          "category": "Stewarding",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/219466",
+          "firstSeen": "2026-08-19"
+        },
+        {
           "title": "Director of Food and Beverage - Hilton Boston Logan Airport",
           "payMin": 145000,
           "payMax": 160000,
@@ -839,14 +864,6 @@
           "category": "Stewarding",
           "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/217972",
           "firstSeen": "2026-08-06"
-        },
-        {
-          "title": "Guest Service Agent - Hilton Boston Park Plaza",
-          "payMin": 30,
-          "payMax": 30,
-          "category": "Guest Services, Operations, and Front Office",
-          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/217491",
-          "firstSeen": "2026-08-04"
         },
         {
           "title": "Banquet Barback - Hilton Boston Park Plaza",
@@ -1107,6 +1124,23 @@
       "scrapeNote": "Aimbridge-managed; confirmed via a live posting under the exact property name \"Le Meridien Boston Cambridge\" (4 current postings). Switched from careers.marriott.com (propertyMatch \"Le Meridien Cambridge-MIT\") — same pattern as Westin Boston Seaport/Hilton Boston Back Bay. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Confirmed genuinely quiet on Marriott's own site (0 of 38 real Cambridge-area postings match, not just an artifact of the networkidle timeout bug that was blocking verification earlier the same day).",
       "jobs": [
         {
+          "title": "Sales Coordinator",
+          "payMin": 25,
+          "payMax": 28,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
+          "firstSeen": "2026-08-17"
+        },
+        {
+          "title": "Catering & Convention Services Manager OEM",
+          "payMin": 75000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
+          "firstSeen": "2026-08-19",
+          "payUnit": "annual"
+        },
+        {
           "title": "Front Desk Assistant Manager OEM",
           "payMin": 62000,
           "payMax": 66265,
@@ -1116,29 +1150,12 @@
           "payUnit": "annual"
         },
         {
-          "title": "Sales Coordinator",
-          "payMin": 25,
-          "payMax": 28,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
-          "firstSeen": "2026-08-17"
-        },
-        {
           "title": "Food & Beverage Director",
           "payMin": 105000,
           "payMax": 115000,
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-food-beverage-director",
           "firstSeen": "2026-08-15",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Banquets Manager",
-          "payMin": 70000,
-          "payMax": 80000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
-          "firstSeen": "2026-08-18",
           "payUnit": "annual"
         }
       ]
@@ -1279,7 +1296,7 @@
         {
           "title": "Executive Chef",
           "payMin": 130000,
-          "payMax": 160000,
+          "payMax": 150000,
           "category": "Culinary",
           "url": "https://externalmanagement-highgate.icims.com/jobs/80708/executive-chef/job",
           "firstSeen": "2026-07-30",
@@ -1850,12 +1867,12 @@
       },
       "jobs": [
         {
-          "title": "In Room Dining Server",
-          "payMin": 17.25,
-          "payMax": 17.25,
-          "category": "Food and Beverage & Culinary",
-          "url": "https://careers.marriott.com/in-room-dining-server/job/EF8ADB48A65AFBCE56018697E3683B8D",
-          "firstSeen": "2026-07-23"
+          "title": "Cook III-Main Kitchen",
+          "payMin": 32.63,
+          "payMax": 32.63,
+          "category": null,
+          "url": "https://careers.marriott.com/cook-iii-main-kitchen/job/57CA17DAB137948A8678D24651233789",
+          "firstSeen": "2026-08-18"
         },
         {
           "title": "Housekeeping Attendant",
@@ -1941,12 +1958,22 @@
       "scrapeNote": "Runs its own dedicated Hireology careers site (careers.hireology.com/colonnadehotel) rather than any brand/management-company site — confirmed via organization.name (\"The Colonnade Hotel\") and address (120 Huntington Avenue, Boston, MA 02116) on each job, matching this entry's coordinates.",
       "jobs": [
         {
-          "title": "Housekeeping Supervisor",
-          "payMin": 30,
-          "payMax": 30,
+          "title": "Sous Chef",
+          "payMin": 70000,
+          "payMax": 70000,
           "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2822775/description",
-          "firstSeen": "2026-07-22"
+          "url": "https://careers.hireology.com/colonnadehotel/2849372/description",
+          "firstSeen": "2026-08-18",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Assistant Housekeeping Manager",
+          "payMin": 60000,
+          "payMax": 65000,
+          "category": null,
+          "url": "https://careers.hireology.com/colonnadehotel/2849356/description",
+          "firstSeen": "2026-08-18",
+          "payUnit": "annual"
         },
         {
           "title": "Guest Service Agent",
@@ -1972,22 +1999,6 @@
           "category": null,
           "url": "https://careers.hireology.com/colonnadehotel/2791054/description",
           "firstSeen": "2026-06-17"
-        },
-        {
-          "title": "General Maintenance Engineer",
-          "payMin": 30,
-          "payMax": 30,
-          "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2787511/description",
-          "firstSeen": "2026-06-12"
-        },
-        {
-          "title": "In-room Dining Server",
-          "payMin": 20.9,
-          "payMax": 20.9,
-          "category": null,
-          "url": "https://careers.hireology.com/colonnadehotel/2770821/description",
-          "firstSeen": "2026-05-26"
         }
       ]
     },
@@ -2026,12 +2037,12 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Barista",
-          "payMin": 24.4,
-          "payMax": 26.4,
+          "title": "Kitchen Supervisor",
+          "payMin": 30,
+          "payMax": 34,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
-          "firstSeen": "2026-08-15"
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
+          "firstSeen": "2026-08-13"
         },
         {
           "title": "Food & Beverage Manager OEM",
@@ -2060,6 +2071,14 @@
           "payUnit": "annual"
         },
         {
+          "title": "Barista",
+          "payMin": 24.4,
+          "payMax": 26.4,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
+          "firstSeen": "2026-08-15"
+        },
+        {
           "title": "Sales Coordinator",
           "payMin": 31,
           "payMax": 34,
@@ -2076,29 +2095,12 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Kitchen Supervisor",
-          "payMin": 30,
-          "payMax": 34,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
-          "firstSeen": "2026-08-13"
-        },
-        {
           "title": "Front Desk Agent",
           "payMin": 24.45,
           "payMax": 26.45,
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-front-desk-agent",
           "firstSeen": "2026-08-15"
-        },
-        {
-          "title": "Director Banquets",
-          "payMin": 110000,
-          "payMax": 125000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-banquets",
-          "firstSeen": "2026-08-13",
-          "payUnit": "annual"
         }
       ]
     },
@@ -2132,12 +2134,21 @@
           "payUnit": "annual"
         },
         {
+          "title": "Banquet Manager",
+          "payMin": 74000,
+          "payMax": 93000,
+          "category": null,
+          "url": "https://careers.marriott.com/banquet-manager/job/991879AE123CF861186EB994D2D9ADB2",
+          "firstSeen": "2026-08-19",
+          "payUnit": "annual"
+        },
+        {
           "title": "Sous Chef",
           "payMin": 73000,
           "payMax": 93000,
           "category": null,
-          "url": "https://careers.marriott.com/sous-chef/job/8903EF0C93871D9F6D73F5399052DDE7",
-          "firstSeen": "2026-08-13",
+          "url": "https://careers.marriott.com/sous-chef/job/B9C8A60F9FA1C7EB3FFF0ADFF2D5DE3A",
+          "firstSeen": "2026-08-19",
           "payUnit": "annual"
         },
         {
@@ -2147,15 +2158,6 @@
           "category": null,
           "url": "https://careers.marriott.com/food-and-beverage-operations-manager/job/43CCB08AFB805F5CD531CE4675FAB175",
           "firstSeen": "2026-08-12",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Banquets Manager",
-          "payMin": 71000,
-          "payMax": 95000,
-          "category": null,
-          "url": "https://careers.marriott.com/banquets-manager/job/D33FE9E5BE7ADAF2DD5DC759C924B0E0",
-          "firstSeen": "2026-07-15",
           "payUnit": "annual"
         }
       ]
