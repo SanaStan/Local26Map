@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-19T10:31:27.883Z",
+  "generatedAt": "2026-08-20T10:33:12.166Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -286,6 +286,30 @@
       "scrapeNote": "Wynn Resorts-managed; wynnresorts.com/careers funnels through a build-specific Next.js Server Action rather than a stable endpoint, so this bypasses it and calls SmartRecruiters' own public postings API (api.smartrecruiters.com) directly. Confirmed via each job's own customField \"Company\" value, an exact match on \"Encore Boston Harbor\" (all 18 current MA postings). Note: the API's own per-job location lat/lng (~42.408, -71.054) doesn't exactly match this entry's coordinates — similar generic-geocode caveat as Sage/Hotel Commonwealth, not a red flag on property identity.",
       "jobs": [
         {
+          "title": "Catering & Banquet Services Coordinator",
+          "payMin": 27.5,
+          "payMax": 27.5,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000144401079-catering-banquet-services-coordinator",
+          "firstSeen": "2026-08-19"
+        },
+        {
+          "title": "Cook I - Rare Steakhouse",
+          "payMin": 32.67,
+          "payMax": 32.67,
+          "category": "Production",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000144368429-cook-i-rare-steakhouse",
+          "firstSeen": "2026-08-19"
+        },
+        {
+          "title": "Wynn Rewards Representative",
+          "payMin": 31,
+          "payMax": 31,
+          "category": "Customer Service",
+          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000144339006-wynn-rewards-representative-",
+          "firstSeen": "2026-08-19"
+        },
+        {
           "title": "Table Games Dealer (Steady Extra, Craps Preferred)",
           "payMin": 9,
           "payMax": 14.5,
@@ -378,14 +402,6 @@
           "firstSeen": "2026-07-30"
         },
         {
-          "title": "Poker List Attendant (Steady Extra/Part Time)",
-          "payMin": 23.1,
-          "payMax": 23.1,
-          "category": "Other",
-          "url": "https://jobs.smartrecruiters.com/WynnResorts/744000140729250-poker-list-attendant-steady-extra-part-time-",
-          "firstSeen": "2026-07-30"
-        },
-        {
           "title": "Cook I SE– Catering & Banquets",
           "payMin": 32.67,
           "payMax": 32.67,
@@ -459,14 +475,6 @@
         "propertyMatch": "Fairmont Copley Plaza Boston"
       },
       "jobs": [
-        {
-          "title": "Fairmont Gold Attendant",
-          "payMin": 26.9,
-          "payMax": 26.9,
-          "category": "Food Beverage",
-          "url": "https://careers.accor.com/global/en/job/fairmont-gold-attendant-in-fairmont-copley-plaza-boston-boston-united-states-jid-105313",
-          "firstSeen": "2026-08-12"
-        },
         {
           "title": "Executive Chef",
           "payMin": 135000,
@@ -754,14 +762,6 @@
           "url": "https://externalmanagement-highgate.icims.com/jobs/78975/sous-chef/job",
           "firstSeen": "2026-06-11",
           "payUnit": "annual"
-        },
-        {
-          "title": "Room Attendant",
-          "payMin": 32.95,
-          "payMax": 32.95,
-          "category": "Housekeeping",
-          "url": "https://externalhourly-highgate.icims.com/jobs/78833/room-attendant/job",
-          "firstSeen": "2026-06-08"
         }
       ]
     },
@@ -1132,21 +1132,12 @@
           "firstSeen": "2026-08-17"
         },
         {
-          "title": "Catering & Convention Services Manager OEM",
-          "payMin": 75000,
+          "title": "Banquets Manager",
+          "payMin": 70000,
           "payMax": 80000,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
-          "firstSeen": "2026-08-19",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Front Desk Assistant Manager OEM",
-          "payMin": 62000,
-          "payMax": 66265,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-front-desk-assistant-manager-oem",
-          "firstSeen": "2026-08-14",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
+          "firstSeen": "2026-08-20",
           "payUnit": "annual"
         },
         {
@@ -1261,6 +1252,14 @@
       "scrapeNote": "Highgate-managed (its own site states Highgate purchased and rebranded the property in 2018) — posts to Highgate's iCIMS careers site under the property name \"The Newbury Boston\".",
       "jobs": [
         {
+          "title": "F&B Manager in Training",
+          "payMin": 25,
+          "payMax": 27,
+          "category": "Food and Beverage",
+          "url": "https://externalhourly-highgate.icims.com/jobs/81519/f%26b-manager-in-training-/job",
+          "firstSeen": "2026-08-19"
+        },
+        {
           "title": "The Street Bar Server",
           "payMin": 15.51,
           "payMax": 18.25,
@@ -1274,14 +1273,6 @@
           "payMax": 33.2,
           "category": "Front Office Operations",
           "url": "https://externalhourly-highgate.icims.com/jobs/81137/guest-service-ambassador-/job",
-          "firstSeen": "2026-08-10"
-        },
-        {
-          "title": "F&B Manager in Training",
-          "payMin": 25,
-          "payMax": 27,
-          "category": "Food and Beverage",
-          "url": "https://externalhourly-highgate.icims.com/jobs/81136/f%26b-manager-in-training-/job",
           "firstSeen": "2026-08-10"
         },
         {
@@ -1309,15 +1300,6 @@
           "category": "Accounting/Finance",
           "url": "https://externalmanagement-highgate.icims.com/jobs/80693/staff-accountant/job",
           "firstSeen": "2026-07-30",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Assistant Director of Front Office",
-          "payMin": 90000,
-          "payMax": 95000,
-          "category": "Front Office Operations",
-          "url": "https://externalmanagement-highgate.icims.com/jobs/80423/assistant-director-of-front-office/job",
-          "firstSeen": "2026-07-23",
           "payUnit": "annual"
         },
         {
@@ -1604,6 +1586,15 @@
       },
       "jobs": [
         {
+          "title": "Director of National Accounts",
+          "payMin": 65,
+          "payMax": 120000,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/25810",
+          "firstSeen": "2026-08-19",
+          "payUnit": "annual"
+        },
+        {
           "title": "F&B Banquets & Catering - Banquet Supervisor",
           "payMin": 32.93,
           "payMax": 33.6,
@@ -1821,14 +1812,6 @@
           "payUnit": "annual"
         },
         {
-          "title": "Assistant Rooms Ops Manager (Front Desk)",
-          "payMin": 34.13,
-          "payMax": 41.35,
-          "category": null,
-          "url": "https://careers.marriott.com/assistant-rooms-ops-manager-front-desk/job/3E97EFB3DAD962F66EC03DA98BA9916D",
-          "firstSeen": "2026-08-03"
-        },
-        {
           "title": "Banquet Cook",
           "payMin": 32.09,
           "payMax": 32.09,
@@ -1873,6 +1856,14 @@
           "category": null,
           "url": "https://careers.marriott.com/cook-iii-main-kitchen/job/57CA17DAB137948A8678D24651233789",
           "firstSeen": "2026-08-18"
+        },
+        {
+          "title": "Loss Prevention Officer",
+          "payMin": 31.05,
+          "payMax": 31.05,
+          "category": null,
+          "url": "https://careers.marriott.com/loss-prevention-officer/job/BCB47E168A8F22E2EF32B121611D2FA0",
+          "firstSeen": "2026-08-19"
         },
         {
           "title": "Housekeeping Attendant",
@@ -2037,12 +2028,12 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Kitchen Supervisor",
-          "payMin": 30,
-          "payMax": 34,
+          "title": "Barista",
+          "payMin": 24.4,
+          "payMax": 26.4,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
-          "firstSeen": "2026-08-13"
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
+          "firstSeen": "2026-08-15"
         },
         {
           "title": "Food & Beverage Manager OEM",
@@ -2052,6 +2043,30 @@
           "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-food-beverage-manager-restaurant-1-oem",
           "firstSeen": "2026-08-13",
           "payUnit": "annual"
+        },
+        {
+          "title": "Kitchen Supervisor",
+          "payMin": 30,
+          "payMax": 34,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Housekeeping Supervisor",
+          "payMin": 31,
+          "payMax": 35,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeping-supervisor",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Sales Coordinator",
+          "payMin": 31,
+          "payMax": 34,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-sales-coordinator",
+          "firstSeen": "2026-08-13"
         },
         {
           "title": "Housekeeper",
@@ -2069,30 +2084,6 @@
           "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-executive-sous-chef",
           "firstSeen": "2026-08-13",
           "payUnit": "annual"
-        },
-        {
-          "title": "Barista",
-          "payMin": 24.4,
-          "payMax": 26.4,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
-          "firstSeen": "2026-08-15"
-        },
-        {
-          "title": "Sales Coordinator",
-          "payMin": 31,
-          "payMax": 34,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-sales-coordinator",
-          "firstSeen": "2026-08-13"
-        },
-        {
-          "title": "Housekeeping Supervisor",
-          "payMin": 31,
-          "payMax": 35,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeping-supervisor",
-          "firstSeen": "2026-08-13"
         },
         {
           "title": "Front Desk Agent",
@@ -2116,6 +2107,14 @@
         "propertyMatch": "The Westin Copley Place, Boston"
       },
       "jobs": [
+        {
+          "title": "Overnight Loss Prevention Supervisor",
+          "payMin": 33.63,
+          "payMax": 34.63,
+          "category": null,
+          "url": "https://careers.marriott.com/overnight-loss-prevention-supervisor/job/9648C5BC6F492BBE92731AC2EF7CFCC8",
+          "firstSeen": "2026-08-19"
+        },
         {
           "title": "Pastry Cook",
           "payMin": null,
