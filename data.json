@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-20T10:33:12.166Z",
+  "generatedAt": "2026-08-21T10:33:36.019Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -207,6 +207,14 @@
         "propertyMatch": "The Dagny"
       },
       "jobs": [
+        {
+          "title": "Operations Supervisor",
+          "payMin": 33,
+          "payMax": 36,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/the-dagny-operations-supervisor",
+          "firstSeen": "2026-08-21"
+        },
         {
           "title": "Sales Manager OEM",
           "payMin": 70000,
@@ -796,8 +804,8 @@
         },
         {
           "title": "Cook - Hilton Logan Airport",
-          "payMin": 22.31,
-          "payMax": 22.31,
+          "payMin": 23.53,
+          "payMax": 23.53,
           "category": "Culinary",
           "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/207262",
           "firstSeen": "2026-07-31"
@@ -833,13 +841,12 @@
       },
       "jobs": [
         {
-          "title": "Senior Banquet Manager - Hilton Boston Park Plaza",
-          "payMin": 85000,
-          "payMax": 85000,
-          "category": "Banquets",
-          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/213377",
-          "firstSeen": "2026-08-12",
-          "payUnit": "annual"
+          "title": "Floor Steward - Hilton Boston Park Plaza",
+          "payMin": 33.2,
+          "payMax": 33.2,
+          "category": "Stewarding",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/219971",
+          "firstSeen": "2026-08-20"
         },
         {
           "title": "Room Attendant - Hilton Boston Park Plaza",
@@ -973,6 +980,23 @@
       "scrapeNote": "Sage Hospitality Group-managed; posts through sagehospitality.jobs rather than any brand site. Confirmed via the site's own per-property exact-phrase filter (property2=hotel-commonwealth maps to text:\"Hotel Commonwealth\") and job description text (\"nestled in the heart of Fenway\"). Note: the API's own GeoLocation field on each job (42.354702, -71.06527) doesn't match this entry's coordinates — looks like a generic/default geocode on Sage's end, not a red flag on property identity. Pay/category are embedded as markdown text inside each job's own description field, not a structured field (fixed 2026-08-14 after a user spot-check found pay was showing as missing).",
       "jobs": [
         {
+          "title": "Catering Sales Manager",
+          "payMin": 75000,
+          "payMax": 85000,
+          "category": "Catering & Events",
+          "url": "https://sagehospitality.jobs/boston-ma/catering-sales-manager/6128AD45F4A948BDBCC81C7C24A0D8C5/job/",
+          "firstSeen": "2026-08-20",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Front Desk Agent",
+          "payMin": 33,
+          "payMax": 33.5,
+          "category": "Front Desk & Guest Services",
+          "url": "https://sagehospitality.jobs/boston-ma/front-desk-agent/7F84E6EEEB7D42BFB33A76292715AD57/job/",
+          "firstSeen": "2026-08-20"
+        },
+        {
           "title": "Director of Front Office",
           "payMin": 80000,
           "payMax": 100000,
@@ -983,20 +1007,11 @@
         },
         {
           "title": "Director of Sales & Marketing",
-          "payMin": 150000,
-          "payMax": 175000,
+          "payMin": 175000,
+          "payMax": 200000,
           "category": "Sales & Marketing",
           "url": "https://sagehospitality.jobs/boston-ma/director-of-sales-marketing/C4810FE9DE5A4445BCF6927F8DBBE800/job/",
           "firstSeen": "2026-08-03",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Senior Catering Sales Manager - Hotel Commonwealth",
-          "payMin": 75000,
-          "payMax": 85000,
-          "category": "Catering & Events",
-          "url": "https://sagehospitality.jobs/boston-ma/senior-catering-sales-manager-hotel-commonwealth/22F6B42BE7DF4F269FBDABE6C220DEBE/job/",
-          "firstSeen": "2026-05-22",
           "payUnit": "annual"
         }
       ]
@@ -1124,6 +1139,15 @@
       "scrapeNote": "Aimbridge-managed; confirmed via a live posting under the exact property name \"Le Meridien Boston Cambridge\" (4 current postings). Switched from careers.marriott.com (propertyMatch \"Le Meridien Cambridge-MIT\") — same pattern as Westin Boston Seaport/Hilton Boston Back Bay. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Confirmed genuinely quiet on Marriott's own site (0 of 38 real Cambridge-area postings match, not just an artifact of the networkidle timeout bug that was blocking verification earlier the same day).",
       "jobs": [
         {
+          "title": "Catering & Convention Services Manager OEM",
+          "payMin": 75000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
+          "firstSeen": "2026-08-21",
+          "payUnit": "annual"
+        },
+        {
           "title": "Sales Coordinator",
           "payMin": 25,
           "payMax": 28,
@@ -1132,21 +1156,21 @@
           "firstSeen": "2026-08-17"
         },
         {
-          "title": "Banquets Manager",
-          "payMin": 70000,
-          "payMax": 80000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
-          "firstSeen": "2026-08-20",
-          "payUnit": "annual"
-        },
-        {
           "title": "Food & Beverage Director",
           "payMin": 105000,
           "payMax": 115000,
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-food-beverage-director",
           "firstSeen": "2026-08-15",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Front Desk Assistant Manager OEM",
+          "payMin": 62000,
+          "payMax": 66265,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-front-desk-assistant-manager-oem",
+          "firstSeen": "2026-08-21",
           "payUnit": "annual"
         }
       ]
@@ -1167,6 +1191,14 @@
       "scrapeNote": "Runs its own ADP Workforce Now recruitment widget (embedded on lenoxhotel.com/careers) rather than any brand/management-company site. The underlying ADP account (`adpCid`) also spans other locations (Somerville/Cambridge, Revere per the API's own location facet) — each job is verified via its own requisitionLocations against \"Lenox\" before being counted, not just the widget's scope.",
       "jobs": [
         {
+          "title": "Lenox Hotel - Security - Part Time",
+          "payMin": 26,
+          "payMax": 27,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=571241&jwId=9203358411273_1",
+          "firstSeen": "2026-08-20"
+        },
+        {
           "title": "Lenox Hotel - Line Cook",
           "payMin": 25,
           "payMax": 27,
@@ -1181,14 +1213,6 @@
           "category": null,
           "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570878&jwId=9203358411273_1",
           "firstSeen": "2026-08-14"
-        },
-        {
-          "title": "Lenox Hotel - Line Cook",
-          "payMin": 25,
-          "payMax": 26,
-          "category": null,
-          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570255&jwId=9203358411273_1",
-          "firstSeen": "2026-08-04"
         },
         {
           "title": "Food Runner/Support, Sweeney's",
@@ -1449,14 +1473,6 @@
           "firstSeen": "2026-07-31"
         },
         {
-          "title": "Group Rooms Coordinator",
-          "payMin": 33.18,
-          "payMax": 33.18,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/17050",
-          "firstSeen": "2026-07-30"
-        },
-        {
           "title": "Nail Tech | On Call",
           "payMin": 14.47,
           "payMax": 14.47,
@@ -1478,14 +1494,6 @@
           "payMax": 33.89,
           "category": null,
           "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21497",
-          "firstSeen": "2026-07-22"
-        },
-        {
-          "title": "Host Greeter | Kestra",
-          "payMin": 23.1,
-          "payMax": 33.01,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/21472",
           "firstSeen": "2026-07-22"
         },
         {
@@ -1522,22 +1530,6 @@
           "firstSeen": "2026-07-08"
         },
         {
-          "title": "Cafeteria Attendant",
-          "payMin": 23.16,
-          "payMax": 33.08,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/18861",
-          "firstSeen": "2026-06-25"
-        },
-        {
-          "title": "Engineering Supervisor",
-          "payMin": 42,
-          "payMax": 42,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/6272",
-          "firstSeen": "2026-06-23"
-        },
-        {
           "title": "Assistant Manager | Food and Beverage",
           "payMin": 70000,
           "payMax": 80000,
@@ -1545,14 +1537,6 @@
           "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/17761",
           "firstSeen": "2026-06-15",
           "payUnit": "annual"
-        },
-        {
-          "title": "Banquet Supervisor",
-          "payMin": null,
-          "payMax": null,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/5620",
-          "firstSeen": "2026-06-11"
         },
         {
           "title": "Line Cook | Lifted",
@@ -1591,7 +1575,7 @@
           "payMax": 120000,
           "category": null,
           "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/25810",
-          "firstSeen": "2026-08-19",
+          "firstSeen": "2026-08-18",
           "payUnit": "annual"
         },
         {
@@ -1820,14 +1804,6 @@
           "firstSeen": "2026-07-20"
         },
         {
-          "title": "Dining Room Attendant",
-          "payMin": 28.47,
-          "payMax": 28.47,
-          "category": null,
-          "url": "https://careers.marriott.com/dining-room-attendant/job/68866D4F9018165EA0359017B6D77586",
-          "firstSeen": "2026-07-21"
-        },
-        {
           "title": "Senior Sales Executive (Group)",
           "payMin": 46,
           "payMax": 61.54,
@@ -1949,6 +1925,14 @@
       "scrapeNote": "Runs its own dedicated Hireology careers site (careers.hireology.com/colonnadehotel) rather than any brand/management-company site — confirmed via organization.name (\"The Colonnade Hotel\") and address (120 Huntington Avenue, Boston, MA 02116) on each job, matching this entry's coordinates.",
       "jobs": [
         {
+          "title": "General Maintenance Engineer",
+          "payMin": 30,
+          "payMax": 30,
+          "category": null,
+          "url": "https://careers.hireology.com/colonnadehotel/2851935/description",
+          "firstSeen": "2026-08-20"
+        },
+        {
           "title": "Sous Chef",
           "payMin": 70000,
           "payMax": 70000,
@@ -2020,22 +2004,6 @@
       "scrapeNote": "Aimbridge-managed (confirmed via DiamondRock press release and live postings) — careers.marriott.com currently shows zero jobs for this property, real postings are on Aimbridge's Fountain site instead. brand stays \"marriott\" since it's still a Westin-flagged hotel; only the job source changed.",
       "jobs": [
         {
-          "title": "Concierge",
-          "payMin": 28,
-          "payMax": 32,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-concierge",
-          "firstSeen": "2026-08-13"
-        },
-        {
-          "title": "Barista",
-          "payMin": 24.4,
-          "payMax": 26.4,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
-          "firstSeen": "2026-08-15"
-        },
-        {
           "title": "Food & Beverage Manager OEM",
           "payMin": 75000,
           "payMax": 75000,
@@ -2045,27 +2013,11 @@
           "payUnit": "annual"
         },
         {
-          "title": "Kitchen Supervisor",
-          "payMin": 30,
-          "payMax": 34,
+          "title": "Concierge",
+          "payMin": 28,
+          "payMax": 32,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
-          "firstSeen": "2026-08-13"
-        },
-        {
-          "title": "Housekeeping Supervisor",
-          "payMin": 31,
-          "payMax": 35,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeping-supervisor",
-          "firstSeen": "2026-08-13"
-        },
-        {
-          "title": "Sales Coordinator",
-          "payMin": 31,
-          "payMax": 34,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-sales-coordinator",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-concierge",
           "firstSeen": "2026-08-13"
         },
         {
@@ -2086,12 +2038,45 @@
           "payUnit": "annual"
         },
         {
+          "title": "Barista",
+          "payMin": 24.4,
+          "payMax": 26.4,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
+          "firstSeen": "2026-08-15"
+        },
+        {
+          "title": "Kitchen Supervisor",
+          "payMin": 30,
+          "payMax": 34,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
+          "firstSeen": "2026-08-13"
+        },
+        {
+          "title": "Sales Coordinator",
+          "payMin": 31,
+          "payMax": 34,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-sales-coordinator",
+          "firstSeen": "2026-08-13"
+        },
+        {
           "title": "Front Desk Agent",
           "payMin": 24.45,
           "payMax": 26.45,
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-front-desk-agent",
           "firstSeen": "2026-08-15"
+        },
+        {
+          "title": "Director Banquets",
+          "payMin": 110000,
+          "payMax": 125000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-banquets",
+          "firstSeen": "2026-08-21",
+          "payUnit": "annual"
         }
       ]
     },
