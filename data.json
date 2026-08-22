@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-21T10:33:36.019Z",
+  "generatedAt": "2026-08-22T10:26:30.589Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -29,6 +29,22 @@
       },
       "scrapeNote": "Runs on an ADP Workforce Now recruitment widget, like Lenox Hotel, but on a separate ADP account belonging to a different nationwide hotel management company (spans many Hilton/Embassy Suites/DoubleTree/Hyatt-flagged and independent hotels across the US, confirmed via the account's own LOCATION facet listing \"Boston Battery Wharf, Boston, MA, US\"). Unlike Lenox's account, this one's per-job requisitionLocations carries no property-name text at all (every job just reads \" Boston, MA, US\") and 3 of the 4 current postings don't name the hotel in their own description either (generic corporate templates) — so property confirmation here uses each job's address.postalCode (02109) instead, unique to this property among all 68 postings on the account.",
       "jobs": [
+        {
+          "title": "Accounting/HR Manager",
+          "payMin": 33,
+          "payMax": 38,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0&ccId=19000101_000001&lang=en_US&jobId=576588&jwId=",
+          "firstSeen": "2026-08-21"
+        },
+        {
+          "title": "Food & Beverage Supervisor",
+          "payMin": 32,
+          "payMax": 35,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=1c7fb0ee-a452-42a0-bb0d-786747fc0bb0&ccId=19000101_000001&lang=en_US&jobId=576584&jwId=",
+          "firstSeen": "2026-08-21"
+        },
         {
           "title": "Restaurant Server",
           "payMin": 13.48,
@@ -84,14 +100,6 @@
           "category": null,
           "url": "https://careers-usa.millenniumhotels.com/_/j/FFB2C02FC0/",
           "firstSeen": "2026-08-05"
-        },
-        {
-          "title": "Part Time Night Auditor",
-          "payMin": 29.6,
-          "payMax": 29.6,
-          "category": null,
-          "url": "https://careers-usa.millenniumhotels.com/_/j/7DF513DBD3/",
-          "firstSeen": "2026-07-30"
         }
       ]
     },
@@ -527,14 +535,6 @@
           "firstSeen": "2026-08-12"
         },
         {
-          "title": "Front Desk Agent",
-          "payMin": 26.98,
-          "payMax": 26.98,
-          "category": "Rooms",
-          "url": "https://careers.accor.com/global/en/job/front-desk-agent-in-fairmont-copley-plaza-boston-boston-united-states-jid-49598",
-          "firstSeen": "2026-08-12"
-        },
-        {
           "title": "Banquet Manager",
           "payMin": 75000,
           "payMax": 77000,
@@ -849,14 +849,6 @@
           "firstSeen": "2026-08-20"
         },
         {
-          "title": "Room Attendant - Hilton Boston Park Plaza",
-          "payMin": 32.95,
-          "payMax": 32.95,
-          "category": "Housekeeping and Laundry",
-          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/218529",
-          "firstSeen": "2026-08-11"
-        },
-        {
           "title": "Restaurant Bartender - Hilton Boston Park Plaza",
           "payMin": 33.4,
           "payMax": 33.4,
@@ -1139,6 +1131,15 @@
       "scrapeNote": "Aimbridge-managed; confirmed via a live posting under the exact property name \"Le Meridien Boston Cambridge\" (4 current postings). Switched from careers.marriott.com (propertyMatch \"Le Meridien Cambridge-MIT\") — same pattern as Westin Boston Seaport/Hilton Boston Back Bay. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Confirmed genuinely quiet on Marriott's own site (0 of 38 real Cambridge-area postings match, not just an artifact of the networkidle timeout bug that was blocking verification earlier the same day).",
       "jobs": [
         {
+          "title": "Banquets Manager",
+          "payMin": 70000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
+          "firstSeen": "2026-08-22",
+          "payUnit": "annual"
+        },
+        {
           "title": "Catering & Convention Services Manager OEM",
           "payMin": 75000,
           "payMax": 80000,
@@ -1146,14 +1147,6 @@
           "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
           "firstSeen": "2026-08-21",
           "payUnit": "annual"
-        },
-        {
-          "title": "Sales Coordinator",
-          "payMin": 25,
-          "payMax": 28,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
-          "firstSeen": "2026-08-17"
         },
         {
           "title": "Food & Beverage Director",
@@ -1191,6 +1184,22 @@
       "scrapeNote": "Runs its own ADP Workforce Now recruitment widget (embedded on lenoxhotel.com/careers) rather than any brand/management-company site. The underlying ADP account (`adpCid`) also spans other locations (Somerville/Cambridge, Revere per the API's own location facet) — each job is verified via its own requisitionLocations against \"Lenox\" before being counted, not just the widget's scope.",
       "jobs": [
         {
+          "title": "Maintenance Engineer - Lenox Hotel - Full Time",
+          "payMin": 24,
+          "payMax": 26,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=571327&jwId=9203358411273_1",
+          "firstSeen": "2026-08-21"
+        },
+        {
+          "title": "Restaurant Host/Hostess",
+          "payMin": 20,
+          "payMax": 22,
+          "category": null,
+          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=571318&jwId=9203358411273_1",
+          "firstSeen": "2026-08-21"
+        },
+        {
           "title": "Lenox Hotel - Security - Part Time",
           "payMin": 26,
           "payMax": 27,
@@ -1207,27 +1216,11 @@
           "firstSeen": "2026-08-14"
         },
         {
-          "title": "Restaurant Host/Hostess",
-          "payMin": 20,
-          "payMax": 22,
-          "category": null,
-          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570878&jwId=9203358411273_1",
-          "firstSeen": "2026-08-14"
-        },
-        {
           "title": "Food Runner/Support, Sweeney's",
           "payMin": 0,
           "payMax": 10,
           "category": null,
           "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570254&jwId=9203358411273_1",
-          "firstSeen": "2026-08-04"
-        },
-        {
-          "title": "Restaurant Host/Hostess",
-          "payMin": 20,
-          "payMax": 22,
-          "category": null,
-          "url": "https://workforcenow.adp.com/mascsr/default/mdf/recruitment/recruitment.html?cid=fc87c3e5-bb17-4857-9e3a-28a4049196cb&ccId=9203358411273_3&lang=en_US&jobId=570253&jwId=9203358411273_1",
           "firstSeen": "2026-08-04"
         },
         {
@@ -1392,6 +1385,30 @@
       },
       "jobs": [
         {
+          "title": "Utility Steward | The Sporting Club",
+          "payMin": 33.41,
+          "payMax": 33.41,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/26109",
+          "firstSeen": "2026-08-21"
+        },
+        {
+          "title": "Laundry Attendant",
+          "payMin": 23.07,
+          "payMax": 32.96,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/26065",
+          "firstSeen": "2026-08-21"
+        },
+        {
+          "title": "Housekeeping Room Attendant",
+          "payMin": 23.07,
+          "payMax": 32.96,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/26057",
+          "firstSeen": "2026-08-21"
+        },
+        {
           "title": "Bartender | The Sporting Club",
           "payMin": 33.41,
           "payMax": 33.41,
@@ -1497,14 +1514,6 @@
           "firstSeen": "2026-07-22"
         },
         {
-          "title": "Busser | Lifted",
-          "payMin": 21.18,
-          "payMax": 30.26,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/20575",
-          "firstSeen": "2026-07-14"
-        },
-        {
           "title": "Pastry Line Cook",
           "payMin": null,
           "payMax": null,
@@ -1528,15 +1537,6 @@
           "category": null,
           "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/20003",
           "firstSeen": "2026-07-08"
-        },
-        {
-          "title": "Assistant Manager | Food and Beverage",
-          "payMin": 70000,
-          "payMax": 80000,
-          "category": null,
-          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/17761",
-          "firstSeen": "2026-06-15",
-          "payUnit": "annual"
         },
         {
           "title": "Line Cook | Lifted",
@@ -1699,14 +1699,6 @@
           "firstSeen": "2026-08-12"
         },
         {
-          "title": "House Attendant",
-          "payMin": 23.07,
-          "payMax": 32.95,
-          "category": "Rooms",
-          "url": "https://careers.accor.com/global/en/job/house-attendant-in-raffles-boston-boston-united-states-jid-92052",
-          "firstSeen": "2026-08-12"
-        },
-        {
           "title": "Overnight Private Dining Server",
           "payMin": 24.1,
           "payMax": 26.78,
@@ -1754,6 +1746,14 @@
           "category": "Wellness Recreation",
           "url": "https://careers.accor.com/global/en/job/guerlain-spa-massage-therapist-in-raffles-boston-boston-united-states-jid-92939",
           "firstSeen": "2026-08-15"
+        },
+        {
+          "title": "Guerlain Spa Concierge",
+          "payMin": 26.88,
+          "payMax": 29.87,
+          "category": "Wellness Recreation",
+          "url": "https://careers.accor.com/global/en/job/guerlain-spa-concierge-in-raffles-boston-boston-united-states-jid-95210",
+          "firstSeen": "2026-08-22"
         }
       ]
     },
@@ -1871,6 +1871,15 @@
         "propertyMatch": "Sheraton Boston Hotel"
       },
       "jobs": [
+        {
+          "title": "Events Manager",
+          "payMin": 71000,
+          "payMax": 91000,
+          "category": null,
+          "url": "https://careers.marriott.com/events-manager/job/C8A7F5C23CA7FD982E7B7C9077A42164",
+          "firstSeen": "2026-08-21",
+          "payUnit": "annual"
+        },
         {
           "title": "Housekeeper",
           "payMin": 31.17,
@@ -2068,15 +2077,6 @@
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-front-desk-agent",
           "firstSeen": "2026-08-15"
-        },
-        {
-          "title": "Director Banquets",
-          "payMin": 110000,
-          "payMax": 125000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-banquets",
-          "firstSeen": "2026-08-21",
-          "payUnit": "annual"
         }
       ]
     },
@@ -2114,7 +2114,7 @@
           "payMax": 86000,
           "category": null,
           "url": "https://careers.marriott.com/security-safety-manager/job/3AFD3CDEC6F6157810C659D80734AECD",
-          "firstSeen": "2026-08-05",
+          "firstSeen": "2026-08-21",
           "payUnit": "annual"
         },
         {
@@ -2132,7 +2132,7 @@
           "payMax": 93000,
           "category": null,
           "url": "https://careers.marriott.com/sous-chef/job/B9C8A60F9FA1C7EB3FFF0ADFF2D5DE3A",
-          "firstSeen": "2026-08-19",
+          "firstSeen": "2026-08-21",
           "payUnit": "annual"
         },
         {
@@ -2141,7 +2141,7 @@
           "payMax": 92000,
           "category": null,
           "url": "https://careers.marriott.com/food-and-beverage-operations-manager/job/43CCB08AFB805F5CD531CE4675FAB175",
-          "firstSeen": "2026-08-12",
+          "firstSeen": "2026-08-21",
           "payUnit": "annual"
         }
       ]
