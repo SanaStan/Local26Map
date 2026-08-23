@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-22T10:26:30.589Z",
+  "generatedAt": "2026-08-23T10:27:53.612Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -216,14 +216,6 @@
       },
       "jobs": [
         {
-          "title": "Operations Supervisor",
-          "payMin": 33,
-          "payMax": 36,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/the-dagny-operations-supervisor",
-          "firstSeen": "2026-08-21"
-        },
-        {
           "title": "Sales Manager OEM",
           "payMin": 70000,
           "payMax": 80000,
@@ -231,6 +223,14 @@
           "url": "https://aimbridge.fountain.com/aimbridge/apply/the-dagny-sales-manager-oem",
           "firstSeen": "2026-08-14",
           "payUnit": "annual"
+        },
+        {
+          "title": "Operations Supervisor",
+          "payMin": 33,
+          "payMax": 36,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/the-dagny-operations-supervisor",
+          "firstSeen": "2026-08-21"
         }
       ]
     },
@@ -1131,24 +1131,6 @@
       "scrapeNote": "Aimbridge-managed; confirmed via a live posting under the exact property name \"Le Meridien Boston Cambridge\" (4 current postings). Switched from careers.marriott.com (propertyMatch \"Le Meridien Cambridge-MIT\") — same pattern as Westin Boston Seaport/Hilton Boston Back Bay. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Confirmed genuinely quiet on Marriott's own site (0 of 38 real Cambridge-area postings match, not just an artifact of the networkidle timeout bug that was blocking verification earlier the same day).",
       "jobs": [
         {
-          "title": "Banquets Manager",
-          "payMin": 70000,
-          "payMax": 80000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
-          "firstSeen": "2026-08-22",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Catering & Convention Services Manager OEM",
-          "payMin": 75000,
-          "payMax": 80000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
-          "firstSeen": "2026-08-21",
-          "payUnit": "annual"
-        },
-        {
           "title": "Food & Beverage Director",
           "payMin": 105000,
           "payMax": 115000,
@@ -1158,12 +1140,20 @@
           "payUnit": "annual"
         },
         {
-          "title": "Front Desk Assistant Manager OEM",
-          "payMin": 62000,
-          "payMax": 66265,
+          "title": "Sales Coordinator",
+          "payMin": 25,
+          "payMax": 28,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-front-desk-assistant-manager-oem",
-          "firstSeen": "2026-08-21",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
+          "firstSeen": "2026-08-23"
+        },
+        {
+          "title": "Banquets Manager",
+          "payMin": 70000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
+          "firstSeen": "2026-08-22",
           "payUnit": "annual"
         }
       ]
@@ -2030,11 +2020,11 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Housekeeper",
-          "payMin": 26.42,
-          "payMax": 32.95,
+          "title": "Kitchen Supervisor",
+          "payMin": 30,
+          "payMax": 34,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeper",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
           "firstSeen": "2026-08-13"
         },
         {
@@ -2047,20 +2037,20 @@
           "payUnit": "annual"
         },
         {
+          "title": "Housekeeper",
+          "payMin": 26.42,
+          "payMax": 32.95,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-housekeeper",
+          "firstSeen": "2026-08-13"
+        },
+        {
           "title": "Barista",
           "payMin": 24.4,
           "payMax": 26.4,
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
           "firstSeen": "2026-08-15"
-        },
-        {
-          "title": "Kitchen Supervisor",
-          "payMin": 30,
-          "payMax": 34,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-kitchen-supervisor",
-          "firstSeen": "2026-08-13"
         },
         {
           "title": "Sales Coordinator",
