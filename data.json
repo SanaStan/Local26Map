@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-23T10:27:53.612Z",
+  "generatedAt": "2026-08-24T10:40:34.785Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -786,6 +786,14 @@
       },
       "jobs": [
         {
+          "title": "Host / Hostess - Restaurant",
+          "payMin": 23.12,
+          "payMax": 23.12,
+          "category": "Food and Beverage",
+          "url": "https://efet.fa.us2.oraclecloud.com/hcmUI/CandidateExperience/en/sites/CX_1009/job/220006",
+          "firstSeen": "2026-08-24"
+        },
+        {
           "title": "Utility Steward/Dishwasher",
           "payMin": 23.15,
           "payMax": 23.15,
@@ -1146,6 +1154,15 @@
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
           "firstSeen": "2026-08-23"
+        },
+        {
+          "title": "Catering & Convention Services Manager OEM",
+          "payMin": 75000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
+          "firstSeen": "2026-08-24",
+          "payUnit": "annual"
         },
         {
           "title": "Banquets Manager",
