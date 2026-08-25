@@ -1,5 +1,5 @@
 {
-  "generatedAt": "2026-08-24T10:40:34.785Z",
+  "generatedAt": "2026-08-25T10:35:31.273Z",
   "hotels": [
     {
       "name": "Aloft Boston Seaport",
@@ -134,14 +134,6 @@
           "category": "Human Resources",
           "url": "https://externalhourly-highgate.icims.com/jobs/80579/complex-human-resources-coordinator/job",
           "firstSeen": "2026-07-28"
-        },
-        {
-          "title": "Night Auditor",
-          "payMin": 31,
-          "payMax": 33,
-          "category": "Front Office Operations",
-          "url": "https://externalhourly-highgate.icims.com/jobs/79920/night-auditor/job",
-          "firstSeen": "2026-07-09"
         }
       ]
     },
@@ -1139,6 +1131,33 @@
       "scrapeNote": "Aimbridge-managed; confirmed via a live posting under the exact property name \"Le Meridien Boston Cambridge\" (4 current postings). Switched from careers.marriott.com (propertyMatch \"Le Meridien Cambridge-MIT\") — same pattern as Westin Boston Seaport/Hilton Boston Back Bay. brand stays \"marriott\" since it's still a Marriott-flagged hotel; only the job source changed. Confirmed genuinely quiet on Marriott's own site (0 of 38 real Cambridge-area postings match, not just an artifact of the networkidle timeout bug that was blocking verification earlier the same day).",
       "jobs": [
         {
+          "title": "Front Desk Assistant Manager OEM",
+          "payMin": 62000,
+          "payMax": 66265,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-front-desk-assistant-manager-oem",
+          "firstSeen": "2026-08-25",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Banquets Manager",
+          "payMin": 70000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
+          "firstSeen": "2026-08-22",
+          "payUnit": "annual"
+        },
+        {
+          "title": "Catering & Convention Services Manager OEM",
+          "payMin": 75000,
+          "payMax": 80000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
+          "firstSeen": "2026-08-24",
+          "payUnit": "annual"
+        },
+        {
           "title": "Food & Beverage Director",
           "payMin": 105000,
           "payMax": 115000,
@@ -1154,24 +1173,6 @@
           "category": null,
           "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-sales-coordinator",
           "firstSeen": "2026-08-23"
-        },
-        {
-          "title": "Catering & Convention Services Manager OEM",
-          "payMin": 75000,
-          "payMax": 80000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-catering-convention-services-manager-oem",
-          "firstSeen": "2026-08-24",
-          "payUnit": "annual"
-        },
-        {
-          "title": "Banquets Manager",
-          "payMin": 70000,
-          "payMax": 80000,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/le-meridien-boston-cambridge-banquets-manager",
-          "firstSeen": "2026-08-22",
-          "payUnit": "annual"
         }
       ]
     },
@@ -1376,6 +1377,23 @@
           "url": "https://externalmanagement-highgate.icims.com/jobs/78958/executive-sous-chef/job",
           "firstSeen": "2026-06-10",
           "payUnit": "annual"
+        },
+        {
+          "title": "Engineering Coordinator",
+          "payMin": 30,
+          "payMax": 32,
+          "category": "Engineering",
+          "url": "https://externalhourly-highgate.icims.com/jobs/78251/engineering-coordinator/job",
+          "firstSeen": "2026-08-24"
+        },
+        {
+          "title": "Engineering Manager",
+          "payMin": 80000,
+          "payMax": 82000,
+          "category": "Engineering",
+          "url": "https://externalmanagement-highgate.icims.com/jobs/78250/engineering-manager/job",
+          "firstSeen": "2026-08-24",
+          "payUnit": "annual"
         }
       ]
     },
@@ -1391,6 +1409,14 @@
         "propertyMatch": "Omni Boston Hotel at the Seaport"
       },
       "jobs": [
+        {
+          "title": "Director of Human Resources",
+          "payMin": null,
+          "payMax": null,
+          "category": null,
+          "url": "https://jobs.dayforcehcm.com/en-US/ohmc/CANDIDATEPORTAL/jobs/26353",
+          "firstSeen": "2026-08-24"
+        },
         {
           "title": "Utility Steward | The Sporting Club",
           "payMin": 33.41,
@@ -2020,12 +2046,12 @@
       "scrapeNote": "Aimbridge-managed (confirmed via DiamondRock press release and live postings) — careers.marriott.com currently shows zero jobs for this property, real postings are on Aimbridge's Fountain site instead. brand stays \"marriott\" since it's still a Westin-flagged hotel; only the job source changed.",
       "jobs": [
         {
-          "title": "Food & Beverage Manager OEM",
-          "payMin": 75000,
-          "payMax": 75000,
+          "title": "Director Finance",
+          "payMin": 170000,
+          "payMax": 180000,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-food-beverage-manager-restaurant-1-oem",
-          "firstSeen": "2026-08-13",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-director-finance",
+          "firstSeen": "2026-08-25",
           "payUnit": "annual"
         },
         {
@@ -2045,11 +2071,19 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Executive Sous Chef",
-          "payMin": 95000,
-          "payMax": 115000,
+          "title": "Barista",
+          "payMin": 24.4,
+          "payMax": 26.4,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-executive-sous-chef",
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
+          "firstSeen": "2026-08-15"
+        },
+        {
+          "title": "Food & Beverage Manager OEM",
+          "payMin": 75000,
+          "payMax": 75000,
+          "category": null,
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-food-beverage-manager-restaurant-1-oem",
           "firstSeen": "2026-08-13",
           "payUnit": "annual"
         },
@@ -2062,20 +2096,13 @@
           "firstSeen": "2026-08-13"
         },
         {
-          "title": "Barista",
-          "payMin": 24.4,
-          "payMax": 26.4,
+          "title": "Executive Sous Chef",
+          "payMin": 95000,
+          "payMax": 115000,
           "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-barista-restaurant-2",
-          "firstSeen": "2026-08-15"
-        },
-        {
-          "title": "Sales Coordinator",
-          "payMin": 31,
-          "payMax": 34,
-          "category": null,
-          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-sales-coordinator",
-          "firstSeen": "2026-08-13"
+          "url": "https://aimbridge.fountain.com/aimbridge/apply/westin-boston-seaport-district-executive-sous-chef",
+          "firstSeen": "2026-08-13",
+          "payUnit": "annual"
         },
         {
           "title": "Front Desk Agent",
